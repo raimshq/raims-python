@@ -134,7 +134,7 @@ distribution. It does not change infrastructure or publish to PyPI.
 | Webhook reception | Integrator's local helper | Published protocol and original bytes |
 | API, CLI, and existing SDKs | No contract or implementation change | Snapshot consumed without changing producers |
 | Persistence and migrations | No change | No database or provider writes |
-| Support and changelog | SDK guides and TODO items | Confirm public availability before announcing it |
+| Support and changelog | SDK guides and private workspace backlog | Confirm public availability before announcing it |
 
 ## Support knowledge
 
@@ -147,8 +147,9 @@ Support consumes that guide through the existing catalog, as described in
 
 Source code and GitHub installation instructions are in this repository.
 PyPI distribution remains pending. Do not publish an installation command
-for that registry until availability is confirmed. `TODO.md` records the public
-guide, catalog regeneration, AI response validation, and changelog steps.
+for that registry until availability is confirmed. Track the public guide,
+catalog regeneration, AI response validation, and changelog steps in the private
+workspace backlog maintained outside Git.
 The library needs no new context fields, permissions, or query tools;
 reassess that conclusion if its public scope changes.
 

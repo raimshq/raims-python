@@ -4,6 +4,9 @@ Read README, CONTRIBUTING, and docs/maintenance.md before changing the SDK.
 
 - Repository descriptions and Markdown documentation must be in English.
   Preserve public identifiers, commands, URLs, and contractual meaning.
+- Keep internal TODO lists, backlogs, and roadmaps out of this public repository
+  and its packages. Track operational work in the private workspace backlog
+  maintained outside Git. Do not publish its contents, location, or links.
 - Python 3.10 or later; package `raims`, clients `RaimsClient` and
   `AsyncRaimsClient`, with snake_case services and methods.
 - Consume only the public contract pinned in contracts, with its revision and
