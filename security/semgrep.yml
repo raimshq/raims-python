@@ -1,0 +1,30 @@
+rules:
+  - id: raims.python.tls-validation-disabled
+    languages: [python]
+    severity: ERROR
+    message: Keep TLS certificate and hostname validation enabled.
+    pattern-either:
+      - pattern: httpx.Client(..., verify=False, ...)
+      - pattern: httpx.AsyncClient(..., verify=False, ...)
+      - pattern: httpx.HTTPTransport(..., verify=False, ...)
+      - pattern: httpx.AsyncHTTPTransport(..., verify=False, ...)
+      - pattern: ssl._create_unverified_context(...)
+  - id: raims.python.shell-command
+    languages: [python]
+    severity: ERROR
+    message: Use argument lists without a command shell.
+    pattern-either:
+      - pattern: subprocess.run(..., shell=True, ...)
+      - pattern: subprocess.call(..., shell=True, ...)
+      - pattern: subprocess.Popen(..., shell=True, ...)
+      - pattern: os.system(...)
+  - id: raims.python.embedded-private-key
+    languages: [generic]
+    severity: ERROR
+    message: Load private keys from the application's secret store.
+    pattern-regex: '-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----[\s]+[A-Za-z0-9+/=]{32}'
+  - id: raims.python.embedded-github-token
+    languages: [generic]
+    severity: ERROR
+    message: Keep access tokens outside source files.
+    pattern-regex: '\b(?:gh[pousr]_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{82})\b'
