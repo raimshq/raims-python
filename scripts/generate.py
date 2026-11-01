@@ -446,16 +446,36 @@ def enum_constants(schemas):
     return constants
 
 
+def reference_translations():
+    catalog = read_json("docs/reference.en.json")
+    translations = catalog.get("translations")
+    if catalog.get("locale") != "en" or not isinstance(translations, dict):
+        raise ValueError("The reference requires an English editorial translation catalog.")
+    if any(not isinstance(source, str) or not source or not isinstance(target, str) or not target.strip()
+           for source, target in translations.items()):
+        raise ValueError("Reference translations must map exact nonempty source text to English text.")
+    return translations
+
+
+def reference_text(source, translations):
+    if not source:
+        return ""
+    if source not in translations:
+        raise ValueError("Missing English reference translation for exact source: " + repr(source))
+    return " ".join(translations[source].split())
+
+
 def generate_reference(source, services, operations, schemas, constants, spec):
-    lines = ["# Referência do SDK Python", "", "Gerada do contrato público fixado em `contracts/source.json`.", "", "Os mesmos serviços estão disponíveis em `RaimsClient` e `AsyncRaimsClient`. Os métodos do cliente assíncrono usam `await`.", "", "| Serviço e método | Operação HTTP | Entrada | Resposta síncrona |", "| --- | --- | --- | --- |"]
+    translations = reference_translations()
+    lines = ["# Python SDK reference", "", "Generated from the public contract pinned in `contracts/source.json`.", "", "The same services are available in `RaimsClient` and `AsyncRaimsClient`. Asynchronous client methods use `await`.", "", "| Service and method | HTTP operation | Input | Synchronous response |", "| --- | --- | --- | --- |"]
     for service, methods in services.items():
         path = "simulations.charges" if service == "simulation_charges" else "simulations.refunds" if service == "simulation_refunds" else service
         for method, name in methods.items():
             operation = operations[name]
             params = "[`" + name + "Params`](#" + name.lower() + "params)" if operation["body"] or operation["query"] else "-"
-            result = response_type(operation, schemas).replace("models.", "").replace(" | ", " ou ")
+            result = response_type(operation, schemas).replace("models.", "").replace(" | ", " or ")
             lines.append("| `" + path + "." + method + "` | `" + operation["method"] + " " + operation["path"] + "` | " + params + " | `" + result + "` |")
-    lines.extend(["", "Listagens paginadas retornam `ApiList[T]` no cliente síncrono e `AsyncApiList[T]` no assíncrono. Iterar a página não inicia outra requisição. Use `auto_paging_iter()` para percorrer as páginas seguintes. Os metadados de `page` usam o tipo gerado `PageInfo`.", "", "Entradas usam os nomes JSON da API. Omitir um campo e enviar `None` são ações distintas. As respostas preservam campos e valores novos; os valores monetários continuam em centavos inteiros e as datas dos recursos em segundos Unix UTC.", "", "## Parâmetros de entrada", "", "Os campos e as descrições abaixo vêm do contrato público fixado. `None` corresponde a `null`; um campo opcional pode ser omitido. Objetos e listas aninhados têm tipos próprios em `raims.types`."])
+    lines.extend(["", "Paginated lists return `ApiList[T]` in the synchronous client and `AsyncApiList[T]` in the asynchronous client. Iterating over a page does not send another request. Use `auto_paging_iter()` to visit subsequent pages. The `page` metadata uses the generated `PageInfo` type.", "", "Inputs use the API's JSON names. Omitting a field and sending `None` are distinct actions. Responses preserve new fields and values; monetary amounts remain integer cents, and resource dates use Unix seconds UTC.", "", "## Input parameters", "", "The fields and descriptions below come from the pinned public contract. `None` corresponds to `null`; an optional field may be omitted. Nested objects and lists have their own types in `raims.types`."])
     for name, operation in operations.items():
         if not operation["body"] and not operation["query"]:
             continue
@@ -468,12 +488,13 @@ def generate_reference(source, services, operations, schemas, constants, spec):
             item = spec["paths"][operation["path"]]
             documented = {parameter["name"]: parameter for parameter in (resolve(spec, value) for value in item.get("parameters", []) + raw_operation.get("parameters", [])) if parameter["in"] == "query"}
         required = operation["body_required"] if operation["body"] else bool(normalized.get("required"))
-        lines.extend(["", "### " + name + "Params", "", operation["summary"] + ". Argumento `params`: " + ("obrigatório." if required else "opcional."), "", "| Campo | Tipo | Obrigatório | Descrição |", "| --- | --- | --- | --- |"])
+        summary = reference_text(raw_operation.get("summary", name), translations)
+        lines.extend(["", "### " + name + "Params", "", summary + ". The `params` argument is " + ("required." if required else "optional."), "", "| Field | Type | Required | Description |", "| --- | --- | --- | --- |"])
         for field, child in normalized.get("properties", {}).items():
-            description = " ".join(documented.get(field, {}).get("description", "").split()).replace("|", "\\|")
+            description = reference_text(documented.get(field, {}).get("description", ""), translations).replace("|", "\\|")
             annotation = type_for(child, schemas, True).replace("|", "\\|")
-            lines.append("| `" + field + "` | `" + annotation + "` | " + ("Sim" if field in normalized.get("required", []) else "Não") + " | " + (description or "-") + " |")
-    lines.extend(["", "## Valores públicos nomeados", "", "As constantes em `raims.enum_values` vêm dos enums do contrato público. Valores numéricos recebem nomes somente quando o contrato publica rótulos explícitos. As constantes usam `Final` para preservar seus tipos literais.", "", "| Constante | Valor |", "| --- | --- |"])
+            lines.append("| `" + field + "` | `" + annotation + "` | " + ("Yes" if field in normalized.get("required", []) else "No") + " | " + (description or "-") + " |")
+    lines.extend(["", "## Named public values", "", "Constants in `raims.enum_values` come from the public contract's enums. Numeric values receive names only when the contract publishes explicit labels. Constants use `Final` to preserve their literal types.", "", "| Constant | Value |", "| --- | --- |"])
     for name, value in sorted(constants.items()):
         lines.append("| `" + name + "` | `" + str(value).replace("|", "\\|") + "` |")
     return "\n".join(lines) + "\n"

@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "raims"
 dynamic = ["version"]
-description = "SDK Python para a API pública da Raims"
+description = "Official Python SDK for the Raims public API."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -24,7 +24,7 @@ classifiers = [
 ]
 
 [project.urls]
-Documentation = "https://docs.raims.com/br/api"
+Documentation = "https://docs.raims.com/en/api"
 Repository = "https://github.com/raimshq/raims-python"
 Issues = "https://github.com/raimshq/raims-python/issues"
 

@@ -1,40 +1,42 @@
 # Raims Python
 
-SDK Python para integrar aplicações de servidor com a API pública da Raims.
-Oferece clientes síncrono e assíncrono, parâmetros tipados, respostas somente
-leitura, paginação por cursor e verificação de assinaturas de webhook.
+Official Python SDK for the Raims public API.
 
-## Instalação pelo GitHub
+Use the SDK in server applications, with synchronous and asynchronous clients,
+typed parameters, read-only responses, cursor pagination, and webhook signature
+verification.
 
-Requer Python 3.10 ou superior. Os fontes e as notas de versão estão no
-[GitHub](https://github.com/raimshq/raims-python/releases). A distribuição no
-PyPI ainda não está disponível.
+## Install from GitHub
 
-Com Git instalado, execute no ambiente da sua aplicação:
+Requires Python 3.10 or later. Source code and release notes are available on
+[GitHub](https://github.com/raimshq/raims-python/releases). The package is not yet
+available on PyPI.
+
+With Git installed, run this command in your application environment:
 
 ```text
 python -m pip install "git+https://github.com/raimshq/raims-python.git"
 ```
 
-Para atualizar essa instalação, execute novamente com atualização forçada e
-teste sua integração:
+To update this installation, run the command again with a forced upgrade and
+test your integration:
 
 ```text
 python -m pip install --upgrade --force-reinstall "git+https://github.com/raimshq/raims-python.git"
 ```
 
-Você também pode baixar os fontes da
-[release atual](https://github.com/raimshq/raims-python/releases/latest),
-extrair o arquivo e instalar o diretório no ambiente da aplicação:
+You can also download the source code from the
+[current release](https://github.com/raimshq/raims-python/releases/latest),
+extract the archive, and install its directory in your application environment:
 
 ```text
-python -m pip install /caminho/para/Raims-Python
+python -m pip install /path/to/Raims-Python
 ```
 
-O pacote importa como `raims` e utiliza HTTPX para transporte HTTP.
-Atualizações futuras não são aplicadas automaticamente.
+Import the package as `raims`. It uses HTTPX for HTTP transport.
+Future updates are not applied automatically.
 
-## Primeiro uso
+## First request
 
 ```python
 import os
@@ -47,15 +49,16 @@ with RaimsClient(os.environ["RAIMS_API_KEY"]) as raims:
         process_customer(customer.id)
 ```
 
-`process_customer` representa o processamento da sua aplicação. A URL-base é
-`https://api.raims.com` para Sandbox e Produção. A chave define a empresa,
-o ambiente e as permissões. Mantenha-a no servidor, fora do controle de versão.
+`process_customer` represents your application's processing. The base URL is
+`https://api.raims.com` for both Sandbox and Production. The key determines the
+company, environment, and permissions. Keep it on the server and out of version
+control.
 
-## Criar uma cobrança
+## Create a charge
 
-`customer_id`, `due_date` e `order_idempotency_key` são valores já definidos e
-persistidos pela aplicação para o pedido. O vencimento usa segundos Unix UTC
-e o valor usa centavos inteiros: `15000` representa R$ 150,00.
+`customer_id`, `due_date`, and `order_idempotency_key` are values your application
+has already defined and persisted for the order. The due date uses Unix seconds
+in UTC, and the amount uses integer cents: `15000` represents BRL 150.00.
 
 ```python
 from raims import RequestOptions
@@ -66,7 +69,7 @@ with RaimsClient(os.environ["RAIMS_API_KEY"]) as raims:
             "customer_id": customer_id,
             "amount_cents": 15000,
             "due_date": due_date,
-            "title": "Pedido 1234",
+            "title": "Order 1234",
         },
         options=RequestOptions(idempotency_key=order_idempotency_key),
     )
@@ -75,12 +78,12 @@ with RaimsClient(os.environ["RAIMS_API_KEY"]) as raims:
     request_id = response.request_id
 ```
 
-O SDK não gera chaves de idempotência nem repete escritas automaticamente.
-Se perder a resposta, conserve a mesma chave e os mesmos parâmetros e siga
-as regras do endpoint para consultar ou repetir a operação. Uma resposta `202`
-significa processamento pendente; consulte o recurso para acompanhar o resultado.
+The SDK does not generate idempotency keys or retry writes automatically.
+If you lose a response, keep the same key and parameters and follow the
+endpoint's rules for retrieving or retrying the operation. A `202` response
+means processing is pending; retrieve the resource to follow its outcome.
 
-## Uso assíncrono
+## Asynchronous use
 
 ```python
 from raims import AsyncRaimsClient
@@ -92,40 +95,41 @@ async def load_customers(api_key: str) -> None:
             await process_customer_async(customer.id)
 ```
 
-`process_customer_async` representa o processamento assíncrono da aplicação.
-A iteração normal de uma página acessa apenas os itens já recebidos.
-`auto_paging_iter()` consulta as próximas páginas conforme o consumo.
+`process_customer_async` represents your application's asynchronous processing.
+Normal iteration over a page accesses only the items already received.
+`auto_paging_iter()` retrieves subsequent pages as you consume them.
 
-## Serviços
+## Services
 
-| Propriedade | Recursos |
+| Property | Resources |
 | --- | --- |
-| `accounts` | Contexto da conta, número, tarifas e checkout |
-| `balances` | Saldo e previsão |
-| `customers` | Cadastro, consulta e exclusão de clientes |
-| `charges` | Cobranças, pagamento, documentos e estornos por cobrança |
-| `payment_links` | Links de pagamento e solicitação de envio por e-mail |
-| `refunds` | Estornos e recibos |
-| `disputes` | Contestações |
-| `statements` | Extratos |
-| `withdrawals` | Saques, limites, resumo e configuração automática |
-| `withdrawal_destinations` | Destinos de saque |
-| `webhooks` | Cadastro, saúde, pausa, teste e rotação de segredo |
-| `webhook_event_types` | Tipos de evento disponíveis |
-| `simulations.charges` | Simulações de cobrança com chave Sandbox |
-| `simulations.refunds` | Simulações de estorno com chave Sandbox |
+| `accounts` | Account context, number, fees, and checkout |
+| `balances` | Balance and forecast |
+| `customers` | Customer creation, retrieval, and deletion |
+| `charges` | Charges, payment, documents, and refunds for a charge |
+| `payment_links` | Payment links and email delivery requests |
+| `refunds` | Refunds and receipts |
+| `disputes` | Disputes |
+| `statements` | Account statements |
+| `withdrawals` | Withdrawals, limits, summary, and automatic settings |
+| `withdrawal_destinations` | Withdrawal destinations |
+| `webhooks` | Registration, health, pause, test, and secret rotation |
+| `webhook_event_types` | Available event types |
+| `simulations.charges` | Charge simulations with a Sandbox key |
+| `simulations.refunds` | Refund simulations with a Sandbox key |
 
-Os serviços oferecem `create`, `retrieve`, `update`, `delete` e `list` conforme
-as operações disponíveis. A [referência](docs/reference.md) detalha cada método.
+Services expose `create`, `retrieve`, `update`, `delete`, and `list` according
+to the operations available. The [reference](docs/reference.md) describes each
+method.
 
-## Documentação
+## Documentation
 
-- [Configuração, respostas e documentos](docs/usage.md)
-- [Paginação](docs/pagination.md)
-- [Erros, idempotência e retries](docs/errors-and-retries.md)
-- [Recebimento de webhooks](docs/webhooks.md)
-- [Manutenção e contrato](docs/maintenance.md)
-- [Contribuição](CONTRIBUTING.md) e [segurança](SECURITY.md)
-- [API pública](https://docs.raims.com/br/api)
+- [Configuration, responses, and documents](docs/usage.md)
+- [Pagination](docs/pagination.md)
+- [Errors, idempotency, and retries](docs/errors-and-retries.md)
+- [Receiving webhooks](docs/webhooks.md)
+- [Maintenance and contract](docs/maintenance.md)
+- [Contributing](CONTRIBUTING.md) and [security](SECURITY.md)
+- [Public API](https://docs.raims.com/en/api)
 
-Distribuído sob a licença [MIT](LICENSE).
+Distributed under the [MIT license](LICENSE).

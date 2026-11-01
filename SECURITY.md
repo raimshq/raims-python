@@ -1,13 +1,15 @@
-# Segurança
+# Security
 
-Relate vulnerabilidades de forma privada para `security@raims.com`. Não abra
-uma discussão pública com credenciais, dados pessoais, corpos reais, segredos
-de webhook ou URLs temporárias. Descreva o comportamento, a versão afetada
-e uma reprodução mínima com dados fictícios.
+Report vulnerabilities privately to `security@raims.com`. Do not open a public
+discussion containing credentials, personal data, real request or response
+bodies, webhook secrets, or temporary URLs. Describe the behavior, affected
+version, and a minimal reproduction using fictitious data.
 
-O SDK é destinado ao servidor do integrador. Guarde chaves e segredos em cofre,
-use as permissões necessárias à integração e mantenha Python e dependências
-atualizados. Confira empresa, ambiente, autorização e idempotência na aplicação.
+The SDK is intended for the integrator's server. Store keys and secrets in a
+vault, use the permissions your integration needs, and keep Python and its
+dependencies updated. Check company, environment, authorization, and
+idempotency in your application.
 
-A verificação de webhook autentica a entrega; o integrador continua responsável
-por validar o evento, deduplicar e persistir o trabalho antes do aceite HTTP.
+Webhook verification authenticates the delivery. The integrator remains
+responsible for validating the event, deduplicating it, and persisting the work
+before acknowledging it over HTTP.

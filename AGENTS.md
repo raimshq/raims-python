@@ -1,32 +1,38 @@
 # Raims Python SDK
 
-Leia README, CONTRIBUTING e docs/maintenance.md antes de alterar o SDK.
+Read README, CONTRIBUTING, and docs/maintenance.md before changing the SDK.
 
-- Python 3.10 ou superior; pacote `raims`, clientes `RaimsClient` e
-  `AsyncRaimsClient`, serviços e métodos em snake_case.
-- Consuma somente o contrato público fixado em contracts, com revisão e
-  SHA-256 conferidos. Não importe contratos privados nem código dos hosts.
-- scripts/generate.py gera os serviços, modelos, entradas, constantes,
-  metadados HTTP e docs/reference.md. Não edite esses outputs manualmente.
-- Preserve nomes JSON, inteiros em centavos, datas Unix, omissão e null,
-  campos futuros e resultados pendentes. Não gerar idempotência nem repetir
-  escritas automaticamente. Retries configuráveis são exclusivos de leitura.
-- Chave de API determina empresa e ambiente. Não oferecer seleção de ambiente,
-  OAuth ou headers arbitrários. Transporte não segue redirects, não baixa
-  URLs externas nem faz uploads. TLS permanece verificado.
-- Diagnósticos contêm somente metadados sem IDs de recurso, query, credencial
-  ou payload. Representações padrão dos objetos não expõem dados.
-- Testes, simuladores, ferramentas, ambientes virtuais, builds e evidências
-  ficam exclusivamente em C:\server\raims\.tmp\raims-python-sdk.
-  Nunca versioná-los nem incluí-los na distribuição.
-- Confira geração offline, tipos, contrato completo, transporte síncrono e
-  assíncrono, webhooks e wheel/sdist antes de concluir. Use dependências
-  isoladas; não chame a API real durante a validação.
-- A primeira distribuição publica fontes e release no GitHub. O CI fica em
-  `templates/ci/validate.yml`, sem workflow executável nesta etapa.
-- Antes de commit e publicação, use os estágios Commit e Deploy do preflight
-  com o perfil Raims-Python. Preserve SAST e auditoria das dependências runtime.
-- Deixe alterações sem commit e sem conteúdo em staging. Criação de remoto,
-  push, release, PyPI e publicação de documentação exigem autorização própria.
-- Descreva os recursos da Raims diretamente e preserve licenças e atribuições
-  obrigatórias de código incorporado. Aplique a skill humanizer aos textos.
+- Repository descriptions and Markdown documentation must be in English.
+  Preserve public identifiers, commands, URLs, and contractual meaning.
+- Python 3.10 or later; package `raims`, clients `RaimsClient` and
+  `AsyncRaimsClient`, with snake_case services and methods.
+- Consume only the public contract pinned in contracts, with its revision and
+  SHA-256 verified. Do not import private contracts or host implementation code.
+- scripts/generate.py generates services, models, inputs, constants, HTTP
+  metadata, and docs/reference.md. Do not edit those outputs manually.
+- Keep English reference wording in docs/reference.en.json, keyed by the exact
+  public source text. Generation must reject missing translations; do not edit
+  the pinned OpenAPI or omit descriptions to change the documentation language.
+- Preserve JSON names, integer cents, Unix timestamps, omission and null,
+  future fields, and pending results. Do not generate idempotency keys or retry
+  writes automatically. Configurable retries apply only to reads.
+- The API key determines the company and environment. Do not offer environment
+  selection, OAuth, or arbitrary headers. The transport does not follow
+  redirects, download external URLs, or upload files. Keep TLS verification on.
+- Diagnostics contain only metadata, without resource IDs, query parameters,
+  credentials, or payloads. Default object representations do not expose data.
+- Tests, simulators, tools, virtual environments, builds, and evidence belong
+  exclusively in C:\server\raims\.tmp\raims-python-sdk.
+  Never version them or include them in a distribution.
+- Check offline generation, types, the complete contract, synchronous and
+  asynchronous transport, webhooks, and wheel/sdist before finishing. Use
+  isolated dependencies; do not call the real API during validation.
+- The first distribution publishes source code and a release on GitHub. CI
+  remains in `templates/ci/validate.yml`, without an executable workflow at
+  this stage.
+- Before committing or publishing, run the Commit and Deploy preflight stages
+  with the Raims-Python profile. Preserve SAST and runtime dependency auditing.
+- Leave changes uncommitted and unstaged. Creating a remote, pushing, releasing,
+  publishing on PyPI, and publishing documentation require their own authorization.
+- Describe Raims features directly and preserve mandatory licenses and
+  attribution for incorporated code. Apply the humanizer skill to prose.

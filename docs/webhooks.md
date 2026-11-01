@@ -1,6 +1,6 @@
-# Receber webhooks
+# Receive webhooks
 
-Autentique o corpo original antes de interpretar o evento:
+Authenticate the original body before interpreting the event:
 
 ```python
 from raims import SignatureVerificationError, Webhook
@@ -13,34 +13,37 @@ else:
     persist_event_atomically(event)
 ```
 
-`raw_body` contém os bytes recebidos pelo servidor; `received_headers` é um
-mapa com `webhook-id`, `webhook-timestamp` e `webhook-signature`.
-`reject_request` e `persist_event_atomically` pertencem à aplicação. Não
-reserialize o JSON: espaços, Unicode e quebras de linha fazem parte da assinatura.
+`raw_body` contains the bytes received by the server. `received_headers` is a
+map with `webhook-id`, `webhook-timestamp`, and `webhook-signature`.
+`reject_request` and `persist_event_atomically` belong to your application.
+Do not reserialize JSON: whitespace, Unicode, and line breaks are part of
+the signature.
 
-Use o `secret_key` recebido ao criar ou rotacionar o webhook, guardado em cofre.
-Ele é diferente da chave Bearer da API e não é retornado por consultas posteriores.
+Use the `secret_key` received when creating or rotating the webhook, stored
+in a vault. It differs from the API Bearer key and is not returned by later
+retrieval requests.
 
-`construct_event` autentica os headers, o timestamp e a assinatura antes de
-decodificar um objeto JSON. `verify_signature` faz a autenticação sem interpretar
-o corpo. Nenhum deles valida as regras de negócio do evento.
+`construct_event` authenticates headers, timestamp, and signature before
+decoding a JSON object. `verify_signature` authenticates without interpreting
+the body. Neither validates the event's business rules.
 
-O protocolo usa HMAC-SHA256 com o segredo Base62 da Raims. Headers não diferenciam
-maiúsculas de minúsculas. Valores únicos em listas são aceitos; duplicatas ou
-headers ambíguos são recusados. Durante uma rotação, o header pode conter várias
-assinaturas `v1=` separadas por vírgula; uma assinatura válida para o segredo
-configurado autentica a entrega.
+The protocol uses HMAC-SHA256 with Raims' Base62 secret. Header names are
+case-insensitive. Lists containing one value are accepted; duplicate or
+ambiguous headers are rejected. During rotation, the header may contain
+multiple `v1=` signatures separated by commas. A signature matching the
+configured secret authenticates the delivery.
 
-O padrão de tolerância é 300 segundos para passado e futuro. Mantenha o relógio
-sincronizado. `tolerance=0` exige o mesmo segundo; não desativa a proteção.
-`now` permite injetar um timestamp inteiro em verificações locais.
+The default tolerance is 300 seconds in both the past and the future. Keep
+the clock synchronized. `tolerance=0` requires the same second; it does not
+disable the protection. `now` lets you inject an integer timestamp for local
+verification.
 
-A assinatura não impede duplicação de uma entrega válida. Antes do aceite HTTP,
-confira tipo, ambiente e recurso e grave o trabalho de forma durável, atômica e
-deduplicada. O `id` do corpo identifica o evento; `webhook-id` identifica a entrega.
-Se a gravação falhar, retorne falha HTTP. Processe os efeitos de negócio com
-idempotência. O campo `created_at` do evento usa ISO 8601 e não é o timestamp
-Unix do header da tentativa.
+A signature does not prevent duplicate valid deliveries. Before acknowledging
+a request over HTTP, check the type, environment, and resource, and persist
+the work durably, atomically, and with deduplication. The body `id` identifies
+the event; `webhook-id` identifies the delivery. If persistence fails, return an
+HTTP failure. Process business effects idempotently. The event's `created_at`
+uses ISO 8601 and is not the attempt header's Unix timestamp.
 
-Consulte o [guia de recebimento](https://docs.raims.com/br/integracoes/webhooks/receber-eventos)
-para os eventos e as condições de entrega.
+Consult the [receiving guide](https://docs.raims.com/en/integracoes/webhooks/receber-eventos)
+for events and delivery conditions.

@@ -1,29 +1,29 @@
 # TODO
 
-- [ ] Ativar o CI preparado em `templates/ci/validate.yml` após a publicação
-  autorizada dos checkouts revisados. Conferir repositório, acesso do GitHub
-  App, allowlist do runner CodeBuild existente e `RAIMS_PYTHON_TOOLKIT_REF`
-  com o SHA completo do Toolkit que contém o gate Python. Confirmar os jobs
-  de Python 3.10 e 3.14 para o mesmo commit antes de disponibilizar o pacote.
-  A primeira entrega no GitHub publica os fontes sem workflow executável.
-  PyPI e configuração remota de runners continuam sendo etapas separadas.
+- [ ] Activate the CI prepared in `templates/ci/validate.yml` after the reviewed
+  checkouts have been published with authorization. Verify the repository,
+  GitHub App access, the existing CodeBuild runner allowlist, and
+  `RAIMS_PYTHON_TOOLKIT_REF` with the full SHA of the Toolkit containing the
+  Python gate. Confirm the Python 3.10 and 3.14 jobs for the same commit before
+  making the package available. The first GitHub delivery publishes sources
+  without an executable workflow. PyPI and remote runner configuration remain
+  separate steps.
 
-- [ ] Disponibilização do SDK Python: após confirmar nome, versão e distribuição
-  no PyPI, atualizar README e criar o guia BR/EN em
-  `raims-developer-docs/content/docs/integracoes/sdk-python`. Explicar finalidade,
-  quando sugerir Python, acesso pela seção de integrações, instalação, Python
-  3.10+, uso no servidor, chave e permissões, ambiente definido pela credencial,
-  clientes síncrono/assíncrono, paginação, idempotência, ausência de retries de
-  escrita, respostas pendentes, documentos e webhooks. Regenerar o catálogo
-  público consumido pelo `Raims-Chat` e validar a recuperação e orientação da
-  IA em português e inglês. Não anunciar instalação pelo PyPI antes de confirmar
-  a distribuição nesse registro. A instalação pelo GitHub está no README.
-  A biblioteca atual não exige novo contrato de contexto nem ferramentas de
-  consulta; conferir novamente essa conclusão ao preparar os guias. Marcar
-  concluído somente após fontes, catálogos e respostas validados.
-- [ ] Changelog da primeira distribuição do SDK Python: publicar nota em
-  `raims-developer-docs/content/docs/changelog/post` com a data real de
-  disponibilização, requisitos, instalação e link para o guia atualizado.
-  Incluir a tipagem, a paginação, o tratamento de erros, a idempotência e os
-  limites de retry efetivamente disponibilizados. A implementação local não
-  autoriza anúncio público.
+- [ ] Python SDK availability: after confirming its name, version, and
+  distribution on PyPI, update README and create the BR/EN guide in
+  `raims-developer-docs/content/docs/integracoes/sdk-python`. Explain its purpose,
+  when to suggest Python, access from the integrations section, installation,
+  Python 3.10+, server use, keys and permissions, the credential's environment,
+  synchronous/asynchronous clients, pagination, idempotency, the absence of
+  write retries, pending responses, documents, and webhooks. Regenerate the
+  public catalog consumed by `Raims-Chat` and validate AI retrieval and guidance
+  in Portuguese and English. Do not advertise installation from PyPI until
+  distribution there is confirmed. GitHub installation is documented in README.
+  The current library does not require a new context contract or query tools;
+  reassess that conclusion when preparing the guides. Complete this item only
+  after validating sources, catalogs, and answers.
+- [ ] Changelog for the first Python SDK distribution: publish a note in
+  `raims-developer-docs/content/docs/changelog/post` with the actual availability
+  date, requirements, installation, and a link to the updated guide. Include
+  typing, pagination, error handling, idempotency, and the retry limits actually
+  available. A local implementation does not authorize a public announcement.

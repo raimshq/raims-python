@@ -1,6 +1,6 @@
-# Configuração e respostas
+# Configuration and responses
 
-## Clientes
+## Clients
 
 ```python
 from raims import RaimsClient, RequestOptions
@@ -17,49 +17,50 @@ with RaimsClient(
     )
 ```
 
-Cada instância mantém sua própria credencial e reutiliza conexões. Use `with`
-para fechar o cliente síncrono ou `async with` para o assíncrono. Também é
-possível chamar `close()` explicitamente; no cliente assíncrono, use `await`.
-Os contextos também iniciam e encerram o contexto do transporte personalizado,
-preservando a exceção da aplicação quando ela ocorre. `close()` encerra o
-transporte fornecido ao cliente.
-Use uma instância assíncrona por ciclo de vida do event loop.
+Each instance keeps its own credential and reuses connections. Use `with` to
+close the synchronous client or `async with` for the asynchronous client.
+You can also call `close()` explicitly; use `await` on the asynchronous client.
+The context managers also enter and exit a custom transport's context,
+preserving an application exception when one occurs. `close()` closes the
+transport supplied to the client. Use one asynchronous instance per event loop
+lifecycle.
 
-| Opção | Padrão | Efeito |
+| Option | Default | Effect |
 | --- | --- | --- |
-| `api_key` | Obrigatória | Credencial Bearer |
-| `api_base` | `https://api.raims.com` | Origem HTTPS, sem caminho, query ou credenciais |
-| `timeout` | `80.0` | Timeout de rede por etapa da tentativa, em segundos |
-| `connect_timeout` | `10.0` | Timeout de conexão, limitado por `timeout` |
-| `max_network_retries` | `0` | De zero a cinco retries adicionais somente de leitura |
-| `transport` | Transporte HTTPX | `BaseTransport` síncrono ou `AsyncBaseTransport` assíncrono |
-| `request_observer` | Desativado | Callback síncrono com metadados de cada tentativa |
+| `api_key` | Required | Bearer credential |
+| `api_base` | `https://api.raims.com` | HTTPS origin without a path, query, or credentials |
+| `timeout` | `80.0` | Network timeout for each stage of an attempt, in seconds |
+| `connect_timeout` | `10.0` | Connection timeout, capped by `timeout` |
+| `max_network_retries` | `0` | Zero to five additional retries for reads only |
+| `transport` | HTTPX transport | Synchronous `BaseTransport` or asynchronous `AsyncBaseTransport` |
+| `request_observer` | Disabled | Synchronous callback with metadata for each attempt |
 
-Os timeouts devem ser maiores que zero e no máximo 300 segundos. O timeout
-HTTPX limita conexão, espera por uma conexão do pool, envio e inatividade de
-leitura. Não representa um prazo total para receber uma resposta em partes.
-Retries somam os prazos de cada tentativa e os intervalos de espera.
+Timeouts must be greater than zero and no more than 300 seconds. The HTTPX
+timeout limits connection establishment, waiting for a pool connection,
+sending, and read inactivity. It is not a total deadline for receiving a
+streamed response. Retries add the timeouts and waiting intervals of each attempt.
 
-HTTP é aceito somente em loopback para desenvolvimento. A origem recebe a
-credencial: configure apenas destinos controlados pela sua organização.
-O transporte padrão verifica TLS, não segue redirects e não utiliza proxies
-definidos implicitamente pelas variáveis do processo. Para configurações
-específicas de rede, forneça um transporte HTTPX configurado pela aplicação.
+HTTP is accepted only on loopback for development. The origin receives the
+credential: configure only destinations controlled by your organization.
+The default transport verifies TLS, does not follow redirects, and does not
+use proxies implicitly defined by process environment variables. For specific
+network settings, supply an HTTPX transport configured by your application.
 
-As opções por requisição são `api_key`, `idempotency_key`, `timeout` e
-`max_network_retries`, em `RequestOptions`. Uma chave específica não altera
-a credencial do cliente para chamadas posteriores. Headers arbitrários,
-seleção de ambiente e OAuth não fazem parte desta versão do SDK.
-Um transporte personalizado deve preservar verificação TLS e não repetir
-escritas. Exceções HTTPX de transporte são convertidas em `ConnectionError`;
-exceções da aplicação mantêm seu tipo.
+Per-request options are `api_key`, `idempotency_key`, `timeout`, and
+`max_network_retries`, supplied through `RequestOptions`. A request-specific key
+does not change the client's credential for later calls. Arbitrary headers,
+environment selection, and OAuth are not part of this SDK version.
+A custom transport must preserve TLS verification and must not retry writes.
+HTTPX transport exceptions become `ConnectionError`; application exceptions
+keep their original type.
 
-## Respostas e tipos
+## Responses and types
 
 ```python
 charge = raims.charges.retrieve(charge_id)
 amount = charge.amount_cents
 same_amount = charge["amount_cents"]
+
 data = charge.to_dict()
 response = charge.last_response
 assert response is not None
@@ -67,78 +68,77 @@ status = response.status_code
 request_id = response.request_id
 ```
 
-Os modelos em `raims.models` oferecem propriedades anotadas para o editor.
-As entradas em `raims.types` são `TypedDict`; dicionários comuns também podem
-ser usados nas chamadas. Os valores nomeados de enums públicos ficam em
-`raims.enum_values`, são gerados do contrato e têm tipos compatíveis com os
-parâmetros literais das operações.
+Models in `raims.models` provide annotated properties for your editor.
+Inputs in `raims.types` are `TypedDict` definitions; calls also accept ordinary
+dictionaries. Named public enum values are in `raims.enum_values`. They are
+generated from the contract and have types compatible with operation literal
+parameters.
 
-Recursos e objetos aninhados são somente leitura; listas recebidas são tuplas.
-`to_dict()` retorna uma cópia com dicionários e listas. Campos futuros e novos
-valores de enum são preservados. Campos opcionais ausentes continuam ausentes:
-use `"campo" in resource` ou `resource.get("campo")` quando necessário.
-A análise estática confere os atributos conhecidos e recusa atribuições nas
-propriedades dos modelos. Para consumir um campo novo ainda não descrito pela
-versão instalada, use o acesso de mapa e valide seu tipo na aplicação.
-Os metadados de paginação também têm tipos gerados do contrato.
+Resources and nested objects are read-only; received lists become tuples.
+`to_dict()` returns a copy containing dictionaries and lists. Future fields
+and new enum values are preserved. Missing optional fields remain absent:
+use `"field" in resource` or `resource.get("field")` when needed.
+Static analysis checks known attributes and rejects assignments to model
+properties. To consume a new field not yet described by the installed version,
+use mapping access and validate its type in your application. Pagination
+metadata also has types generated from the contract.
 
-Inteiros são lidos sem arredondamento, inclusive representações JSON integrais
-como `1.0` e `1e0`. Frações são preservadas como `decimal.Decimal` e recusadas
-em campos declarados inteiros. O SDK não converte centavos para reais nem
-altera datas, estados ou regras de negócio.
+Integers are read without rounding, including integral JSON representations
+such as `1.0` and `1e0`. Fractions are preserved as `decimal.Decimal` and rejected
+in integer fields. The SDK does not convert cents to currency units or change
+dates, states, or business rules.
 
-O SDK confere campos obrigatórios, tipos e nulabilidade antes de construir
-o modelo. Uma estrutura incompatível gera `UnexpectedResponseError`. O corpo
-da resposta é limitado a 16 MiB. `202` não inicia polling automático; `204`
-sem corpo retorna `None`.
+The SDK checks required fields, types, and nullability before constructing a
+model. An incompatible structure raises `UnexpectedResponseError`. Response
+bodies are limited to 16 MiB. `202` does not start automatic polling; a `204`
+response without a body returns `None`.
 
-Respostas excessivamente aninhadas também são recusadas com
-`UnexpectedResponseError`, inclusive quando o aninhamento estiver em um campo
-novo ainda não descrito pelos modelos.
+Excessively nested responses are also rejected with `UnexpectedResponseError`,
+including when the nesting is in a new field not yet described by the models.
 
-`last_response` contém status, headers, bytes originais decodificados pelo
-transporte, Request-Id, `idempotency_replayed` e `retry_after`. Request-Id tem
-prioridade sobre o alias X-Request-Id. Objetos aninhados não representam outra
-requisição e não têm metadados próprios de resposta.
+`last_response` contains the status, headers, original bytes decoded by the
+transport, Request-Id, `idempotency_replayed`, and `retry_after`. Request-Id takes
+precedence over the X-Request-Id alias. Nested objects do not represent another
+request and have no response metadata of their own.
 
-O debug padrão oculta os dados. `to_dict()`, `last_response.body`, headers e
-campos acessados explicitamente podem conter dados pessoais, segredos ou URLs
-temporárias. Controle o acesso e os registros desses valores na aplicação.
+Default debug representations hide the data. `to_dict()`, `last_response.body`,
+headers, and explicitly accessed fields may contain personal data, secrets, or
+temporary URLs. Control access to those values and how your application logs them.
 
-## Omissão e null
+## Omission and null
 
 ```python
-raims.charges.update(charge_id, {"title": "Pedido atualizado"})
+raims.charges.update(charge_id, {"title": "Updated order"})
 raims.charges.update(charge_id, {"description": None})
 raims.customers.update(customer_id, {"metadata": {}})
 ```
 
-Omitir um campo e enviar `None` produzem requisições diferentes. O SDK preserva
-`None`, `False`, zero, texto e mapas vazios no JSON. O significado depende do
-endpoint: na cobrança, `description=None` limpa a descrição; um mapa vazio de
-metadata não significa apagar tudo. Para remover URLs de redirecionamento de
-links de pagamento, use os respectivos campos `clear_*` definidos no contrato.
+Omitting a field and sending `None` produce different requests. The SDK preserves
+`None`, `False`, zero, empty text, and empty maps in JSON. Their meaning depends
+on the endpoint: for charges, `description=None` clears the description; an
+empty metadata map does not mean clear everything. To remove payment-link
+redirect URLs, use the corresponding `clear_*` fields defined in the contract.
 
-## Diagnósticos
+## Diagnostics
 
-`request_observer` recebe `RequestDiagnostics` com operação, método, caminho
-parametrizado, número da tentativa, duração, status, Request-Id e decisão de
-retry. O caminho não contém IDs de recursos nem query. Credenciais, corpos e
-parâmetros não são enviados ao callback. O SDK não emite telemetria própria.
-Exceções do observer são isoladas; uma chamada feita por ele não dispara outra
-notificação recursiva ao mesmo observer.
+`request_observer` receives `RequestDiagnostics` with the operation, method,
+parameterized path, attempt number, duration, status, Request-Id, and retry
+decision. The path contains neither resource IDs nor a query. Credentials,
+bodies, and parameters are not sent to the callback. The SDK does not emit its
+own telemetry. Observer exceptions are isolated; a call made by the observer
+does not recursively notify the same observer.
 
-## Documentos e imagens
+## Documents and images
 
-`charges.retrieve_receipt`, `charges.retrieve_boleto` e
-`refunds.retrieve_receipt` retornam `FinancialDocument`, com `url` e
-`expires_at`. Baixe a URL temporária em um GET separado, sem Authorization,
-cookies ou chave de API e sem alterar seus parâmetros. Não registre a URL.
-Se ela expirar, consulte o endpoint autenticado novamente.
+`charges.retrieve_receipt`, `charges.retrieve_boleto`, and
+`refunds.retrieve_receipt` return `FinancialDocument`, with `url` and
+`expires_at`. Download the temporary URL in a separate GET, without Authorization,
+cookies, or an API key, and without changing its parameters. Do not log the URL.
+If it expires, retrieve it again through the authenticated endpoint.
 
-As operações `accounts.create_checkout_logo_upload` e
-`accounts.create_checkout_favicon_upload` preparam o upload. Faça o PUT dos
-bytes separadamente para `upload_url`, usando Content-Type e Content-Length
-exatos, sem credencial Bearer, cookies ou redirects. Depois, aplique o ID com
-`accounts.update_checkout_settings`. O SDK não envia o arquivo nem baixa URLs
-externas pelo transporte autenticado.
+`accounts.create_checkout_logo_upload` and
+`accounts.create_checkout_favicon_upload` prepare the upload. PUT the bytes to
+`upload_url` separately, with the exact Content-Type and Content-Length, without
+a Bearer credential, cookies, or redirects. Then apply the ID through
+`accounts.update_checkout_settings`. The SDK does not upload the file or
+download external URLs through its authenticated transport.

@@ -1,10 +1,10 @@
-# Referência do SDK Python
+# Python SDK reference
 
-Gerada do contrato público fixado em `contracts/source.json`.
+Generated from the public contract pinned in `contracts/source.json`.
 
-Os mesmos serviços estão disponíveis em `RaimsClient` e `AsyncRaimsClient`. Os métodos do cliente assíncrono usam `await`.
+The same services are available in `RaimsClient` and `AsyncRaimsClient`. Asynchronous client methods use `await`.
 
-| Serviço e método | Operação HTTP | Entrada | Resposta síncrona |
+| Service and method | HTTP operation | Input | Synchronous response |
 | --- | --- | --- | --- |
 | `accounts.retrieve_fees` | `GET /v1/accounts/fees` | - | `AccountFees` |
 | `accounts.retrieve_number` | `GET /v1/accounts/account_number` | - | `AccountNumber` |
@@ -20,7 +20,7 @@ Os mesmos serviços estão disponíveis em `RaimsClient` e `AsyncRaimsClient`. O
 | `charges.list` | `GET /v1/charges` | [`ListChargesParams`](#listchargesparams) | `ApiList[ChargeListItem]` |
 | `charges.retrieve` | `GET /v1/charges/{id}` | - | `Charge` |
 | `charges.update` | `PATCH /v1/charges/{id}` | [`UpdateChargeParams`](#updatechargeparams) | `Charge` |
-| `charges.revoke` | `DELETE /v1/charges/{id}` | - | `ChargeRevoked ou ChargeRevocationPending` |
+| `charges.revoke` | `DELETE /v1/charges/{id}` | - | `ChargeRevoked or ChargeRevocationPending` |
 | `charges.retrieve_payment` | `GET /v1/charges/{id}/payment` | - | `PaymentReceipt` |
 | `charges.retrieve_receipt` | `GET /v1/charges/{id}/receipt` | - | `FinancialDocument` |
 | `charges.retrieve_boleto` | `GET /v1/charges/{id}/boleto` | - | `FinancialDocument` |
@@ -75,414 +75,414 @@ Os mesmos serviços estão disponíveis em `RaimsClient` e `AsyncRaimsClient`. O
 | `simulations.refunds.complete` | `POST /v1/simulations/refunds/{id}/complete` | - | `Refund` |
 | `simulations.refunds.fail` | `POST /v1/simulations/refunds/{id}/fail` | - | `Refund` |
 
-Listagens paginadas retornam `ApiList[T]` no cliente síncrono e `AsyncApiList[T]` no assíncrono. Iterar a página não inicia outra requisição. Use `auto_paging_iter()` para percorrer as páginas seguintes. Os metadados de `page` usam o tipo gerado `PageInfo`.
+Paginated lists return `ApiList[T]` in the synchronous client and `AsyncApiList[T]` in the asynchronous client. Iterating over a page does not send another request. Use `auto_paging_iter()` to visit subsequent pages. The `page` metadata uses the generated `PageInfo` type.
 
-Entradas usam os nomes JSON da API. Omitir um campo e enviar `None` são ações distintas. As respostas preservam campos e valores novos; os valores monetários continuam em centavos inteiros e as datas dos recursos em segundos Unix UTC.
+Inputs use the API's JSON names. Omitting a field and sending `None` are distinct actions. Responses preserve new fields and values; monetary amounts remain integer cents, and resource dates use Unix seconds UTC.
 
-## Parâmetros de entrada
+## Input parameters
 
-Os campos e as descrições abaixo vêm do contrato público fixado. `None` corresponde a `null`; um campo opcional pode ser omitido. Objetos e listas aninhados têm tipos próprios em `raims.types`.
+The fields and descriptions below come from the pinned public contract. `None` corresponds to `null`; an optional field may be omitted. Nested objects and lists have their own types in `raims.types`.
 
 ### UpdateChargeParams
 
-Atualizar cobrança existente. Argumento `params`: obrigatório.
+Update an existing charge. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `title` | `str \| None` | Não | Título da cobrança. Omita para manter o título atual; envie null ou texto vazio para removê-lo. |
-| `description` | `str \| None` | Não | Descrição da cobrança. Omita para manter a descrição atual; envie null ou texto vazio para removê-la. |
-| `external_reference` | `str \| None` | Não | Referência do pedido ou da cobrança no seu sistema. Omita para manter o valor atual; envie null ou texto vazio para removê-lo. Pode ser repetida em outras cobranças e é independente da referência do cliente. |
-| `metadata` | `dict[str, str \| None] \| None` | Não | Dados de integração associados ao recurso. Informe pares de chave e texto. Chaves diferenciam maiúsculas de minúsculas. Omitir ou enviar {} preserva os dados; null remove todos os pares, e null em uma chave remove somente essa chave. Texto vazio é um valor válido. |
+| `title` | `str \| None` | No | Charge title. Omit it to keep the current title; send null or empty text to remove it. |
+| `description` | `str \| None` | No | Charge description. Omit it to keep the current description; send null or empty text to remove it. |
+| `external_reference` | `str \| None` | No | Order or charge reference in your system. Omit it to keep the current value; send null or empty text to remove it. It may be repeated on other charges and is independent of the customer reference. |
+| `metadata` | `dict[str, str \| None] \| None` | No | Integration data associated with the resource. Supply key and text pairs. Keys are case-sensitive. Omission or {} preserves the data; null removes all pairs, and null for a key removes only that key. Empty text is a valid value. |
 
 ### ListChargesParams
 
-Listar cobranças. Argumento `params`: opcional.
+List charges. The `params` argument is optional.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `page_size` | `int` | Não | Quantidade de cobranças por página. Inteiros positivos acima do máximo usam o máximo. Valor omitido, vazio, zero, negativo ou inválido usa 10. |
-| `after` | `str` | Não | Copie page.next_after da resposta anterior para avançar. Mantenha os mesmos filtros e a ordenação; não envie before junto. Deixe vazio para começar a listagem. |
-| `before` | `str` | Não | Copie page.previous_before da resposta anterior para voltar. Mantenha os mesmos filtros e a ordenação; não envie after junto. Deixe vazio se não quiser voltar. |
-| `identifier` | `str` | Não | Filtra pelo ID completo da cobrança. Se não houver correspondência, list será vazio. |
-| `customer_id` | `str` | Não | Filtra pelo ID público completo do cliente, retornado no cadastro ou na consulta. O vínculo permanece o mesmo se nome ou e-mail mudar. Pode ser combinado com os demais filtros; mantenha o mesmo customer_id ao mudar de página. Um ID válido sem cobranças na empresa e no ambiente autenticado retorna list vazio. Vazio ou ausência não aplica o filtro. |
-| `external_reference` | `str` | Não | Filtra pela referência atual da cobrança no seu sistema, com igualdade do valor completo, incluindo maiúsculas, minúsculas e acentos. Vazio ou ausência não aplica o filtro. Pode ser combinado com os demais filtros; preserve o valor ao navegar por cursor. Após criar ou editar uma cobrança, pode levar alguns segundos para a busca refletir a referência. |
-| `email` | `str` | Não | Filtra pelo e-mail completo registrado na cobrança. Alterar o cadastro do cliente não altera esse e-mail. |
-| `status` | `str` | Não | Filtra por um ou mais códigos separados por vírgula, como 0,1. 0 criado, 1 aguardando pagamento, 2 autorizado, 3 em processamento, 4 pago, 5 parcialmente devolvido, 6 devolvido, 7 cancelado, 8 expirado, 9 falha, 10 chargeback, 11 chargeback em análise, 12 chargeback perdido e 13 chargeback ganho. Pode levar alguns segundos para refletir alterações. |
-| `payment_method` | `str` | Não | Filtra pelo meio de pagamento da cobrança: 1 para Pix e 2 para boleto. Para combinar, envie 1,2. Uma cobrança com meio indefinido pode passar a usar Pix ou boleto quando o código Pix ou boleto é gerado no checkout. A seleção na tela, por si só, não altera o filtro. |
-| `created_gte` | `int` | Não | Filtra cobranças criadas a partir deste instante, inclusive, em segundos Unix UTC. Se informar created_lte, este valor deve ser menor ou igual a ele. |
-| `created_lte` | `int` | Não | Filtra cobranças criadas até este instante, inclusive, em segundos Unix UTC. |
-| `due_gte` | `int` | Não | Filtra cobranças com vencimento a partir deste instante, inclusive, em segundos Unix UTC. Pode ser combinado com due_lte e os demais filtros; mantenha o valor ao mudar de página. |
-| `due_lte` | `int` | Não | Filtra cobranças com vencimento até este instante, inclusive, em segundos Unix UTC. Se informar due_gte, este valor deve ser maior ou igual a ele. Pode ser usado sozinho ou com os demais filtros. |
-| `paid_gte` | `int` | Não | Filtra cobranças pagas a partir deste instante, inclusive, em segundos Unix UTC. Usa a data do pagamento confirmado, mesmo quando houver estorno posterior. Cobranças sem pagamento confirmado ficam fora do resultado. Mantenha o valor ao mudar de página. |
-| `paid_lte` | `int` | Não | Filtra cobranças pagas até este instante, inclusive, em segundos Unix UTC. Se informar paid_gte, este valor deve ser maior ou igual a ele. Pode ser combinado com os demais filtros. |
-| `sort_key` | `Literal['amount_cents', 'created_at']` | Não | Ordena por valor em centavos ou data de criação. Se omitido, usa a ordem de cadastro; com filtro de criação, usa created_at. Mantenha a mesma ordenação ao mudar de página. |
-| `sort_order` | `Literal['asc', 'desc']` | Não | Define a direção da ordenação. Com desc, a ordem padrão mostra as cobranças mais recentes primeiro. |
+| `page_size` | `int` | No | Charges per page. Positive integers above the maximum use the maximum. Omitted, empty, zero, negative, or invalid values use 10. |
+| `after` | `str` | No | Copy page.next_after from the previous response to move forward. Keep the same filters and sort order; do not send before as well. Leave it empty to start the list. |
+| `before` | `str` | No | Copy page.previous_before from the previous response to move backward. Keep the same filters and sort order; do not send after as well. Leave it empty if you do not want to go backward. |
+| `identifier` | `str` | No | Filter by the complete charge ID. If there is no match, list is empty. |
+| `customer_id` | `str` | No | Filter by the customer's complete public ID returned when creating or retrieving the customer. The relationship remains unchanged if the name or email changes. It can be combined with other filters; keep the same customer_id when changing pages. A valid ID with no charges in the authenticated company and environment returns an empty list. An empty or omitted value does not apply the filter. |
+| `external_reference` | `str` | No | Filter by the charge's current reference in your system, matching the complete value, including case and accents. An empty or omitted value does not apply the filter. It can be combined with other filters; preserve the value when navigating by cursor. After creating or editing a charge, it may take a few seconds for search to reflect the reference. |
+| `email` | `str` | No | Filter by the complete email address recorded on the charge. Editing the customer record does not change that email address. |
+| `status` | `str` | No | Filter by one or more comma-separated codes, such as 0,1. 0 created, 1 awaiting payment, 2 authorized, 3 processing, 4 paid, 5 partially refunded, 6 refunded, 7 cancelled, 8 expired, 9 failed, 10 chargeback, 11 chargeback under review, 12 chargeback lost, and 13 chargeback won. Changes may take a few seconds to appear. |
+| `payment_method` | `str` | No | Filter by the charge's payment method: 1 for Pix and 2 for boleto. To combine them, send 1,2. A charge with an undefined method may switch to Pix or boleto when the Pix code or boleto is generated in checkout. Selecting a method on the page alone does not change the filter. |
+| `created_gte` | `int` | No | Filter charges created at or after this instant, inclusive, in Unix seconds UTC. If created_lte is supplied, this value must be less than or equal to it. |
+| `created_lte` | `int` | No | Filter charges created at or before this instant, inclusive, in Unix seconds UTC. |
+| `due_gte` | `int` | No | Filter charges due at or after this instant, inclusive, in Unix seconds UTC. It can be combined with due_lte and other filters; preserve the value when changing pages. |
+| `due_lte` | `int` | No | Filter charges due at or before this instant, inclusive, in Unix seconds UTC. If due_gte is supplied, this value must be greater than or equal to it. It can be used alone or with other filters. |
+| `paid_gte` | `int` | No | Filter charges paid at or after this instant, inclusive, in Unix seconds UTC. Uses the confirmed payment date, even if a refund occurred later. Charges without a confirmed payment are excluded. Preserve the value when changing pages. |
+| `paid_lte` | `int` | No | Filter charges paid at or before this instant, inclusive, in Unix seconds UTC. If paid_gte is supplied, this value must be greater than or equal to it. It can be combined with other filters. |
+| `sort_key` | `Literal['amount_cents', 'created_at']` | No | Sort by the amount in cents or creation date. If omitted, uses registration order; with a creation-date filter, uses created_at. Keep the same sort order when changing pages. |
+| `sort_order` | `Literal['asc', 'desc']` | No | Set the sort direction. With desc, the default order shows the newest charges first. |
 
 ### CreateChargeParams
 
-Criar nova cobrança. Argumento `params`: obrigatório.
+Create a new charge. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `customer_id` | `str` | Sim | ID de um cliente da empresa e do ambiente autenticado. Copie o id retornado no cadastro ou na consulta. Pix direto exige CPF/CNPJ válido. Boleto direto exige nome, e-mail válido, CPF/CNPJ e endereço, incluindo CEP e número; complete esses dados no cadastro do cliente. |
-| `amount_cents` | `int` | Sim | Valor da cobrança em centavos de real. Por exemplo, 10000 representa R$ 100,00. |
-| `payment_method` | `Literal[0, 1, 2]` | Não | Meio da cobrança. Omitir ou enviar 0 permite escolher no checkout. Sem payment_method_types, 1 solicita Pix e 2 solicita boleto na criação, conforme os meios habilitados. Boleto usa o endereço do cliente e completa campos ausentes pelo CEP quando disponíveis. Com lista própria, envie 0 ou omita este campo; a emissão acontece após a escolha no checkout. |
-| `due_date` | `int` | Sim | Vencimento em segundos Unix UTC, pelo menos cinco minutos no futuro. A data máxima é hoje mais dez anos, no calendário de São Paulo. |
-| `title` | `str \| None` | Não | Título da cobrança. Você pode deixar este campo vazio. |
-| `description` | `str \| None` | Não | Descrição da cobrança. Você pode deixar este campo vazio. |
-| `send_email` | `bool` | Não | Com true, solicita o envio da cobrança ao e-mail do cliente e gera checkout_url. Em contas pendentes, o cliente precisa ter o mesmo e-mail principal da conta. Fora dessa condição, um e-mail ausente ou inválido impede o envio, mas permite criar a cobrança quando não houver emissão direta de boleto. Boleto direto exige e-mail válido mesmo com false. A resposta não confirma a entrega da mensagem. |
-| `create_checkout` | `bool` | Não | Com true, gera o link retornado em checkout_url, sem exigir uma URL de retorno nem solicitar envio de e-mail. Com false, o link ainda é gerado quando send_email é true ou uma URL de retorno é informada. |
-| `success_redirect_url` | `str \| None` | Não | URL HTTPS do seu site para retorno após a confirmação do pagamento. O redirecionamento não comprova o pagamento; consulte a cobrança para confirmá-lo. Não aceita credenciais no endereço, IP literal, localhost ou domínio Raims. Quando preenchida, gera checkout_url mesmo com send_email false. Se omitida, vazia ou null, o retorno não é definido. |
-| `cancel_redirect_url` | `str \| None` | Não | URL HTTPS do seu site para o pagador voltar pelo checkout. Voltar não cancela a cobrança, o Pix ou o boleto. Não aceita credenciais no endereço, IP literal, localhost ou domínio Raims. Quando preenchida, gera checkout_url mesmo com send_email false. Se omitida, vazia ou null, o retorno não é definido. |
-| `payment_method_types` | `Sequence[Literal[1, 2]] \| None` | Não | Meios permitidos para a cobrança: 1 para Pix e 2 para boleto. Omitir ou enviar null usa a configuração de checkout herdada. Informe uma lista sem repetições. A configuração própria substitui o padrão da conta; uma configuração do link pode apenas restringir essa lista. Combine com payment_method omitido ou 0. |
-| `external_reference` | `str \| None` | Não | Referência do pedido ou da cobrança no seu sistema. Null, vazio ou somente espaços deixam sem referência. Pode ser repetida e não evita cobranças duplicadas. É diferente da referência do cadastro do cliente. |
-| `metadata` | `dict[str, str \| None] \| None` | Não | Dados de integração associados à cobrança, em pares de chave e texto. Chaves diferenciam maiúsculas de minúsculas. Omitir, enviar null ou {} cria a cobrança sem esses dados; pares com valor null não são incluídos. Texto vazio é um valor válido. |
+| `customer_id` | `str` | Yes | ID of a customer in the authenticated company and environment. Copy the id returned when creating or retrieving the customer. Direct Pix requires a valid CPF/CNPJ. Direct boleto requires a name, valid email address, CPF/CNPJ, and address including CEP and street number; complete those fields on the customer record. |
+| `amount_cents` | `int` | Yes | Charge amount in Brazilian real cents. For example, 10000 represents BRL 100.00. |
+| `payment_method` | `Literal[0, 1, 2]` | No | Charge payment method. Omit it or send 0 to allow selection in checkout. Without payment_method_types, 1 requests Pix and 2 requests boleto at creation, subject to enabled methods. Boleto uses the customer's address and fills missing fields from the CEP when available. With a custom list, send 0 or omit this field; issuance occurs after the checkout selection. |
+| `due_date` | `int` | Yes | Due date in Unix seconds UTC, at least five minutes in the future. The latest date is today plus ten years, using the São Paulo calendar. |
+| `title` | `str \| None` | No | Charge title. You may leave this field empty. |
+| `description` | `str \| None` | No | Charge description. You may leave this field empty. |
+| `send_email` | `bool` | No | With true, requests delivery of the charge to the customer's email address and generates checkout_url. For pending accounts, the customer must use the account's primary email address. Outside that condition, a missing or invalid email prevents delivery but still allows charge creation when there is no direct boleto issuance. Direct boleto requires a valid email even with false. The response does not confirm message delivery. |
+| `create_checkout` | `bool` | No | With true, generates the link returned in checkout_url without requiring a return URL or requesting email delivery. With false, the link is still generated when send_email is true or a return URL is supplied. |
+| `success_redirect_url` | `str \| None` | No | HTTPS URL on your website for returning after confirmed payment. Redirection does not prove payment; retrieve the charge to confirm it. Credentials in the address, literal IPs, localhost, and Raims domains are not accepted. When supplied, generates checkout_url even with send_email false. If omitted, empty, or null, no return destination is set. |
+| `cancel_redirect_url` | `str \| None` | No | HTTPS URL on your website for the payer to return from checkout. Returning does not cancel the charge, Pix, or boleto. Credentials in the address, literal IPs, localhost, and Raims domains are not accepted. When supplied, generates checkout_url even with send_email false. If omitted, empty, or null, no return destination is set. |
+| `payment_method_types` | `Sequence[Literal[1, 2]] \| None` | No | Allowed methods for the charge: 1 for Pix and 2 for boleto. Omission or null uses the inherited checkout settings. Supply a list without duplicates. A custom configuration replaces the account default; a link configuration can only restrict that list. Combine with payment_method omitted or set to 0. |
+| `external_reference` | `str \| None` | No | Order or charge reference in your system. Null, empty text, or whitespace leaves it without a reference. It may be repeated and does not prevent duplicate charges. It differs from the reference on the customer record. |
+| `metadata` | `dict[str, str \| None] \| None` | No | Integration data associated with the charge, as key and text pairs. Keys are case-sensitive. Omission, null, or {} creates the charge without this data; pairs with a null value are not included. Empty text is a valid value. |
 
 ### CreateCustomerParams
 
-Criar cliente. Argumento `params`: obrigatório.
+Create a customer. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `full_name` | `str \| None` | Não | Nome completo do pagador. |
-| `tax_id` | `str` | Sim | CPF ou CNPJ válido, com ou sem pontos, barra, hífen e espaços. |
-| `email` | `str \| None` | Não | E-mail do pagador. Cadastrar o e-mail não envia uma mensagem. |
-| `dial_code` | `str \| None` | Não | Código de discagem internacional. Pode ser informado sem phone_local. |
-| `phone_local` | `str \| None` | Não | Número de telefone sem o código de discagem, com ou sem pontuação. Pode ser informado sem dial_code. |
-| `zip_code` | `str \| None` | Não | CEP do endereço, com ou sem hífen. Se street, neigh, city, uf, street_number e complement estiverem vazios, o CEP pode preencher rua, bairro, cidade e estado. O preenchimento não inclui número nem complemento. |
-| `street` | `str \| None` | Não | Logradouro do endereço. |
-| `street_number` | `str \| None` | Não | Número do endereço. |
-| `complement` | `str \| None` | Não | Complemento do endereço. |
-| `neigh` | `str \| None` | Não | Bairro do endereço. |
-| `city` | `str \| None` | Não | Cidade do endereço. |
-| `uf` | `str \| None` | Não | Sigla do estado, como SP. |
-| `external_reference` | `str \| None` | Não | Identificador do cliente no seu sistema. Para um cliente já cadastrado, omita para manter a referência ou envie null ou texto vazio para removê-la. Use external_reference na listagem de clientes para buscar esse valor. |
-| `metadata` | `dict[str, str \| None] \| None` | Não | Dados de integração associados ao recurso. Informe pares de chave e texto. Chaves diferenciam maiúsculas de minúsculas. Omitir ou enviar {} preserva os dados; null remove todos os pares, e null em uma chave remove somente essa chave. Texto vazio é um valor válido. |
+| `full_name` | `str \| None` | No | Payer's full name. |
+| `tax_id` | `str` | Yes | Valid CPF or CNPJ, with or without periods, slash, hyphen, and spaces. |
+| `email` | `str \| None` | No | Payer's email address. Recording an email address does not send a message. |
+| `dial_code` | `str \| None` | No | International dialing code. It may be supplied without phone_local. |
+| `phone_local` | `str \| None` | No | Phone number without the dialing code, with or without punctuation. It may be supplied without dial_code. |
+| `zip_code` | `str \| None` | No | Address CEP, with or without a hyphen. If street, neigh, city, uf, street_number, and complement are empty, the CEP may populate street, neighborhood, city, and state. It does not populate the street number or address complement. |
+| `street` | `str \| None` | No | Address street. |
+| `street_number` | `str \| None` | No | Address street number. |
+| `complement` | `str \| None` | No | Address complement. |
+| `neigh` | `str \| None` | No | Address neighborhood. |
+| `city` | `str \| None` | No | Address city. |
+| `uf` | `str \| None` | No | State abbreviation, such as SP. |
+| `external_reference` | `str \| None` | No | Customer identifier in your system. For an existing customer, omit it to keep the reference, or send null or empty text to remove it. Use external_reference in the customer list to search for this value. |
+| `metadata` | `dict[str, str \| None] \| None` | No | Integration data associated with the resource. Supply key and text pairs. Keys are case-sensitive. Omission or {} preserves the data; null removes all pairs, and null for a key removes only that key. Empty text is a valid value. |
 
 ### ListCustomersParams
 
-Listar clientes. Argumento `params`: opcional.
+List customers. The `params` argument is optional.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `page_size` | `int` | Não | Quantidade de clientes por página. Inteiros positivos acima do máximo usam o máximo. Valor omitido, vazio, zero, negativo ou inválido usa 10. |
-| `after` | `str` | Não | Copie page.next_after da resposta anterior para avançar. Use o cursor sem alterações, mantenha os mesmos filtros e não envie before junto. |
-| `before` | `str` | Não | Copie page.previous_before da resposta anterior para voltar uma página. Mantenha os mesmos filtros e não envie after junto. |
-| `identifier` | `str` | Não | Identificador público do cliente, com prefixo cus_. |
-| `name` | `str` | Não | Busca pelo nome do cliente, com os cadastros mais recentes primeiro. Deixe vazio para ignorar este filtro. |
-| `email` | `str` | Não | Filtra pelo e-mail completo do cliente. |
-| `document` | `str` | Não | Filtra pelo CPF ou CNPJ completo do cliente, com ou sem pontos, barra, hífen e espaços. |
-| `external_reference` | `str` | Não | Filtra pela referência atual do cliente no seu sistema, com igualdade do valor completo, incluindo maiúsculas, minúsculas e acentos. Pode ser combinada com os demais filtros. Após criar ou editar o cliente, a busca pode levar alguns segundos para refletir a referência. Mantenha o valor ao navegar por cursor. |
+| `page_size` | `int` | No | Customers per page. Positive integers above the maximum use the maximum. Omitted, empty, zero, negative, or invalid values use 10. |
+| `after` | `str` | No | Copy page.next_after from the previous response to move forward. Use the cursor unchanged, keep the same filters, and do not send before as well. |
+| `before` | `str` | No | Copy page.previous_before from the previous response to go back one page. Keep the same filters and do not send after as well. |
+| `identifier` | `str` | No | Customer's public identifier, with the cus_ prefix. |
+| `name` | `str` | No | Search by customer name, with the newest records first. Leave it empty to ignore this filter. |
+| `email` | `str` | No | Filter by the customer's complete email address. |
+| `document` | `str` | No | Filter by the customer's complete CPF or CNPJ, with or without periods, slash, hyphen, and spaces. |
+| `external_reference` | `str` | No | Filter by the customer's current reference in your system, matching the complete value, including case and accents. It can be combined with other filters. After creating or editing the customer, search may take a few seconds to reflect the reference. Preserve the value when navigating by cursor. |
 
 ### DeleteCustomersBatchParams
 
-Remover clientes em lote. Argumento `params`: obrigatório.
+Delete customers in a batch. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `identifiers` | `Sequence[str \| None]` | Sim | IDs dos clientes que deseja remover. IDs repetidos não geram mais de uma remoção. IDs inválidos ou de clientes que a chave não pode acessar aparecem em invalid. |
+| `identifiers` | `Sequence[str \| None]` | Yes | IDs of customers to delete. Repeated IDs do not cause more than one deletion. Invalid IDs and IDs of customers the key cannot access appear in invalid. |
 
 ### UpdateCustomerParams
 
-Atualizar cliente existente. Argumento `params`: obrigatório.
+Update an existing customer. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `full_name` | `str \| None` | Não | Nome completo do pagador. Omita para manter o valor atual; envie null ou texto vazio para removê-lo. |
-| `email` | `str \| None` | Não | E-mail do pagador. Atualizar o e-mail não envia uma mensagem. Omita para manter o valor atual; envie null ou texto vazio para removê-lo. |
-| `dial_code` | `str \| None` | Não | Código de discagem internacional. Pode ser informado sem phone_local. Omita para manter o valor atual; envie null ou texto vazio para removê-lo. |
-| `phone_local` | `str \| None` | Não | Número de telefone sem o código de discagem, com ou sem pontuação. Pode ser informado sem dial_code. Omita para manter o valor atual; envie null ou texto vazio para removê-lo. |
-| `zip_code` | `str \| None` | Não | CEP do endereço, com ou sem hífen. Atualizar o CEP não preenche os outros campos de endereço. Omita para manter o valor atual; envie null ou texto vazio para removê-lo. |
-| `street` | `str \| None` | Não | Logradouro do endereço. Omita para manter o valor atual; envie null ou texto vazio para removê-lo. |
-| `street_number` | `str \| None` | Não | Número do endereço. Omita para manter o valor atual; envie null ou texto vazio para removê-lo. |
-| `complement` | `str \| None` | Não | Complemento do endereço. Omita para manter o valor atual; envie null ou texto vazio para removê-lo. |
-| `neigh` | `str \| None` | Não | Bairro do endereço. Omita para manter o valor atual; envie null ou texto vazio para removê-lo. |
-| `city` | `str \| None` | Não | Cidade do endereço. Omita para manter o valor atual; envie null ou texto vazio para removê-lo. |
-| `uf` | `str \| None` | Não | Sigla do estado, como SP. Omita para manter o valor atual; envie null ou texto vazio para removê-lo. |
-| `external_reference` | `str \| None` | Não | Identificador do cliente no seu sistema. Omita para manter a referência atual; envie null ou texto vazio para removê-la. Use external_reference na listagem de clientes para buscar esse valor. |
-| `metadata` | `dict[str, str \| None] \| None` | Não | Dados de integração associados ao recurso. Informe pares de chave e texto. Chaves diferenciam maiúsculas de minúsculas. Omitir ou enviar {} preserva os dados; null remove todos os pares, e null em uma chave remove somente essa chave. Texto vazio é um valor válido. |
+| `full_name` | `str \| None` | No | Payer's full name. Omit it to keep the current value; send null or empty text to remove it. |
+| `email` | `str \| None` | No | Payer's email address. Updating the email address does not send a message. Omit it to keep the current value; send null or empty text to remove it. |
+| `dial_code` | `str \| None` | No | International dialing code. It may be supplied without phone_local. Omit it to keep the current value; send null or empty text to remove it. |
+| `phone_local` | `str \| None` | No | Phone number without the dialing code, with or without punctuation. It may be supplied without dial_code. Omit it to keep the current value; send null or empty text to remove it. |
+| `zip_code` | `str \| None` | No | Address CEP, with or without a hyphen. Updating the CEP does not fill other address fields. Omit it to keep the current value; send null or empty text to remove it. |
+| `street` | `str \| None` | No | Address street. Omit it to keep the current value; send null or empty text to remove it. |
+| `street_number` | `str \| None` | No | Address street number. Omit it to keep the current value; send null or empty text to remove it. |
+| `complement` | `str \| None` | No | Address complement. Omit it to keep the current value; send null or empty text to remove it. |
+| `neigh` | `str \| None` | No | Address neighborhood. Omit it to keep the current value; send null or empty text to remove it. |
+| `city` | `str \| None` | No | Address city. Omit it to keep the current value; send null or empty text to remove it. |
+| `uf` | `str \| None` | No | State abbreviation, such as SP. Omit it to keep the current value; send null or empty text to remove it. |
+| `external_reference` | `str \| None` | No | Customer identifier in your system. Omit it to keep the current reference; send null or empty text to remove it. Use external_reference in the customer list to search for this value. |
+| `metadata` | `dict[str, str \| None] \| None` | No | Integration data associated with the resource. Supply key and text pairs. Keys are case-sensitive. Omission or {} preserves the data; null removes all pairs, and null for a key removes only that key. Empty text is a valid value. |
 
 ### UpdateAutomaticWithdrawalSettingsParams
 
-Atualizar saque automático. Argumento `params`: obrigatório.
+Update automatic withdrawals. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `enabled` | `bool` | Não | Ativa ou desativa novas tentativas de saque. Desativar não cancela saques já solicitados. |
-| `minimum_amount_cents` | `int` | Não | Saldo mínimo para tentar o saque, em centavos de real. O valor retirado depende do saldo disponível e do limite Pix restante. |
-| `time` | `str` | Não | Horário diário no formato HH:mm, pelo fuso de São Paulo. |
+| `enabled` | `bool` | No | Enable or disable new withdrawal attempts. Disabling does not cancel withdrawals already requested. |
+| `minimum_amount_cents` | `int` | No | Minimum balance for attempting a withdrawal, in Brazilian real cents. The amount withdrawn depends on the available balance and remaining Pix limit. |
+| `time` | `str` | No | Daily time in HH:mm format, using the São Paulo time zone. |
 
 ### GetBalanceForecastParams
 
-Consultar recebimentos previstos. Argumento `params`: opcional.
+Retrieve expected receipts. The `params` argument is optional.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `period` | `Literal['today', 'last_7_days', 'last_15_days', 'last_30_days']` | Não | Período das datas previstas de recebimento, pelo calendário de São Paulo. Inclui hoje e os dias anteriores conforme a opção. Não consulta vencimentos nem projeta os próximos dias. |
+| `period` | `Literal['today', 'last_7_days', 'last_15_days', 'last_30_days']` | No | Period of expected receipt dates, using the São Paulo calendar. Includes today and prior days according to the option. Does not query due dates or project upcoming days. |
 
 ### CreateRefundParams
 
-Solicitar estorno. Argumento `params`: obrigatório.
+Request a refund. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `amount_cents` | `int` | Sim | Valor solicitado para devolução, em centavos de real. Para devolver tudo, informe o valor restante mostrado na consulta de elegibilidade. |
-| `description` | `str \| None` | Não | Descrição da solicitação de devolução. Você pode deixar este campo vazio. |
+| `amount_cents` | `int` | Yes | Amount requested for refund, in Brazilian real cents. To refund everything, supply the remaining amount shown by the eligibility query. |
+| `description` | `str \| None` | No | Refund request description. You may leave this field empty. |
 
 ### ListChargeRefundsParams
 
-Listar estornos de uma cobrança. Argumento `params`: opcional.
+List refunds for a charge. The `params` argument is optional.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `page_size` | `int` | Não | Quantidade de estornos por página. Valores acima do máximo usam o máximo; ausência, vazio, texto, zero ou valor negativo usa o padrão. |
-| `after` | `str` | Não | Cursor recebido em page.next_after para avançar. Copie o valor completo e mantenha a mesma cobrança. Não envie junto de before. |
-| `before` | `str` | Não | Cursor recebido em page.previous_before para voltar. Copie o valor completo e mantenha a mesma cobrança. Não envie junto de after. |
-| `created_gte` | `int` | Não | Filtra estornos solicitados a partir deste instante, inclusive, em segundos Unix UTC. Usa a data de criação da solicitação, sem depender da conclusão. Mantenha o valor ao mudar de página. |
-| `created_lte` | `int` | Não | Filtra estornos solicitados até este instante, inclusive, em segundos Unix UTC. Se informar created_gte, este valor deve ser maior ou igual a ele. |
+| `page_size` | `int` | No | Refunds per page. Values above the maximum use the maximum; omitted, empty, text, zero, or negative values use the default. |
+| `after` | `str` | No | Cursor received in page.next_after to move forward. Copy the complete value and keep the same charge. Do not send it together with before. |
+| `before` | `str` | No | Cursor received in page.previous_before to move backward. Copy the complete value and keep the same charge. Do not send it together with after. |
+| `created_gte` | `int` | No | Filter refunds requested at or after this instant, inclusive, in Unix seconds UTC. Uses the request creation date, regardless of completion. Preserve the value when changing pages. |
+| `created_lte` | `int` | No | Filter refunds requested at or before this instant, inclusive, in Unix seconds UTC. If created_gte is supplied, this value must be greater than or equal to it. |
 
 ### GetChargeStatisticsParams
 
-Consultar estatísticas de cobranças. Argumento `params`: opcional.
+Retrieve charge statistics. The `params` argument is optional.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `period` | `Literal['today', 'last_7_days', 'last_15_days', 'last_30_days']` | Não | Período da consulta, pelo calendário de São Paulo. today considera hoje; last_7_days, last_15_days e last_30_days incluem hoje e os dias anteriores. A consulta aceita somente esses períodos. start_at e end_at são campos da resposta, não filtros de datas personalizadas. |
+| `period` | `Literal['today', 'last_7_days', 'last_15_days', 'last_30_days']` | No | Query period using the São Paulo calendar. today covers today; last_7_days, last_15_days, and last_30_days include today and prior days. Only those periods are accepted. start_at and end_at are response fields, not custom date filters. |
 
 ### CreateCheckoutLogoUploadParams
 
-Preparar envio da logo. Argumento `params`: obrigatório.
+Prepare a logo upload. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `content_type` | `Literal['image/png', 'image/jpeg']` | Sim | Tipo de conteúdo do arquivo: image/png ou image/jpeg. |
-| `file_size` | `int` | Sim | Tamanho do arquivo em bytes. |
-| `width` | `int` | Sim | Largura da imagem em pixels. |
-| `height` | `int` | Sim | Altura da imagem em pixels. |
+| `content_type` | `Literal['image/png', 'image/jpeg']` | Yes | File content type: image/png or image/jpeg. |
+| `file_size` | `int` | Yes | File size in bytes. |
+| `width` | `int` | Yes | Image width in pixels. |
+| `height` | `int` | Yes | Image height in pixels. |
 
 ### CreateCheckoutFaviconUploadParams
 
-Preparar envio do ícone. Argumento `params`: obrigatório.
+Prepare an icon upload. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `content_type` | `Literal['image/png', 'image/jpeg']` | Sim | Tipo de conteúdo do arquivo: image/png ou image/jpeg. |
-| `file_size` | `int` | Sim | Tamanho do arquivo em bytes. |
-| `width` | `int` | Sim | Largura do ícone em pixels. Deve ser igual à altura. |
-| `height` | `int` | Sim | Altura do ícone em pixels. Deve ser igual à largura. |
+| `content_type` | `Literal['image/png', 'image/jpeg']` | Yes | File content type: image/png or image/jpeg. |
+| `file_size` | `int` | Yes | File size in bytes. |
+| `width` | `int` | Yes | Icon width in pixels. Must equal its height. |
+| `height` | `int` | Yes | Icon height in pixels. Must equal its width. |
 
 ### UpdateCheckoutSettingsParams
 
-Atualizar personalização do checkout. Argumento `params`: obrigatório.
+Update checkout customization. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `support_email` | `str \| None` | Não | E-mail de suporte apresentado no checkout. Omitir preserva o valor; null ou texto vazio remove o contato. |
-| `hex_primary_color` | `str` | Não | Cor principal do checkout no formato #RRGGBB. Omitir preserva o valor; null ou texto vazio não são aceitos. |
-| `hex_secondary_color` | `str` | Não | Cor de fundo do checkout no formato #RRGGBB. Omitir preserva o valor; null ou texto vazio não são aceitos. |
-| `logo_upload_id` | `str \| None` | Não | ID retornado ao preparar o envio da logo. Envie o arquivo antes de associá-lo. Omitir preserva a imagem atual; null a remove. |
-| `favicon_upload_id` | `str \| None` | Não | ID retornado ao preparar o envio do ícone. Envie o arquivo antes de associá-lo. Omitir preserva a imagem atual; null a remove. |
+| `support_email` | `str \| None` | No | Support email displayed in checkout. Omission preserves the value; null or empty text removes the contact. |
+| `hex_primary_color` | `str` | No | Primary checkout color in #RRGGBB format. Omission preserves the value; null or empty text is not accepted. |
+| `hex_secondary_color` | `str` | No | Checkout background color in #RRGGBB format. Omission preserves the value; null or empty text is not accepted. |
+| `logo_upload_id` | `str \| None` | No | ID returned when preparing the logo upload. Upload the file before associating it. Omission preserves the current image; null removes it. |
+| `favicon_upload_id` | `str \| None` | No | ID returned when preparing the icon upload. Upload the file before associating it. Omission preserves the current image; null removes it. |
 
 ### ListDisputesParams
 
-Listar contestações. Argumento `params`: opcional.
+List disputes. The `params` argument is optional.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `page_size` | `int` | Não | Quantidade de contestações por página. Valores inválidos usam o padrão; valores acima do máximo usam o limite. |
-| `after` | `str` | Não | Cursor de page.next_after da resposta anterior. Preserve os filtros e a ordenação; não envie junto de before. |
-| `before` | `str` | Não | Cursor de page.previous_before para voltar. Preserve os filtros e a ordenação; não envie junto de after. |
-| `stage` | `str` | Não | Etapas do caso separadas por vírgula: open, in_analysis, refund_in_analysis, closed, cancelled, rejected ou failed. Closed informa análise encerrada, sem confirmar decisão favorável ou devolução. |
-| `charge_id` | `str` | Não | Filtra pela cobrança vinculada, usando o identificador público completo. Um ID válido sem casos acessíveis retorna uma lista vazia. |
-| `disputed_amount_cents` | `int` | Não | Filtra pelo valor contestado exato, em centavos de real. Não representa o valor atualmente bloqueado. |
-| `created_gte` | `int` | Não | Inclui contestações criadas a partir deste instante, em segundos Unix UTC. O limite é inclusivo. |
-| `created_lte` | `int` | Não | Inclui contestações criadas até este instante, em segundos Unix UTC. O limite é inclusivo e deve ser igual ou posterior a created_gte. |
-| `sort_key` | `Literal['created_at', 'disputed_amount_cents']` | Não | Campo usado para ordenar a lista: criação ou valor contestado. |
-| `sort_order` | `Literal['asc', 'desc']` | Não | Ordem crescente ou decrescente do campo selecionado. |
+| `page_size` | `int` | No | Disputes per page. Invalid values use the default; values above the maximum use the limit. |
+| `after` | `str` | No | Cursor from page.next_after in the previous response. Preserve filters and sort order; do not send it together with before. |
+| `before` | `str` | No | Cursor from page.previous_before to move backward. Preserve filters and sort order; do not send it together with after. |
+| `stage` | `str` | No | Comma-separated case stages: open, in_analysis, refund_in_analysis, closed, cancelled, rejected, or failed. Closed means the review has ended without confirming a favorable decision or refund. |
+| `charge_id` | `str` | No | Filter by the linked charge, using its complete public identifier. A valid ID without accessible cases returns an empty list. |
+| `disputed_amount_cents` | `int` | No | Filter by the exact disputed amount, in Brazilian real cents. It does not represent the amount currently held. |
+| `created_gte` | `int` | No | Include disputes created at or after this instant, in Unix seconds UTC. The boundary is inclusive. |
+| `created_lte` | `int` | No | Include disputes created at or before this instant, in Unix seconds UTC. The boundary is inclusive and must be equal to or later than created_gte. |
+| `sort_key` | `Literal['created_at', 'disputed_amount_cents']` | No | Field used to sort the list: creation date or disputed amount. |
+| `sort_order` | `Literal['asc', 'desc']` | No | Ascending or descending order for the selected field. |
 
 ### CreatePaymentLinkParams
 
-Criar ou recuperar um link de pagamento. Argumento `params`: obrigatório.
+Create or retrieve a payment link. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `charge_id` | `str` | Sim | Identificador da cobrança existente. O link utiliza o cliente, o valor e o vencimento dessa cobrança. |
-| `success_redirect_url` | `str \| None` | Não | URL HTTPS de retorno após o pagamento confirmado. Omitir, enviar null ou texto vazio preserva a URL existente. |
-| `cancel_redirect_url` | `str \| None` | Não | URL HTTPS para voltar ao seu site. Esse retorno não cancela a cobrança. Omitir, enviar null ou texto vazio preserva a URL existente. |
-| `payment_method_types` | `Sequence[Literal[1, 2]] \| None` | Não | Meios permitidos no link. Omitir preserva a configuração; null remove a configuração própria. Uma lista limita os meios do checkout e não amplia os permitidos pela cobrança. |
+| `charge_id` | `str` | Yes | Identifier of the existing charge. The link uses that charge's customer, amount, and due date. |
+| `success_redirect_url` | `str \| None` | No | HTTPS return URL after confirmed payment. Omission, null, or empty text preserves the existing URL. |
+| `cancel_redirect_url` | `str \| None` | No | HTTPS URL for returning to your website. Returning does not cancel the charge. Omission, null, or empty text preserves the existing URL. |
+| `payment_method_types` | `Sequence[Literal[1, 2]] \| None` | No | Allowed methods for the link. Omission preserves the configuration; null removes the custom configuration. A list restricts checkout methods and cannot expand the methods allowed by the charge. |
 
 ### ListPaymentLinksParams
 
-Listar links de pagamento. Argumento `params`: opcional.
+List payment links. The `params` argument is optional.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `page_size` | `int` | Não | Quantidade de links por página. |
-| `after` | `str` | Não | Cursor recebido em page.next_after. Mantenha o mesmo filtro charge_id. |
-| `before` | `str` | Não | Cursor recebido em page.previous_before. Não envie junto com after. |
-| `charge_id` | `str` | Não | Identificador da cobrança cujo link você quer consultar. |
+| `page_size` | `int` | No | Links per page. |
+| `after` | `str` | No | Cursor received in page.next_after. Keep the same charge_id filter. |
+| `before` | `str` | No | Cursor received in page.previous_before. Do not send it together with after. |
+| `charge_id` | `str` | No | Identifier of the charge whose link you want to retrieve. |
 
 ### UpdatePaymentLinkParams
 
-Atualizar um link de pagamento. Argumento `params`: obrigatório.
+Update a payment link. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `is_active` | `bool` | Não | Envie false para pausar o checkout e true para reativar a mesma URL. Omitir preserva o estado atual. A pausa não cancela Pix ou boleto emitidos nem prorroga o vencimento. |
-| `success_redirect_url` | `str \| None` | Não | URL HTTPS de retorno após o pagamento confirmado. Omitir, enviar null ou texto vazio preserva a URL existente. Para removê-la, use clear_success_redirect_url com true, sem informar uma URL preenchida. |
-| `cancel_redirect_url` | `str \| None` | Não | URL HTTPS para voltar ao seu site. Esse retorno não cancela a cobrança. Omitir, enviar null ou texto vazio preserva a URL existente. Para removê-la, use clear_cancel_redirect_url com true, sem informar uma URL preenchida. |
-| `clear_success_redirect_url` | `bool` | Não | Envie true para remover o destino de retorno após o pagamento. False ou omissão não solicita remoção. Não envie true junto de success_redirect_url preenchida. |
-| `clear_cancel_redirect_url` | `bool` | Não | Envie true para remover o destino de voltar ao site. False ou omissão não solicita remoção. Não envie true junto de cancel_redirect_url preenchida. |
-| `payment_method_types` | `Sequence[Literal[1, 2]] \| None` | Não | Meios permitidos no link. Omitir preserva a configuração; null remove a configuração própria. Uma lista limita os meios do checkout e não amplia os permitidos pela cobrança. |
+| `is_active` | `bool` | No | Send false to pause checkout and true to reactivate the same URL. Omission preserves the current state. Pausing does not cancel an issued Pix or boleto or extend the due date. |
+| `success_redirect_url` | `str \| None` | No | HTTPS return URL after confirmed payment. Omission, null, or empty text preserves the existing URL. To remove it, set clear_success_redirect_url to true without supplying a nonempty URL. |
+| `cancel_redirect_url` | `str \| None` | No | HTTPS URL for returning to your website. Returning does not cancel the charge. Omission, null, or empty text preserves the existing URL. To remove it, set clear_cancel_redirect_url to true without supplying a nonempty URL. |
+| `clear_success_redirect_url` | `bool` | No | Send true to remove the return destination after payment. False or omission does not request removal. Do not send true with a nonempty success_redirect_url. |
+| `clear_cancel_redirect_url` | `bool` | No | Send true to remove the return destination for your website. False or omission does not request removal. Do not send true with a nonempty cancel_redirect_url. |
+| `payment_method_types` | `Sequence[Literal[1, 2]] \| None` | No | Allowed methods for the link. Omission preserves the configuration; null removes the custom configuration. A list restricts checkout methods and cannot expand the methods allowed by the charge. |
 
 ### ListRefundsParams
 
-Listar estornos. Argumento `params`: opcional.
+List refunds. The `params` argument is optional.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `page_size` | `int` | Não | Quantidade de estornos por página. Valores acima do máximo usam o máximo; ausência, vazio, texto, zero ou valor negativo usa o padrão. |
-| `after` | `str` | Não | Cursor recebido em page.next_after para avançar nesta lista. Copie o valor completo. Não use um cursor da lista de uma cobrança nem envie junto de before. |
-| `before` | `str` | Não | Cursor recebido em page.previous_before para voltar nesta lista. Copie o valor completo. Não use um cursor da lista de uma cobrança nem envie junto de after. |
-| `created_gte` | `int` | Não | Filtra estornos solicitados a partir deste instante, inclusive, em segundos Unix UTC. Usa a data de criação da solicitação, sem depender da conclusão. Mantenha o valor ao mudar de página. |
-| `created_lte` | `int` | Não | Filtra estornos solicitados até este instante, inclusive, em segundos Unix UTC. Se informar created_gte, este valor deve ser maior ou igual a ele. |
+| `page_size` | `int` | No | Refunds per page. Values above the maximum use the maximum; omitted, empty, text, zero, or negative values use the default. |
+| `after` | `str` | No | Cursor received in page.next_after to move forward in this list. Copy the complete value. Do not use a charge-specific list cursor or send it together with before. |
+| `before` | `str` | No | Cursor received in page.previous_before to move backward in this list. Copy the complete value. Do not use a charge-specific list cursor or send it together with after. |
+| `created_gte` | `int` | No | Filter refunds requested at or after this instant, inclusive, in Unix seconds UTC. Uses the request creation date, regardless of completion. Preserve the value when changing pages. |
+| `created_lte` | `int` | No | Filter refunds requested at or before this instant, inclusive, in Unix seconds UTC. If created_gte is supplied, this value must be greater than or equal to it. |
 
 ### ConfigureSimulationScenarioParams
 
-Preparar cenário. Argumento `params`: obrigatório.
+Prepare a scenario. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `action` | `Literal['pix_issuance', 'boleto_issuance', 'cancellation']` | Sim | Ação a testar: pix_issuance para emissão Pix, boleto_issuance para emissão de boleto ou cancellation para cancelamento. Para cancellation, mantenha a cobrança aberta com Pix ou boleto já emitido, sem confirmar o pagamento. |
-| `outcome` | `Literal['pending', 'failed']` | Sim | Resultado da ação: pending mantém a confirmação em aberto; failed apresenta uma falha. |
+| `action` | `Literal['pix_issuance', 'boleto_issuance', 'cancellation']` | Yes | Action to test: pix_issuance for Pix issuance, boleto_issuance for boleto issuance, or cancellation for cancellation. For cancellation, keep the charge open with Pix or boleto already issued, without confirming payment. |
+| `outcome` | `Literal['pending', 'failed']` | Yes | Action result: pending leaves confirmation open; failed presents a failure. |
 
 ### ResolveSimulationScenarioParams
 
-Resolver cenário pendente. Argumento `params`: obrigatório.
+Resolve a pending scenario. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `action` | `Literal['pix_issuance', 'boleto_issuance', 'cancellation']` | Sim | Ação a testar: pix_issuance para emissão Pix, boleto_issuance para emissão de boleto ou cancellation para cancelamento. |
-| `outcome` | `Literal['completed', 'failed']` | Sim | Resultado para a pendência: completed conclui a ação; failed confirma a falha. |
+| `action` | `Literal['pix_issuance', 'boleto_issuance', 'cancellation']` | Yes | Action to test: pix_issuance for Pix issuance, boleto_issuance for boleto issuance, or cancellation for cancellation. |
+| `outcome` | `Literal['completed', 'failed']` | Yes | Result for the pending action: completed finishes the action; failed confirms failure. |
 
 ### IssueSimulationPaymentParams
 
-Emitir pagamento de teste. Argumento `params`: obrigatório.
+Issue a test payment. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `payment_method` | `int` | Sim | Meio a emitir: 1 para Pix ou 2 para boleto. Deve estar habilitado na cobrança. |
+| `payment_method` | `int` | Yes | Method to issue: 1 for Pix or 2 for boleto. It must be enabled on the charge. |
 
 ### CreateSimulationRefundParams
 
-Simular estorno pendente. Argumento `params`: obrigatório.
+Simulate a pending refund. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `amount_cents` | `int` | Sim | Valor solicitado para devolução, em centavos de real. Para devolver tudo, informe o valor restante mostrado na consulta de elegibilidade. |
-| `description` | `str \| None` | Não | Descrição da solicitação de devolução. Você pode deixar este campo vazio. |
+| `amount_cents` | `int` | Yes | Amount requested for refund, in Brazilian real cents. To refund everything, supply the remaining amount shown by the eligibility query. |
+| `description` | `str \| None` | No | Refund request description. You may leave this field empty. |
 
 ### ListStatementsParams
 
-Recuperar extrato. Argumento `params`: opcional.
+Retrieve statements. The `params` argument is optional.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `page_size` | `int` | Não | Quantidade de lançamentos por página. |
-| `after` | `str` | Não | Cursor recebido em page.next_after para avançar. Mantenha os mesmos filtros e a mesma ordem. Use somente after ou before. |
-| `before` | `str` | Não | Cursor recebido em page.previous_before para voltar. Mantenha os mesmos filtros e a mesma ordem. Use somente after ou before. |
-| `statement_type` | `str` | Não | Tipos de lançamento separados por vírgula: 1 recebimento; 2 tarifa; 3 tarifa de serviço; 4 saque; 5 devolução; 6 devolução parcial; 7 crédito por ajuste; 8 débito por ajuste; 9 bloqueio; 10 liberação. |
-| `reference_id` | `str` | Não | Identificador da cobrança, contestação, saque ou ajuste relacionado ao lançamento. Use o ID completo retornado pela Raims. |
-| `created_gte` | `int` | Não | Início inclusivo do período, em segundos Unix UTC. O filtro considera o instante do lançamento. |
-| `created_lte` | `int` | Não | Fim inclusivo do período, em segundos Unix UTC. O instante informado é o limite exato; frações posteriores ao segundo informado ficam fora do período. |
-| `sort_order` | `Literal['asc', 'desc']` | Não | Ordem dos lançamentos pela data: desc mostra os mais recentes primeiro; asc mostra os mais antigos primeiro. |
+| `page_size` | `int` | No | Entries per page. |
+| `after` | `str` | No | Cursor received in page.next_after to move forward. Keep the same filters and sort order. Use only after or before. |
+| `before` | `str` | No | Cursor received in page.previous_before to move backward. Keep the same filters and sort order. Use only after or before. |
+| `statement_type` | `str` | No | Comma-separated entry types: 1 receipt of funds; 2 fee; 3 service fee; 4 withdrawal; 5 refund; 6 partial refund; 7 adjustment credit; 8 adjustment debit; 9 hold; 10 release. |
+| `reference_id` | `str` | No | Identifier of the charge, dispute, withdrawal, or adjustment associated with the entry. Use the complete ID returned by Raims. |
+| `created_gte` | `int` | No | Inclusive start of the period, in Unix seconds UTC. The filter uses the entry timestamp. |
+| `created_lte` | `int` | No | Inclusive end of the period, in Unix seconds UTC. The supplied instant is the exact boundary; fractions later than the supplied second are outside the period. |
+| `sort_order` | `Literal['asc', 'desc']` | No | Entry order by date: desc shows the newest first; asc shows the oldest first. |
 
 ### SetWebhookPauseParams
 
-Pausar ou retomar envios. Argumento `params`: obrigatório.
+Pause or resume deliveries. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `is_paused` | `bool` | Sim | Envie true para pausar os envios ou false para retomá-los. Repetir o mesmo valor preserva o estado e a data de pausa. |
+| `is_paused` | `bool` | Yes | Send true to pause deliveries or false to resume them. Repeating the same value preserves the state and pause timestamp. |
 
 ### ListWebhooksParams
 
-Listar webhooks. Argumento `params`: opcional.
+List webhooks. The `params` argument is optional.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `page_size` | `int` | Não | Quantidade de registros por página. A resposta informa o tamanho efetivo em page.page_size. |
-| `after` | `str` | Não | Para avançar, copie page.next_after da resposta anterior. Use apenas after ou before. |
-| `before` | `str` | Não | Para voltar, copie page.previous_before da resposta anterior. Use apenas after ou before. |
+| `page_size` | `int` | No | Records per page. The response reports the effective size in page.page_size. |
+| `after` | `str` | No | To move forward, copy page.next_after from the previous response. Use only after or before. |
+| `before` | `str` | No | To move backward, copy page.previous_before from the previous response. Use only after or before. |
 
 ### CreateWebhookParams
 
-Criar um webhook. Argumento `params`: obrigatório.
+Create a webhook. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `str` | Sim | Nome para identificar o destino. |
-| `url` | `str` | Sim | URL HTTPS que recebe os eventos. Use a porta padrão 443 e um endereço público externo à Raims. |
-| `events` | `Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed']]` | Sim | Códigos dos eventos que este destino deve receber. Consulte o catálogo de eventos disponíveis. |
-| `is_active` | `bool` | Não | Define se o destino pode receber eventos após o cadastro. |
+| `name` | `str` | Yes | Name identifying the destination. |
+| `url` | `str` | Yes | HTTPS URL receiving events. Use the default port 443 and a public address outside Raims. |
+| `events` | `Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed']]` | Yes | Event codes this destination should receive. Consult the available event catalog. |
+| `is_active` | `bool` | No | Set whether the destination can receive events after registration. |
 
 ### UpdateWebhookParams
 
-Atualizar um webhook. Argumento `params`: obrigatório.
+Update a webhook. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `str` | Não | Novo nome do webhook. |
-| `url` | `str` | Não | Nova URL HTTPS que recebe os eventos, na porta padrão 443. |
-| `events` | `Sequence[str]` | Não | Lista completa dos eventos que o destino deve receber. Ela substitui a seleção anterior. |
-| `is_active` | `bool` | Não | Use true para permitir envios ou false para desativar o destino. |
+| `name` | `str` | No | New webhook name. |
+| `url` | `str` | No | New HTTPS URL receiving events, on the default port 443. |
+| `events` | `Sequence[str]` | No | Complete list of events the destination should receive. Replaces the previous selection. |
+| `is_active` | `bool` | No | Use true to allow deliveries or false to disable the destination. |
 
 ### RotateWebhookSecretParams
 
-Rotacionar o segredo de assinatura. Argumento `params`: obrigatório.
+Rotate the signing secret. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `grace_period_seconds` | `int` | Não | Período em que o segredo anterior pode continuar assinando envios. Zero gera uma nova assinatura e encerra a validade dos segredos anteriores, inclusive durante uma transição ativa. Requisições já autorizadas ou em andamento podem chegar com a assinatura anterior. |
+| `grace_period_seconds` | `int` | No | Period during which the previous secret can continue signing deliveries. Zero generates a new signature and ends the validity of previous secrets, including during an active transition. Requests already authorized or in progress may arrive with the previous signature. |
 
 ### ListWithdrawalDestinationsParams
 
-Listar destinos de saque. Argumento `params`: opcional.
+List withdrawal destinations. The `params` argument is optional.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `page_size` | `int` | Não | Quantidade de registros considerados para a página. A lista pode ter menos destinos e ainda indicar uma próxima página; continue enquanto page.has_next for true. |
-| `after` | `str` | Não | Cursor recebido em page.next_after para avançar. Copie o valor inteiro e mantenha a mesma chave de API. Não envie junto de before. |
-| `before` | `str` | Não | Cursor recebido em page.previous_before para voltar. Copie o valor inteiro e mantenha a mesma chave de API. Não envie junto de after. |
+| `page_size` | `int` | No | Records considered for the page. The list may contain fewer destinations and still indicate a next page; continue while page.has_next is true. |
+| `after` | `str` | No | Cursor received in page.next_after to move forward. Copy the entire value and keep the same API key. Do not send it together with before. |
+| `before` | `str` | No | Cursor received in page.previous_before to move backward. Copy the entire value and keep the same API key. Do not send it together with after. |
 
 ### CreateWithdrawalParams
 
-Solicitar saque. Argumento `params`: obrigatório.
+Request a withdrawal. The `params` argument is required.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `amount_cents` | `int` | Sim | Valor total a retirar, em centavos de real, incluindo a tarifa. Consulte as condições de saque para conferir saldo, tarifa e limites antes de solicitar. |
-| `expected_destination_id` | `str \| None` | Não | ID do destino próprio que deve continuar selecionado como padrão. Copie o id retornado na consulta dos destinos. Se o destino mudar ou deixar de ser válido, o saque é recusado. Omitir ou enviar null usa o destino padrão vigente. |
+| `amount_cents` | `int` | Yes | Total amount to withdraw, in Brazilian real cents, including the fee. Consult withdrawal conditions to check the balance, fee, and limits before requesting. |
+| `expected_destination_id` | `str \| None` | No | ID of the account's own destination that must remain selected as the default. Copy the id returned when retrieving destinations. If the destination changes or becomes invalid, the withdrawal is rejected. Omission or null uses the current default destination. |
 
 ### ListWithdrawalsParams
 
-Listar saques. Argumento `params`: opcional.
+List withdrawals. The `params` argument is optional.
 
-| Campo | Tipo | Obrigatório | Descrição |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `page_size` | `int` | Não | Quantidade de saques por página. |
-| `after` | `str` | Não | Cursor next_after retornado na página anterior. Mantenha os mesmos filtros e a mesma ordem da consulta. |
-| `before` | `str` | Não | Cursor previous_before retornado na página seguinte. Mantenha os mesmos filtros e a mesma ordem da consulta. |
-| `status` | `str` | Não | Filtre por um ou mais estados separados por vírgula: PENDING, PROCESSING, COMPLETED, FAILED ou CANCELED. |
-| `requested_gte` | `int` | Não | Retorne saques solicitados a partir deste instante, inclusive. Informe segundos Unix UTC. |
-| `requested_lte` | `int` | Não | Retorne saques solicitados até este instante, inclusive. Informe segundos Unix UTC. |
-| `sort_order` | `Literal['asc', 'desc']` | Não | Ordenação pela data de solicitação: desc mostra os mais recentes primeiro; asc mostra os mais antigos primeiro. |
+| `page_size` | `int` | No | Withdrawals per page. |
+| `after` | `str` | No | next_after cursor returned on the previous page. Keep the same filters and query sort order. |
+| `before` | `str` | No | previous_before cursor returned on the next page. Keep the same filters and query sort order. |
+| `status` | `str` | No | Filter by one or more comma-separated states: PENDING, PROCESSING, COMPLETED, FAILED, or CANCELED. |
+| `requested_gte` | `int` | No | Return withdrawals requested at or after this instant, inclusive. Supply Unix seconds UTC. |
+| `requested_lte` | `int` | No | Return withdrawals requested at or before this instant, inclusive. Supply Unix seconds UTC. |
+| `sort_order` | `Literal['asc', 'desc']` | No | Sort by request date: desc shows the newest first; asc shows the oldest first. |
 
-## Valores públicos nomeados
+## Named public values
 
-As constantes em `raims.enum_values` vêm dos enums do contrato público. Valores numéricos recebem nomes somente quando o contrato publica rótulos explícitos. As constantes usam `Final` para preservar seus tipos literais.
+Constants in `raims.enum_values` come from the public contract's enums. Numeric values receive names only when the contract publishes explicit labels. Constants use `Final` to preserve their literal types.
 
-| Constante | Valor |
+| Constant | Value |
 | --- | --- |
 | `ACCOUNT_CONTEXT_AMOUNT_UNIT_CENTS` | `cents` |
 | `ACCOUNT_CONTEXT_BUSINESS_TIMEZONE_AMERICA_SAO_PAULO` | `America/Sao_Paulo` |

@@ -1,168 +1,172 @@
-# Contrato e manutenção
+# Contract and maintenance
 
-## Fonte e organização
+## Source and organization
 
-O SDK consome somente o OpenAPI público publicado em
+The SDK consumes only the public OpenAPI published in
 [raimshq/openapi](https://github.com/raimshq/openapi). `contracts/source.json`
-fixa revisão imutável, URL, SHA-256, versão HTTP, identidade da implantação e
-quantidade de operações. O snapshot inicial cobre 68 operações. Não use o
-contrato privado do Dashboard nem endpoints com publicação não confirmada.
+pins the immutable revision, URL, SHA-256, HTTP version, deployment identity,
+and operation count. The initial snapshot covers 68 operations. Do not use
+the private Dashboard contract or endpoints whose publication is unconfirmed.
 
-| Fonte | Responsabilidade |
+| Source | Responsibility |
 | --- | --- |
-| `contracts/openapi.json` | Snapshot público imutável |
-| `contracts/service-map.json` | Nomes de serviços e métodos Python |
-| `scripts/generate.py` | Geração offline e conferência dos outputs |
-| `scripts/check.py` | Entrada para a validação canônica de engenharia |
-| `scripts/check-compatibility.py` | Conferência independente dos símbolos públicos |
-| `contracts/python-api.json` | Base revisável de compatibilidade da biblioteca |
-| `src/raims/_generated/contract.json` | Metadados HTTP e schemas gerados |
-| `src/raims/services.py` | Métodos síncronos e assíncronos gerados |
-| `src/raims/types.py` | Parâmetros TypedDict gerados |
-| `src/raims/models.py` | Modelos de resposta gerados |
-| `src/raims/enum_values.py` | Constantes de enums públicos geradas |
-| `src/raims/_client.py` | Configuração, transporte, retries e interpretação |
-| `src/raims/_validation.py` | JSON exato, validação estrutural e hidratação |
-| `src/raims/_resource.py` | Respostas somente leitura |
-| `src/raims/_pagination.py` | Navegação e consumo de páginas |
-| `src/raims/_webhook.py` | Autenticação de entregas |
-| `src/raims/_version.py` | Fonte única da versão do pacote e do cliente |
+| `contracts/openapi.json` | Immutable public snapshot |
+| `contracts/service-map.json` | Python service and method names |
+| `scripts/generate.py` | Offline generation and output verification |
+| `docs/reference.en.json` | English reference translations keyed by exact public source text |
+| `scripts/check.py` | Entry point for canonical engineering validation |
+| `scripts/check-compatibility.py` | Independent public symbol verification |
+| `contracts/python-api.json` | Reviewable library compatibility baseline |
+| `src/raims/_generated/contract.json` | Generated HTTP metadata and schemas |
+| `src/raims/services.py` | Generated synchronous and asynchronous methods |
+| `src/raims/types.py` | Generated TypedDict parameters |
+| `src/raims/models.py` | Generated response models |
+| `src/raims/enum_values.py` | Generated public enum constants |
+| `src/raims/_client.py` | Configuration, transport, retries, and interpretation |
+| `src/raims/_validation.py` | Exact JSON, structural validation, and hydration |
+| `src/raims/_resource.py` | Read-only responses |
+| `src/raims/_pagination.py` | Page navigation and iteration |
+| `src/raims/_webhook.py` | Delivery authentication |
+| `src/raims/_version.py` | Single version source for the package and client |
 
-A geração confere a origem, revisão e hash, exige autenticação com chave e
-cobre cada operação exatamente uma vez. Schemas não representáveis, referências
-externas e operações não publicadas interrompem a geração. `--check` não grava
-arquivos e recusa outputs ausentes, divergentes ou obsoletos.
+Generation checks the origin, revision, and hash, requires API-key authentication,
+and covers every operation exactly once. Unrepresentable schemas, external
+references, and unpublished operations stop generation. `--check` writes no
+files and rejects missing, different, or obsolete outputs.
 
-## Atualizar o contrato
+Reference descriptions are translated through `docs/reference.en.json` without
+changing the pinned OpenAPI or generated runtime metadata. Each entry uses the
+exact public source text as its key. Update the English entry when that text
+changes; a missing translation stops generation before any output is written.
 
-1. Escolha uma revisão pública aprovada e confira o manifesto de publicação.
-2. Baixe o snapshot pela URL imutável e confirme o SHA-256 dos bytes.
-3. Atualize `contracts/source.json` e o mapa de métodos quando necessário.
-4. Execute o gerador, revise as mudanças de contrato, tipos e referência e
-   valide os clientes e a distribuição conforme `CONTRIBUTING.md`.
-5. Avalie compatibilidade de assinaturas, defaults, autenticação, ambiente,
-   paginação, erros, idempotência, datas, valores e resultados pendentes.
+## Update the contract
 
-O contrato HTTP `/v1` e a versão do pacote têm ciclos independentes. Uma
-atualização do gerador não autoriza aceitar mudanças incompatíveis nem
-substituir o snapshot por operações locais ainda não publicadas. O gerador
-recusa composições que a hidratação não representa fielmente. Para aceitar
-uma forma nova de schema, implemente e valide os dois lados na mesma entrega.
+1. Choose an approved public revision and check its publication manifest.
+2. Download the snapshot from its immutable URL and verify the bytes' SHA-256.
+3. Update `contracts/source.json` and the method map when needed.
+4. Run the generator, review changes to the contract, types, and reference,
+   and validate the clients and distribution as described in `CONTRIBUTING.md`.
+5. Assess compatibility of signatures, defaults, authentication, environment,
+   pagination, errors, idempotency, dates, amounts, and pending results.
 
-## Compatibilidade da biblioteca
+The HTTP `/v1` contract and package version have independent lifecycles.
+Updating the generator does not authorize incompatible changes or replacing
+the snapshot with local operations that have not been published. The generator
+rejects compositions that hydration cannot represent faithfully. To accept a
+new schema shape, implement and validate both sides in the same delivery.
 
-`contracts/python-api.json` registra exports, serviços, assinaturas, campos,
-propriedades somente leitura, tipos e constantes. O arquivo é independente do
-snapshot HTTP e não é regravado pelo gerador.
+## Library compatibility
 
-O formato 2 também registra bases e opções de classes, obrigatoriedade de
-campos herdados de `TypedDict`, opções de dataclasses e a distinção entre
-métodos de instância, estáticos e de classe. Getters, setters e deleters
-fazem parte da definição das propriedades. Imports e aliases são resolvidos
-por módulo, sem misturar classes que tenham o mesmo nome.
+`contracts/python-api.json` records exports, services, signatures, fields,
+read-only properties, types, and constants. It is independent of the HTTP
+snapshot and is not rewritten by the generator.
 
-Execute `python scripts/check-compatibility.py` para conferir a implementação.
-Novos símbolos são admitidos; uma alteração nas definições existentes exige
-revisão explícita. A comparação é conservadora para mudanças de anotações e
-assinaturas. Após avaliar o impacto, use o modo `--write` para atualizar a base
-deliberadamente e revise o diff. Atualizar essa base não elimina o impacto de
-uma mudança incompatível para o integrador.
+Format 2 also records class bases and options, inherited `TypedDict` field
+requirements, dataclass options, and the distinction between instance, static,
+and class methods. Getters, setters, and deleters are part of property
+definitions. Imports and aliases are resolved by module without conflating
+classes that share a name.
 
-Edite a versão somente em `src/raims/_version.py`. O build e o User-Agent do
-cliente consomem essa fonte. A base protege a existência do export da versão,
-sem impedir a mudança de seu valor entre releases.
+Run `python scripts/check-compatibility.py` to check the implementation.
+New symbols are allowed; changes to existing definitions require explicit
+review. Comparison of annotations and signatures is conservative. After
+assessing the impact, use `--write` to deliberately update the baseline and
+review its diff. Updating the baseline does not remove the effect of an
+incompatible change on integrators.
 
-## Validação e CI
+Edit the version only in `src/raims/_version.py`. The build and client User-Agent
+use that source. The baseline protects the version export's existence while
+allowing its value to change between releases.
 
-`python scripts/check.py` usa o adapter
-`Developer-Toolkit/scripts/release-preflight/python_sdk.py` no workspace.
-As definições mantidas pelo Toolkit materializam os arquivos executáveis
-somente em `.tmp`; a validação não depende de testes deixados por outra execução.
-O lock de ferramentas fixa versões e hashes, e o relatório registra a fonte
-validada, as ferramentas e os resultados do pacote. Use `--prepare-tools`
-somente quando precisar preparar ou restaurar o cache isolado.
+## Validation and CI
 
-A distribuição é instalada em um ambiente virtual novo, sem pacotes do
-ambiente de engenharia nem acesso ao checkout pelo `PYTHONPATH`. O pip resolve
-as dependências declaradas pelo wheel. Antes de instalar as ferramentas dos
-testes, uma verificação exercita os status de sucesso dos clientes síncrono
-e assíncrono e a assinatura de webhook usando apenas esse ambiente.
-Em seguida, o gate instala o conjunto mínimo da suíte a partir do lock e
-repete os testes no pacote instalado.
+`python scripts/check.py` uses the workspace adapter
+`Developer-Toolkit/scripts/release-preflight/python_sdk.py`. Definitions maintained
+in the Toolkit materialize executable files only in `.tmp`; validation does not
+depend on tests left by another run. The tool lock pins versions and hashes,
+and the report records the validated source, tools, and package results. Use
+`--prepare-tools` only to prepare or restore the isolated cache.
 
-As regressões incluem cópias temporárias com alterações incompatíveis nos
-tipos públicos e um pacote sem a dependência HTTPX. A aprovação exige que
-essas alterações sejam detectadas pelo verificador correspondente. A base
-revisada e os fontes do SDK permanecem inalterados durante essas provas.
+The distribution is installed in a new virtual environment, without packages
+from the engineering environment or checkout access through `PYTHONPATH`.
+Pip resolves the wheel's declared dependencies. Before installing test tools,
+a check exercises the synchronous and asynchronous clients' success statuses
+and webhook signing using only that environment. The gate then installs the
+minimum suite tools from the lock and reruns the tests on the installed package.
 
-As duas execuções do pytest usam configuração própria, plugins explícitos
-e um ambiente sem opções `PYTEST_*` herdadas. Cada teste coletado precisa
-concluir setup, execução e teardown com sucesso; coleta sem execução,
-deseleção, skip e xfail impedem aprovação. O relatório registra os casos
-executados, e a validação exige a mesma cobertura nos fontes e no wheel.
-Regressões específicas comprovam esse controle com configurações externas
-e opções que tentariam filtrar ou somente coletar os testes.
+Regressions include temporary copies with incompatible public type changes
+and a package without the HTTPX dependency. Approval requires the corresponding
+checker to detect those changes. The reviewed baseline and SDK sources remain
+unchanged during these checks.
 
-O launcher, o adapter e os scripts materializados exigem asserções ativas e
-nível de otimização zero. As execuções com `-O`, `-OO` ou otimização habilitada
-por `PYTHONOPTIMIZE` são recusadas. O ambiente dos subprocessos é normalizado
-para `PYTHONOPTIMIZE=0`, e o relatório registra o modo do interpretador.
-Uma regressão com um checker propositalmente quebrado comprova que a
-otimização não pode transformar a falha do canário em aprovação.
+Both pytest runs use their own configuration, explicit plugins, and an
+environment without inherited `PYTEST_*` options. Every collected test must
+complete setup, execution, and teardown successfully. Collection without
+execution, deselection, skip, and xfail prevent approval. The report records
+executed cases, and validation requires the same coverage in sources and wheel.
+Dedicated regressions verify this control with external configuration and
+options that would filter tests or collect them without execution.
 
-O template `templates/ci/validate.yml` prepara esse mesmo gate em Python 3.10
-e 3.14, em jobs Linux do CodeBuild existente. A variável `RAIMS_PYTHON_TOOLKIT_REF`
-deve identificar o commit revisado do Toolkit por SHA completo. A validação
-recusa uma referência ausente ou móvel antes de solicitar acesso ao checkout
-privado. Os eventos não incluem código de pull requests de forks.
+The launcher, adapter, and materialized scripts require enabled assertions
+and optimization level zero. Runs with `-O`, `-OO`, or optimization enabled
+through `PYTHONOPTIMIZE` are rejected. The subprocess environment is normalized
+to `PYTHONOPTIMIZE=0`, and the report records the interpreter mode. A regression
+using a deliberately broken checker proves that optimization cannot turn a
+failed canary into an approved result.
 
-A ativação remota está pendente: exige repositório, checkouts publicados,
-acessos, variável e allowlist conferidos pelo ciclo autorizado de engenharia.
-O template não é um workflow executável nesta primeira distribuição de fontes.
-Ele não altera infraestrutura nem publica no PyPI.
+The `templates/ci/validate.yml` template prepares the same gate for Python 3.10
+and 3.14 on Linux jobs in the existing CodeBuild setup. The
+`RAIMS_PYTHON_TOOLKIT_REF` variable must identify the reviewed Toolkit commit by
+its full SHA. Validation rejects a missing or mutable reference before requesting
+access to the private checkout. Events do not include fork pull-request code.
 
-## Impacto da implementação inicial
+Remote activation is pending. It requires the repository, published checkouts,
+access, variable, and allowlist to be verified through the authorized engineering
+process. The template is not an executable workflow in this first source
+distribution. It does not change infrastructure or publish to PyPI.
 
-| Comportamento | Fonte e consumidores | Verificação |
+## Initial implementation impact
+
+| Behavior | Source and consumers | Verification |
 | --- | --- | --- |
-| Integração Python | SDK consome o contrato público fixado | Todas as operações, tipos e instalação |
-| Transporte e paginação | Clientes síncrono e assíncrono | HTTP isolado, opções, retries e cursores |
-| Recebimento de webhook | Helper local do integrador | Protocolo publicado e bytes originais |
-| API, CLI e SDKs existentes | Nenhuma alteração de contrato ou implementação | Snapshot consumido sem modificar os produtores |
-| Persistência e migrations | Sem alteração | Nenhuma gravação em banco ou provedor |
-| Atendimento e changelog | Guias do SDK e pendências em TODO | Disponibilidade pública deve ser confirmada antes de anunciar |
+| Python integration | SDK consumes the pinned public contract | Every operation, types, and installation |
+| Transport and pagination | Synchronous and asynchronous clients | Isolated HTTP, options, retries, and cursors |
+| Webhook reception | Integrator's local helper | Published protocol and original bytes |
+| API, CLI, and existing SDKs | No contract or implementation change | Snapshot consumed without changing producers |
+| Persistence and migrations | No change | No database or provider writes |
+| Support and changelog | SDK guides and TODO items | Confirm public availability before announcing it |
 
-## Conhecimento do atendimento
+## Support knowledge
 
-A fonte responsável por orientar instalação e uso será o guia BR/EN de
-integrações em `raims-developer-docs`. Ele deve explicar finalidade, uso no
-servidor, requisitos, instalação confirmada, chave, permissões, ambiente,
-paginação, idempotência, respostas pendentes, documentos e webhooks.
-O atendimento consome esse guia pelo catálogo existente, conforme
-`Raims-Chat/docs/knowledge-sources.md` no workspace.
+The BR/EN integrations guide in `raims-developer-docs` will be responsible for
+installation and usage guidance. It must explain purpose, server use,
+requirements, confirmed installation, keys, permissions, environment,
+pagination, idempotency, pending responses, documents, and webhooks.
+Support consumes that guide through the existing catalog, as described in
+`Raims-Chat/docs/knowledge-sources.md` in the workspace.
 
-As fontes e as instruções de instalação pelo GitHub ficam neste repositório.
-A distribuição no PyPI permanece pendente. Não publique um comando de
-instalação por esse registro antes de confirmar sua disponibilidade.
-`TODO.md` registra as etapas de
-guia público, regeneração do catálogo, validação das respostas da IA e changelog.
-Não são necessários novos campos de contexto, permissões ou ferramentas de
-consulta para a biblioteca; reavalie isso se o escopo público mudar.
+Source code and GitHub installation instructions are in this repository.
+PyPI distribution remains pending. Do not publish an installation command
+for that registry until availability is confirmed. `TODO.md` records the public
+guide, catalog regeneration, AI response validation, and changelog steps.
+The library needs no new context fields, permissions, or query tools;
+reassess that conclusion if its public scope changes.
 
-## Publicação
+## Publication
 
-A primeira entrega é restrita ao GitHub, em `raimshq/raims-python`, com versão
-da biblioteca, tag e release correspondentes. O perfil `public-sdk-source`
-do preflight valida Commit e Deploy, incluindo SAST, auditoria de dependências,
-integridade dos fontes e o destino remoto. Não exige configuração de runners
-quando a publicação não contém workflows executáveis.
+The first delivery is limited to GitHub, in `raimshq/raims-python`, with matching
+library version, tag, and release. The preflight's `public-sdk-source` profile
+validates Commit and Deploy, including SAST, dependency auditing, source
+integrity, and the remote destination. It does not require runner configuration
+when the publication has no executable workflows.
 
-A publicação no PyPI ainda não está configurada. Antes de disponibilizar uma versão,
-confirme nome do pacote, titularidade, versão, commit autorizado, validações
-e conteúdo do wheel/sdist. Configure a distribuição pelo fluxo de engenharia
-autorizado, sem armazenar tokens nos fontes ou logs. Publicação, criação do
-repositório remoto, push e releases exigem pedidos explícitos.
+PyPI publication is not configured yet. Before making a version available,
+confirm the package name, ownership, version, authorized commit, validation,
+and wheel/sdist contents. Configure distribution through the authorized
+engineering process without storing tokens in sources or logs. Publication,
+creating a remote repository, pushes, and releases require explicit requests.
 
-Após publicar, confira a versão no destino e uma instalação limpa. Atualize
-o README e os guias com a disponibilidade real. Publique a nota de changelog
-com a data efetiva, pelo ciclo autorizado da documentação.
+After publishing, check the version at the destination and perform a clean
+installation. Update README and the guides with actual availability. Publish
+the changelog note with the effective date through the authorized documentation
+process.
