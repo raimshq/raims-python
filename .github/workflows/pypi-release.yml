@@ -117,4 +117,14 @@ jobs:
       - name: Confirm the indexed version and public distributions
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: python Raims-Python/scripts/release.py confirm --source Raims-Python --artifact .tmp/raims-python-sdk/pypi-upload
+        run: |
+          set -euo pipefail
+          for attempt in {1..12}; do
+            if python Raims-Python/scripts/release.py confirm --source Raims-Python --artifact .tmp/raims-python-sdk/pypi-upload; then
+              exit 0
+            fi
+            if test "$attempt" -eq 12; then
+              exit 1
+            fi
+            sleep 5
+          done
