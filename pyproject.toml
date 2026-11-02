@@ -35,7 +35,7 @@ packages = ["src/raims"]
 path = "src/raims/_version.py"
 
 [tool.hatch.build.targets.sdist]
-include = ["/src/raims", "/scripts", "/contracts", "/docs", "/README.md", "/CONTRIBUTING.md", "/SECURITY.md", "/LICENSE", "/pyproject.toml", "/AGENTS.md"]
+include = ["/src/raims", "/scripts", "/contracts", "/docs/usage.md", "/docs/pagination.md", "/docs/errors-and-retries.md", "/docs/webhooks.md", "/docs/reference.md", "/docs/reference.en.json", "/README.md", "/CONTRIBUTING.md", "/SECURITY.md", "/LICENSE", "/pyproject.toml"]
 
 [tool.ruff]
 target-version = "py310"
