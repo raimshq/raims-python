@@ -66,7 +66,7 @@ def github(endpoint, binary=False):
     require(token, 'A read-only GitHub token is required for release verification.')
     headers = {'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json',
                'User-Agent': 'Raims-Python-Release', 'X-GitHub-Api-Version': '2022-11-28'}
-    request = urllib.request.Request('https://api.github.com/repos/' + REPOSITORY + '/' + endpoint, headers=headers)
+    request = urllib.request.Request(('https://api.github.com/repos/' + REPOSITORY + '/' + endpoint).rstrip('/'), headers=headers)
     opener = urllib.request.build_opener(NoRedirect)
     try:
         with opener.open(request, timeout=60) as response:

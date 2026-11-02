@@ -18,7 +18,7 @@ The package and import name are both `raims`. It uses HTTPX for HTTP transport.
 To install a specific release:
 
 ```sh
-python -m pip install "raims==0.1.1"
+python -m pip install "raims==0.1.2"
 ```
 
 To update to the current stable version:
@@ -37,7 +37,7 @@ provide wheel and source archives. Verify the downloaded file with `SHA256SUMS`
 before installing it. With Git installed, you can install the tagged source:
 
 ```sh
-python -m pip install "git+https://github.com/raimshq/raims-python.git@v0.1.1"
+python -m pip install "git+https://github.com/raimshq/raims-python.git@v0.1.2"
 ```
 
 ## First request
