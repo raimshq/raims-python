@@ -279,7 +279,7 @@ def publisher_tools(source, artifact):
     lock = source / 'scripts/publish-requirements.txt'
     text = lock.read_text(encoding='utf-8')
     pins = dict(re.findall(r'^([A-Za-z0-9_.-]+)==([^\s\\;]+)', text, re.MULTILINE))
-    require(pins.get('twine') == PUBLISHER_VERSION and len(pins) == 27,
+    require(pins.get('twine') == PUBLISHER_VERSION and pins.get('id') == '1.6.1' and len(pins) == 27,
             'Publisher dependency lock differs.')
     for line in text.splitlines():
         require(not line or line.startswith('#') or re.fullmatch(r'[A-Za-z0-9_.-]+==[^\s\\;]+ \\', line)
@@ -349,25 +349,27 @@ def credential_json(request, label):
         raise RuntimeError(label + ' exchange failed.') from None
 
 
-def pypi_credential():
+def pypi_credential(publisher_python, environment):
     require(os.environ.get('GITHUB_ACTIONS') == 'true', 'Trusted publication requires GitHub Actions.')
     raw_url = os.environ.get('ACTIONS_ID_TOKEN_REQUEST_URL', '')
-    try:
-        url = urllib.parse.urlsplit(raw_url)
-        port = url.port
-    except ValueError:
-        raise RuntimeError('Unexpected GitHub OIDC request origin.') from None
-    require(url.scheme == 'https' and url.hostname == 'vstoken.actions.githubusercontent.com'
-            and port in (None, 443) and url.username is None and url.password is None
-            and not url.fragment and url.path.endswith('/idtoken'), 'Unexpected GitHub OIDC request origin.')
-    query = urllib.parse.parse_qsl(url.query, keep_blank_values=True)
-    require(not any(key == 'audience' for key, _ in query), 'GitHub OIDC audience must be set by the publisher.')
-    query.append(('audience', 'pypi'))
-    endpoint = urllib.parse.urlunsplit((url.scheme, url.netloc, url.path, urllib.parse.urlencode(query), ''))
+    require(raw_url, 'GitHub Actions did not provide its OIDC request URL.')
     request_token = mask_secret(os.environ.get('ACTIONS_ID_TOKEN_REQUEST_TOKEN'))
-    response = credential_json(urllib.request.Request(endpoint, headers={'Authorization': 'Bearer ' + request_token,
-                               'User-Agent': 'Raims-Python-Release'}), 'GitHub OIDC')
-    oidc = mask_secret(response.get('value'))
+    identity_environment = {key: value for key, value in environment.items()
+                            if not key.upper().startswith(('GITHUB_', 'ACTIONS_', 'TWINE_'))}
+    identity_environment.update(GITHUB_ACTIONS='true', ACTIONS_ID_TOKEN_REQUEST_URL=raw_url,
+                                ACTIONS_ID_TOKEN_REQUEST_TOKEN=request_token, ID_LOGLEVEL='ERROR')
+    try:
+        result = subprocess.run([str(publisher_python), '-I', '-m', 'id', 'pypi'], check=False,
+                                cwd=str(Path(publisher_python).parent), env=identity_environment,
+                                capture_output=True, timeout=60)
+        require(result.returncode == 0, 'GitHub OIDC credential discovery failed.')
+        value = result.stdout.decode('utf-8').strip()
+    except (OSError, UnicodeError, RuntimeError, subprocess.SubprocessError):
+        raise RuntimeError('GitHub OIDC credential discovery failed.') from None
+    finally:
+        identity_environment.pop('ACTIONS_ID_TOKEN_REQUEST_TOKEN', None)
+        identity_environment.pop('ACTIONS_ID_TOKEN_REQUEST_URL', None)
+    oidc = mask_secret(value)
     require(oidc.count('.') == 2, 'GitHub OIDC token format is invalid.')
     minted = credential_json(urllib.request.Request(PYPI_MINT, data=json.dumps({'token': oidc}).encode('utf-8'),
                              headers={'Content-Type': 'application/json', 'User-Agent': 'Raims-Python-Release'},
@@ -394,7 +396,7 @@ def publish(source, artifact, version, files):
     require(git(source, 'rev-parse', 'HEAD') == os.environ.get('GITHUB_SHA')
             and not git(source, 'status', '--porcelain', '--untracked-files=all'),
             'Release sources changed during publisher preparation.')
-    credential = pypi_credential()
+    credential = pypi_credential(python, environment)
     environment.update(TWINE_USERNAME='__token__', TWINE_PASSWORD=credential, TWINE_NON_INTERACTIVE='1')
     try:
         result = subprocess.run([str(python), '-I', '-m', 'twine', 'upload', '--non-interactive', '--disable-progress-bar',

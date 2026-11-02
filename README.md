@@ -15,11 +15,6 @@ python -m pip install raims
 ```
 
 The package and import name are both `raims`. It uses HTTPX for HTTP transport.
-To install a specific release:
-
-```sh
-python -m pip install "raims==0.1.2"
-```
 
 To update to the current stable version:
 
@@ -34,10 +29,10 @@ Future updates are not applied automatically.
 
 [GitHub releases](https://github.com/raimshq/raims-python/releases/latest) also
 provide wheel and source archives. Verify the downloaded file with `SHA256SUMS`
-before installing it. With Git installed, you can install the tagged source:
+before installing it. Install the downloaded wheel in your application environment:
 
 ```sh
-python -m pip install "git+https://github.com/raimshq/raims-python.git@v0.1.2"
+python -m pip install /path/to/downloaded-package.whl
 ```
 
 ## First request
