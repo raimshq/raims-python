@@ -24,7 +24,7 @@ classifiers = [
 ]
 
 [project.urls]
-Documentation = "https://docs.raims.com/en/api"
+Documentation = "https://docs.raims.com/en/integracoes/sdk-python"
 Repository = "https://github.com/raimshq/raims-python"
 Issues = "https://github.com/raimshq/raims-python/issues"
 

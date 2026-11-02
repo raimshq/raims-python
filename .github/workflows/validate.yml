@@ -1,0 +1,205 @@
+name: Validate Python SDK
+
+on:
+  push:
+    branches: ['**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: raims-python-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONOPTIMIZE: '0'
+  RAIMS_PYTHON_TOOLKIT_REF: 'ab07ab9792bb8abbcfde3cb5fda58822ad94102c'
+
+jobs:
+  validatePython:
+    name: validatePython (${{ matrix.python }})
+    if: github.repository == 'raimshq/raims-python'
+    runs-on:
+      - codebuild-raims-github-actions-${{ github.run_id }}-${{ github.run_attempt }}
+      - python-sdk-check-${{ matrix.python }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.10.22', '3.14.10']
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout the candidate commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          path: Raims-Python
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Reject tracked files excluded by repository policy
+        run: |
+          import os
+          from pathlib import Path
+          import subprocess
+          import sys
+          checkout = Path(os.environ['GITHUB_WORKSPACE']) / 'Raims-Python'
+          ignored = subprocess.check_output([
+              'git', '-C', str(checkout), 'ls-files', '--cached', '--ignored',
+              '--exclude-from=.gitignore', '-z',
+          ])
+          count = sum(bool(path) for path in ignored.split(b'\0'))
+          if count:
+              print(f'Repository policy rejects {count} tracked ignored file(s).', file=sys.stderr)
+              raise SystemExit(1)
+        shell: python
+
+      - name: Create a read-only validation source token
+        id: sources
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+        with:
+          client-id: ${{ vars.RAIMS_CI_SOURCE_READER_CLIENT_ID }}
+          private-key: ${{ secrets.RAIMS_CI_SOURCE_READER_PRIVATE_KEY }}
+          owner: raimshq
+          repositories: Raims-Developer-Toolkit
+          permission-contents: read
+
+      - name: Checkout the reviewed validation tooling
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: raimshq/Raims-Developer-Toolkit
+          ref: ${{ env.RAIMS_PYTHON_TOOLKIT_REF }}
+          path: Developer-Toolkit
+          token: ${{ steps.sources.outputs.token }}
+          persist-credentials: false
+
+      - name: Run the canonical Python SDK checks
+        run: |
+          set -euo pipefail
+          cp Developer-Toolkit/internal/public-repositories/workspace/AGENTS.md AGENTS.md
+          actual_python="$(python -c 'import platform; print(platform.python_version())')"
+          test "$actual_python" = '${{ matrix.python }}'
+          output="$GITHUB_WORKSPACE/.tmp/raims-python-sdk/validate-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT-${{ matrix.python }}"
+          python Developer-Toolkit/scripts/release-preflight/python_sdk.py \
+            --source "$GITHUB_WORKSPACE/Raims-Python" \
+            --workspace "$GITHUB_WORKSPACE" \
+            --output "$output" \
+            --prepare-tools
+          python - "$output" <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import platform
+          import subprocess
+          import sys
+          output = Path(sys.argv[1])
+          report = json.loads((output / 'report.json').read_text(encoding='utf-8'))
+          if report.get('status') != 'passed':
+              raise SystemExit('Canonical Python SDK report is invalid.')
+          distribution = report['distribution']
+          files = {distribution[kind]: distribution[kind + '_sha256'] for kind in ('wheel', 'sdist')}
+          for name, expected in files.items():
+              if Path(name).name != name or hashlib.sha256((output / 'dist' / name).read_bytes()).hexdigest() != expected:
+                  raise SystemExit('Canonical Python distribution bytes differ.')
+          source = Path(os.environ['GITHUB_WORKSPACE']) / 'Raims-Python'
+          head = subprocess.check_output(['git', '-C', str(source), 'rev-parse', 'HEAD'], text=True).strip()
+          if head != os.environ['GITHUB_SHA']:
+              raise SystemExit('Canonical Python source identity differs.')
+          manifest = {'package': 'raims', 'sourceRevision': head, 'toolkitRevision': os.environ['RAIMS_PYTHON_TOOLKIT_REF'],
+                      'pythonVersion': platform.python_version(), 'files': files}
+          (output / 'distribution-manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
+          PY
+
+      - name: Upload canonical Python distribution evidence
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: raims-python-validation-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.python }}
+          path: |
+            .tmp/raims-python-sdk/validate-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.python }}/dist/*
+            .tmp/raims-python-sdk/validate-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.python }}/distribution-manifest.json
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
+
+  securityLinux:
+    name: securityLinux
+    if: github.repository == 'raimshq/raims-python'
+    runs-on:
+      - codebuild-raims-github-actions-${{ github.run_id }}-${{ github.run_attempt }}
+      - python-sdk-security
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout the candidate commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          path: Raims-Python
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12.14'
+
+      - name: Reject tracked files excluded by repository policy
+        run: |
+          import os
+          from pathlib import Path
+          import subprocess
+          import sys
+          checkout = Path(os.environ['GITHUB_WORKSPACE']) / 'Raims-Python'
+          ignored = subprocess.check_output([
+              'git', '-C', str(checkout), 'ls-files', '--cached', '--ignored',
+              '--exclude-from=.gitignore', '-z',
+          ])
+          count = sum(bool(path) for path in ignored.split(b'\0'))
+          if count:
+              print(f'Repository policy rejects {count} tracked ignored file(s).', file=sys.stderr)
+              raise SystemExit(1)
+        shell: python
+
+      - name: Create a read-only validation source token
+        id: sources
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+        with:
+          client-id: ${{ vars.RAIMS_CI_SOURCE_READER_CLIENT_ID }}
+          private-key: ${{ secrets.RAIMS_CI_SOURCE_READER_PRIVATE_KEY }}
+          owner: raimshq
+          repositories: Raims-Developer-Toolkit
+          permission-contents: read
+
+      - name: Checkout the reviewed validation tooling
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: raimshq/Raims-Developer-Toolkit
+          ref: ${{ env.RAIMS_PYTHON_TOOLKIT_REF }}
+          path: Developer-Toolkit
+          token: ${{ steps.sources.outputs.token }}
+          persist-credentials: false
+
+      - name: Run the canonical SDK security checks
+        run: |
+          set -euo pipefail
+          cp Developer-Toolkit/internal/public-repositories/workspace/AGENTS.md AGENTS.md
+          output="$GITHUB_WORKSPACE/.tmp/raims-python-sdk/security-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python Developer-Toolkit/scripts/release-preflight/sdk_security.py \
+            --source "$GITHUB_WORKSPACE/Raims-Python" \
+            --workspace "$GITHUB_WORKSPACE" \
+            --repository Raims-Python \
+            --output "$output" \
+            --prepare-tools
+          python -c 'import json,os,sys; r=json.load(open(sys.argv[1],encoding="utf-8")); sys.exit(0 if r.get("status")=="pass" and r.get("repository")=="Raims-Python" and r.get("toolkitRevision")==os.environ["RAIMS_PYTHON_TOOLKIT_REF"] else "Canonical SDK security summary is invalid.")' "$output/summary.json"

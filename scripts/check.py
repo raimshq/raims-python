@@ -11,10 +11,10 @@ if sys.flags.optimize != 0 or not __debug__:
     raise SystemExit(1)
 
 ROOT = Path(__file__).resolve().parent.parent
-WORKSPACE = ROOT.parent
+WORKSPACE = next((candidate for candidate in (ROOT.parent, ROOT.parent.parent) if (candidate / "Developer-Toolkit/scripts/release-preflight/python_sdk.py").is_file()), ROOT.parent)
 VALIDATOR = WORKSPACE / "Developer-Toolkit/scripts/release-preflight/python_sdk.py"
 
 if not VALIDATOR.is_file() or not (WORKSPACE / "AGENTS.md").is_file():
-    print("Validation requires the Raims engineering workspace and its sibling Developer-Toolkit checkout. No checks were run.", file=sys.stderr)
+    print("Validation requires the Raims engineering workspace and its Developer-Toolkit checkout. No checks were run.", file=sys.stderr)
     raise SystemExit(1)
 raise SystemExit(subprocess.call([sys.executable, str(VALIDATOR), "--source", str(ROOT), "--workspace", str(WORKSPACE), *sys.argv[1:]]))

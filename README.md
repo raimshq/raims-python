@@ -6,35 +6,39 @@ Use the SDK in server applications, with synchronous and asynchronous clients,
 typed parameters, read-only responses, cursor pagination, and webhook signature
 verification.
 
-## Install from GitHub
+## Install
 
-Requires Python 3.10 or later. Source code and release notes are available on
-[GitHub](https://github.com/raimshq/raims-python/releases). The package is not yet
-available on PyPI.
+Requires Python 3.10 or later. In your application's virtual environment:
 
-With Git installed, run this command in your application environment:
-
-```text
-python -m pip install "git+https://github.com/raimshq/raims-python.git"
+```sh
+python -m pip install raims
 ```
 
-To update this installation, run the command again with a forced upgrade and
-test your integration:
+The package and import name are both `raims`. It uses HTTPX for HTTP transport.
+To install a specific release:
 
-```text
-python -m pip install --upgrade --force-reinstall "git+https://github.com/raimshq/raims-python.git"
+```sh
+python -m pip install "raims==0.1.1"
 ```
 
-You can also download the source code from the
-[current release](https://github.com/raimshq/raims-python/releases/latest),
-extract the archive, and install its directory in your application environment:
+To update to the current stable version:
 
-```text
-python -m pip install /path/to/Raims-Python
+```sh
+python -m pip install --upgrade raims
 ```
 
-Import the package as `raims`. It uses HTTPX for HTTP transport.
+Read the [release notes](https://github.com/raimshq/raims-python/releases) and
+test your integration after updating. Pin the SDK and its dependencies in your
+application's dependency configuration to reproduce installations.
 Future updates are not applied automatically.
+
+[GitHub releases](https://github.com/raimshq/raims-python/releases/latest) also
+provide wheel and source archives. Verify the downloaded file with `SHA256SUMS`
+before installing it. With Git installed, you can install the tagged source:
+
+```sh
+python -m pip install "git+https://github.com/raimshq/raims-python.git@v0.1.1"
+```
 
 ## First request
 
@@ -129,6 +133,7 @@ method.
 - [Errors, idempotency, and retries](docs/errors-and-retries.md)
 - [Receiving webhooks](docs/webhooks.md)
 - [Contributing](CONTRIBUTING.md) and [security](SECURITY.md)
+- [Installation and integration guide](https://docs.raims.com/en/integracoes/sdk-python)
 - [Public API](https://docs.raims.com/en/api)
 
 Distributed under the [MIT license](LICENSE).

@@ -1,0 +1,119 @@
+name: Publish Python SDK
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: raims-python-pypi-release
+  cancel-in-progress: false
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONOPTIMIZE: '0'
+  RAIMS_PYTHON_TOOLKIT_REF: 'ab07ab9792bb8abbcfde3cb5fda58822ad94102c'
+
+jobs:
+  validateRelease:
+    if: github.repository == 'raimshq/raims-python' && github.event.action == 'published' && !github.event.release.draft && !github.event.release.prerelease
+    runs-on:
+      - codebuild-raims-github-actions-${{ github.run_id }}-${{ github.run_attempt }}
+      - python-sdk-release-check
+    timeout-minutes: 20
+    outputs:
+      artifact_id: ${{ steps.upload.outputs.artifact-id }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout the release commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          path: Raims-Python
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12.14'
+
+      - name: Verify release, prior validation, and approved distribution bytes
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python Raims-Python/scripts/release.py prepare --source Raims-Python --artifact .tmp/raims-python-sdk/pypi-upload
+
+      - name: Upload the approved distributions and public provenance
+        id: upload
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: raims-pypi-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .tmp/raims-python-sdk/pypi-upload/dist/*
+            .tmp/raims-python-sdk/pypi-upload/release-manifest.json
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
+
+  publishPyPI:
+    needs: validateRelease
+    if: github.repository == 'raimshq/raims-python' && github.event.action == 'published' && !github.event.release.draft && !github.event.release.prerelease
+    environment:
+      name: pypi
+      url: https://pypi.org/project/raims/
+    runs-on:
+      - codebuild-raims-github-actions-${{ github.run_id }}-${{ github.run_attempt }}
+      - python-sdk-pypi-publish
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout the release verifier
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          path: Raims-Python
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12.14'
+
+      - name: Download distributions from this validation job
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          artifact-ids: ${{ needs.validateRelease.outputs.artifact_id }}
+          path: .tmp/raims-python-sdk/pypi-upload
+          merge-multiple: true
+          digest-mismatch: error
+
+      - name: Verify release and prior CI before requesting registry credentials
+        id: verify
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python Raims-Python/scripts/release.py verify --source Raims-Python --artifact .tmp/raims-python-sdk/pypi-upload
+
+      - name: Publish the exact approved distributions to PyPI
+        if: steps.verify.outputs.publishRequired == 'true'
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
+        with:
+          packages-dir: .tmp/raims-python-sdk/pypi-upload/to-publish/
+          attestations: true
+          skip-existing: false
+
+      - name: Confirm the indexed version and public distributions
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python Raims-Python/scripts/release.py confirm --source Raims-Python --artifact .tmp/raims-python-sdk/pypi-upload
