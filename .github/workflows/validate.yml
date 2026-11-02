@@ -15,7 +15,7 @@ concurrency:
 env:
   PYTHONDONTWRITEBYTECODE: '1'
   PYTHONOPTIMIZE: '0'
-  RAIMS_PYTHON_TOOLKIT_REF: 'ab07ab9792bb8abbcfde3cb5fda58822ad94102c'
+  RAIMS_PYTHON_TOOLKIT_REF: '4cfee6eede2b9053a25e168e24113efe6eeaa511'
 
 jobs:
   validatePython:

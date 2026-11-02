@@ -15,10 +15,13 @@ concurrency:
 env:
   PYTHONDONTWRITEBYTECODE: '1'
   PYTHONOPTIMIZE: '0'
-  RAIMS_PYTHON_TOOLKIT_REF: 'ab07ab9792bb8abbcfde3cb5fda58822ad94102c'
+  RAIMS_PYTHON_TOOLKIT_REF: '4cfee6eede2b9053a25e168e24113efe6eeaa511'
 
 jobs:
   validateRelease:
+    permissions:
+      contents: write
+      actions: read
     if: github.repository == 'raimshq/raims-python' && github.event.action == 'published' && !github.event.release.draft && !github.event.release.prerelease
     runs-on:
       - codebuild-raims-github-actions-${{ github.run_id }}-${{ github.run_attempt }}
@@ -107,11 +110,9 @@ jobs:
 
       - name: Publish the exact approved distributions to PyPI
         if: steps.verify.outputs.publishRequired == 'true'
-        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
-        with:
-          packages-dir: .tmp/raims-python-sdk/pypi-upload/to-publish/
-          attestations: true
-          skip-existing: false
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python Raims-Python/scripts/release.py publish --source Raims-Python --artifact .tmp/raims-python-sdk/pypi-upload
 
       - name: Confirm the indexed version and public distributions
         env:
