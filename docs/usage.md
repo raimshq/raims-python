@@ -97,9 +97,8 @@ Excessively nested responses are also rejected with `UnexpectedResponseError`,
 including when the nesting is in a new field not yet described by the models.
 
 `last_response` contains the status, headers, original bytes decoded by the
-transport, Request-Id, `idempotency_replayed`, and `retry_after`. Request-Id takes
-precedence over the X-Request-Id alias. Nested objects do not represent another
-request and have no response metadata of their own.
+transport, `Request-Id`, `idempotency_replayed`, and `retry_after`. Nested objects
+do not represent another request and have no response metadata of their own.
 
 Default debug representations hide the data. `to_dict()`, `last_response.body`,
 headers, and explicitly accessed fields may contain personal data, secrets, or

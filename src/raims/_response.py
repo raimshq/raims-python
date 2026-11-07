@@ -18,7 +18,7 @@ class LastResponse:
 
     @property
     def request_id(self) -> str | None:
-        return self.headers.get("request-id") or self.headers.get("x-request-id")
+        return self.headers.get("request-id")
 
     @property
     def idempotency_replayed(self) -> bool:
