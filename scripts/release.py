@@ -275,6 +275,77 @@ def publisher_environment():
     return environment
 
 
+def publisher_advisory(item):
+    require(isinstance(item, dict) and isinstance(item.get('id'), str) and item['id'].strip(),
+            'Publisher advisory has no valid identity.')
+    withdrawn = item.get('withdrawn')
+    require(withdrawn is None or isinstance(withdrawn, str) and withdrawn.strip(),
+            'Publisher advisory has invalid withdrawal metadata.')
+    labels = []
+    for container in (item, item.get('database_specific', {})):
+        require(isinstance(container, dict), 'Publisher advisory severity metadata is invalid.')
+        value = container.get('severity')
+        if value is None or value == []:
+            continue
+        # PyPI commonly omits severity. A CVSS vector needs a validated backend;
+        # this standalone publisher must fail incomplete analysis rather than guess.
+        require(isinstance(value, str) and not value.startswith('CVSS:'),
+                'Publisher advisory severity needs an unsupported scoring backend.')
+        label = value.upper()
+        require(label in {'UNKNOWN', 'INFO', 'LOW', 'MODERATE', 'MEDIUM', 'HIGH', 'CRITICAL'},
+                'Publisher advisory has an unsupported severity label.')
+        labels.append('MODERATE' if label == 'MEDIUM' else label)
+    order = {'UNKNOWN': 0, 'INFO': 1, 'LOW': 2, 'MODERATE': 3, 'HIGH': 4, 'CRITICAL': 5}
+    severity = max(labels, key=order.get) if labels else 'UNKNOWN'
+    return {'severity': severity, 'withdrawn': bool(withdrawn), 'advisory': item}
+
+
+def audit_publisher_dependencies(pins, lock, artifact):
+    report = {'status': 'incomplete', 'blockingSeverity': 'CRITICAL',
+              'requirementsSha256': digest(lock.read_bytes()), 'publisher': 'twine',
+              'version': PUBLISHER_VERSION, 'expectedPackages': len(pins), 'auditedPackages': 0,
+              'vulnerabilities': dict.fromkeys(('UNKNOWN', 'INFO', 'LOW', 'MODERATE', 'HIGH', 'CRITICAL'), 0),
+              'packages': []}
+    def write_report():
+        (artifact / 'publisher-tool-audit.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+    try:
+        for name, version in sorted(pins.items()):
+            url = 'https://pypi.org/pypi/' + urllib.parse.quote(name, safe='') + '/' + urllib.parse.quote(version, safe='') + '/json'
+            with urllib.request.build_opener(NoRedirect).open(url, timeout=30) as response:
+                require(response.status == 200, 'Publisher dependency advisory lookup failed.')
+                raw = response.read(2 * 1024 * 1024 + 1)
+            require(len(raw) <= 2 * 1024 * 1024, 'Publisher dependency advisory response is too large.')
+            metadata = json.loads(raw)
+            require(isinstance(metadata, dict) and isinstance(metadata.get('info'), dict),
+                    'Publisher dependency advisory metadata is invalid.')
+            info = metadata['info']
+            require(isinstance(info.get('name'), str) and re.sub(r'[-_.]+', '-', info['name']).lower()
+                    == re.sub(r'[-_.]+', '-', name).lower() and info.get('version') == version,
+                    'Publisher dependency advisory identity differs.')
+            findings = metadata.get('vulnerabilities')
+            require(isinstance(findings, list), 'Publisher dependency advisory coverage is incomplete.')
+            classified = [publisher_advisory(item) for item in findings]
+            counts = dict.fromkeys(report['vulnerabilities'], 0)
+            for finding in classified:
+                if not finding['withdrawn']:
+                    counts[finding['severity']] += 1
+                    report['vulnerabilities'][finding['severity']] += 1
+            report['packages'].append({'name': name, 'version': version,
+                                       'vulnerabilities': sum(counts.values()),
+                                       'severityCounts': counts, 'findings': classified})
+            report['auditedPackages'] += 1
+    except (OSError, ValueError, RuntimeError) as error:
+        report['status'] = 'error'
+        report['error'] = 'Publisher dependency advisory lookup or analysis failed.'
+        write_report()
+        raise RuntimeError(report['error']) from error
+    report['status'] = 'blocked' if report['vulnerabilities']['CRITICAL'] else 'pass'
+    write_report()
+    require(report['vulnerabilities']['CRITICAL'] == 0,
+            'A critical publisher dependency vulnerability blocks publication.')
+    return report
+
+
 def publisher_tools(source, artifact):
     lock = source / 'scripts/publish-requirements.txt'
     text = lock.read_text(encoding='utf-8')
@@ -285,18 +356,7 @@ def publisher_tools(source, artifact):
         require(not line or line.startswith('#') or re.fullmatch(r'[A-Za-z0-9_.-]+==[^\s\\;]+ \\', line)
                 or re.fullmatch(r'    --hash=sha256:[a-f0-9]{64}(?: \\)?', line),
                 'Publisher requirements contain an unsupported directive.')
-    audited = []
-    for name, version in sorted(pins.items()):
-        url = 'https://pypi.org/pypi/' + urllib.parse.quote(name, safe='') + '/' + urllib.parse.quote(version, safe='') + '/json'
-        try:
-            with urllib.request.build_opener(NoRedirect).open(url, timeout=30) as response:
-                metadata = json.loads(response.read(2 * 1024 * 1024))
-        except (OSError, ValueError) as error:
-            raise RuntimeError('Publisher dependency advisory lookup failed.') from error
-        findings = metadata.get('vulnerabilities')
-        require(isinstance(findings, list) and not any(not item.get('withdrawn') for item in findings),
-                'A publisher dependency has an unresolved advisory: ' + name)
-        audited.append({'name': name, 'version': version, 'vulnerabilities': 0})
+    audit_publisher_dependencies(pins, lock, artifact)
     environment = publisher_environment()
     temporary = artifact / 'publisher-temp'
     temporary.mkdir()
@@ -325,8 +385,6 @@ def publisher_tools(source, artifact):
     installed = {normalize(name): version for name, version in json.loads(probe.stdout).items() if normalize(name) not in {'pip', 'setuptools'}}
     require(installed == {normalize(name): version for name, version in pins.items()},
             'Publisher installation differs from the reviewed dependency closure.')
-    (artifact / 'publisher-tool-audit.json').write_text(json.dumps({'status': 'pass', 'requirementsSha256': digest(lock.read_bytes()),
-                   'packages': audited, 'publisher': 'twine', 'version': PUBLISHER_VERSION}, indent=2) + '\n', encoding='utf-8')
     return python, environment
 
 
