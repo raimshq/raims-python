@@ -83,7 +83,7 @@ class CreateRefundRequest(_CreateRefundRequestRequired, total=False):
 class _CreateWebhookRequestRequired(TypedDict):
     name: str
     url: str
-    events: Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed']]
+    events: Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed', 'charge.updated', 'charge.expired', 'withdrawal.requested', 'withdrawal.completed', 'withdrawal.failed', 'dispute.opened', 'dispute.updated', 'dispute.closed', 'dispute.funds_debited', 'balance.hold.created', 'balance.hold.released', 'statement.created', 'ted.received', 'pix_refund.received', 'pix.available', 'pix.issuance_failed', 'boleto.available', 'boleto.issuance_failed', 'boleto.compensated', 'payment_link.created', 'payment_link.updated', 'refund.accepted', 'account.restored', 'customer.created', 'customer.updated', 'customer.deleted', 'withdrawal.accepted', 'charge.fully_refunded']]
 
 class CreateWebhookRequest(_CreateWebhookRequestRequired, total=False):
     is_active: bool
@@ -400,7 +400,7 @@ class ListWebhooksParams(TypedDict, total=False):
 class _CreateWebhookParamsRequired(TypedDict):
     name: str
     url: str
-    events: Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed']]
+    events: Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed', 'charge.updated', 'charge.expired', 'withdrawal.requested', 'withdrawal.completed', 'withdrawal.failed', 'dispute.opened', 'dispute.updated', 'dispute.closed', 'dispute.funds_debited', 'balance.hold.created', 'balance.hold.released', 'statement.created', 'ted.received', 'pix_refund.received', 'pix.available', 'pix.issuance_failed', 'boleto.available', 'boleto.issuance_failed', 'boleto.compensated', 'payment_link.created', 'payment_link.updated', 'refund.accepted', 'account.restored', 'customer.created', 'customer.updated', 'customer.deleted', 'withdrawal.accepted', 'charge.fully_refunded']]
 
 class CreateWebhookParams(_CreateWebhookParamsRequired, total=False):
     is_active: bool

@@ -2348,6 +2348,36 @@
       "value": "1",
       "annotation": "Final"
     },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_ACCOUNT_RESTORED": {
+      "kind": "constant_or_alias",
+      "value": "'account.restored'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_BALANCE_HOLD_CREATED": {
+      "kind": "constant_or_alias",
+      "value": "'balance.hold.created'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_BALANCE_HOLD_RELEASED": {
+      "kind": "constant_or_alias",
+      "value": "'balance.hold.released'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_BOLETO_AVAILABLE": {
+      "kind": "constant_or_alias",
+      "value": "'boleto.available'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_BOLETO_COMPENSATED": {
+      "kind": "constant_or_alias",
+      "value": "'boleto.compensated'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_BOLETO_ISSUANCE_FAILED": {
+      "kind": "constant_or_alias",
+      "value": "'boleto.issuance_failed'",
+      "annotation": "Final"
+    },
     "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_CHARGE_CANCELED": {
       "kind": "constant_or_alias",
       "value": "'charge.canceled'",
@@ -2358,14 +2388,94 @@
       "value": "'charge.created'",
       "annotation": "Final"
     },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_CHARGE_EXPIRED": {
+      "kind": "constant_or_alias",
+      "value": "'charge.expired'",
+      "annotation": "Final"
+    },
     "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_CHARGE_FAILED": {
       "kind": "constant_or_alias",
       "value": "'charge.failed'",
       "annotation": "Final"
     },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_CHARGE_FULLY_REFUNDED": {
+      "kind": "constant_or_alias",
+      "value": "'charge.fully_refunded'",
+      "annotation": "Final"
+    },
     "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_CHARGE_PAID": {
       "kind": "constant_or_alias",
       "value": "'charge.paid'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_CHARGE_UPDATED": {
+      "kind": "constant_or_alias",
+      "value": "'charge.updated'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_CUSTOMER_CREATED": {
+      "kind": "constant_or_alias",
+      "value": "'customer.created'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_CUSTOMER_DELETED": {
+      "kind": "constant_or_alias",
+      "value": "'customer.deleted'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_CUSTOMER_UPDATED": {
+      "kind": "constant_or_alias",
+      "value": "'customer.updated'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_DISPUTE_CLOSED": {
+      "kind": "constant_or_alias",
+      "value": "'dispute.closed'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_DISPUTE_FUNDS_DEBITED": {
+      "kind": "constant_or_alias",
+      "value": "'dispute.funds_debited'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_DISPUTE_OPENED": {
+      "kind": "constant_or_alias",
+      "value": "'dispute.opened'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_DISPUTE_UPDATED": {
+      "kind": "constant_or_alias",
+      "value": "'dispute.updated'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_PAYMENT_LINK_CREATED": {
+      "kind": "constant_or_alias",
+      "value": "'payment_link.created'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_PAYMENT_LINK_UPDATED": {
+      "kind": "constant_or_alias",
+      "value": "'payment_link.updated'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_PIX_AVAILABLE": {
+      "kind": "constant_or_alias",
+      "value": "'pix.available'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_PIX_ISSUANCE_FAILED": {
+      "kind": "constant_or_alias",
+      "value": "'pix.issuance_failed'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_PIX_REFUND_RECEIVED": {
+      "kind": "constant_or_alias",
+      "value": "'pix_refund.received'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_REFUND_ACCEPTED": {
+      "kind": "constant_or_alias",
+      "value": "'refund.accepted'",
       "annotation": "Final"
     },
     "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_REFUND_COMPLETED": {
@@ -2381,6 +2491,36 @@
     "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_REFUND_REQUESTED": {
       "kind": "constant_or_alias",
       "value": "'refund.requested'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_STATEMENT_CREATED": {
+      "kind": "constant_or_alias",
+      "value": "'statement.created'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_TED_RECEIVED": {
+      "kind": "constant_or_alias",
+      "value": "'ted.received'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_WITHDRAWAL_ACCEPTED": {
+      "kind": "constant_or_alias",
+      "value": "'withdrawal.accepted'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_WITHDRAWAL_COMPLETED": {
+      "kind": "constant_or_alias",
+      "value": "'withdrawal.completed'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_WITHDRAWAL_FAILED": {
+      "kind": "constant_or_alias",
+      "value": "'withdrawal.failed'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_WITHDRAWAL_REQUESTED": {
+      "kind": "constant_or_alias",
+      "value": "'withdrawal.requested'",
       "annotation": "Final"
     },
     "raims.enum_values.CUSTOMER_CREATED_TAX_ID_TYPE_CNPJ": {
@@ -2803,6 +2943,36 @@
       "value": "'manual'",
       "annotation": "Final"
     },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_ACCOUNT_RESTORED": {
+      "kind": "constant_or_alias",
+      "value": "'account.restored'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_BALANCE_HOLD_CREATED": {
+      "kind": "constant_or_alias",
+      "value": "'balance.hold.created'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_BALANCE_HOLD_RELEASED": {
+      "kind": "constant_or_alias",
+      "value": "'balance.hold.released'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_BOLETO_AVAILABLE": {
+      "kind": "constant_or_alias",
+      "value": "'boleto.available'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_BOLETO_COMPENSATED": {
+      "kind": "constant_or_alias",
+      "value": "'boleto.compensated'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_BOLETO_ISSUANCE_FAILED": {
+      "kind": "constant_or_alias",
+      "value": "'boleto.issuance_failed'",
+      "annotation": "Final"
+    },
     "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_CHARGE_CANCELED": {
       "kind": "constant_or_alias",
       "value": "'charge.canceled'",
@@ -2813,14 +2983,94 @@
       "value": "'charge.created'",
       "annotation": "Final"
     },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_CHARGE_EXPIRED": {
+      "kind": "constant_or_alias",
+      "value": "'charge.expired'",
+      "annotation": "Final"
+    },
     "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_CHARGE_FAILED": {
       "kind": "constant_or_alias",
       "value": "'charge.failed'",
       "annotation": "Final"
     },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_CHARGE_FULLY_REFUNDED": {
+      "kind": "constant_or_alias",
+      "value": "'charge.fully_refunded'",
+      "annotation": "Final"
+    },
     "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_CHARGE_PAID": {
       "kind": "constant_or_alias",
       "value": "'charge.paid'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_CHARGE_UPDATED": {
+      "kind": "constant_or_alias",
+      "value": "'charge.updated'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_CUSTOMER_CREATED": {
+      "kind": "constant_or_alias",
+      "value": "'customer.created'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_CUSTOMER_DELETED": {
+      "kind": "constant_or_alias",
+      "value": "'customer.deleted'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_CUSTOMER_UPDATED": {
+      "kind": "constant_or_alias",
+      "value": "'customer.updated'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_DISPUTE_CLOSED": {
+      "kind": "constant_or_alias",
+      "value": "'dispute.closed'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_DISPUTE_FUNDS_DEBITED": {
+      "kind": "constant_or_alias",
+      "value": "'dispute.funds_debited'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_DISPUTE_OPENED": {
+      "kind": "constant_or_alias",
+      "value": "'dispute.opened'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_DISPUTE_UPDATED": {
+      "kind": "constant_or_alias",
+      "value": "'dispute.updated'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_PAYMENT_LINK_CREATED": {
+      "kind": "constant_or_alias",
+      "value": "'payment_link.created'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_PAYMENT_LINK_UPDATED": {
+      "kind": "constant_or_alias",
+      "value": "'payment_link.updated'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_PIX_AVAILABLE": {
+      "kind": "constant_or_alias",
+      "value": "'pix.available'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_PIX_ISSUANCE_FAILED": {
+      "kind": "constant_or_alias",
+      "value": "'pix.issuance_failed'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_PIX_REFUND_RECEIVED": {
+      "kind": "constant_or_alias",
+      "value": "'pix_refund.received'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_REFUND_ACCEPTED": {
+      "kind": "constant_or_alias",
+      "value": "'refund.accepted'",
       "annotation": "Final"
     },
     "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_REFUND_COMPLETED": {
@@ -2836,6 +3086,36 @@
     "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_REFUND_REQUESTED": {
       "kind": "constant_or_alias",
       "value": "'refund.requested'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_STATEMENT_CREATED": {
+      "kind": "constant_or_alias",
+      "value": "'statement.created'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_TED_RECEIVED": {
+      "kind": "constant_or_alias",
+      "value": "'ted.received'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_WITHDRAWAL_ACCEPTED": {
+      "kind": "constant_or_alias",
+      "value": "'withdrawal.accepted'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_WITHDRAWAL_COMPLETED": {
+      "kind": "constant_or_alias",
+      "value": "'withdrawal.completed'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_WITHDRAWAL_FAILED": {
+      "kind": "constant_or_alias",
+      "value": "'withdrawal.failed'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_WITHDRAWAL_REQUESTED": {
+      "kind": "constant_or_alias",
+      "value": "'withdrawal.requested'",
       "annotation": "Final"
     },
     "raims.enum_values.WEBHOOK_HEALTH_STATUS_DISABLED": {
@@ -18564,7 +18844,7 @@
     },
     "raims.types.CreateWebhookParams.events": {
       "kind": "field",
-      "annotation": "Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed']]",
+      "annotation": "Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed', 'charge.updated', 'charge.expired', 'withdrawal.requested', 'withdrawal.completed', 'withdrawal.failed', 'dispute.opened', 'dispute.updated', 'dispute.closed', 'dispute.funds_debited', 'balance.hold.created', 'balance.hold.released', 'statement.created', 'ted.received', 'pix_refund.received', 'pix.available', 'pix.issuance_failed', 'boleto.available', 'boleto.issuance_failed', 'boleto.compensated', 'payment_link.created', 'payment_link.updated', 'refund.accepted', 'account.restored', 'customer.created', 'customer.updated', 'customer.deleted', 'withdrawal.accepted', 'charge.fully_refunded']]",
       "default": null,
       "required": true
     },
@@ -18599,7 +18879,7 @@
     },
     "raims.types.CreateWebhookRequest.events": {
       "kind": "field",
-      "annotation": "Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed']]",
+      "annotation": "Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed', 'charge.updated', 'charge.expired', 'withdrawal.requested', 'withdrawal.completed', 'withdrawal.failed', 'dispute.opened', 'dispute.updated', 'dispute.closed', 'dispute.funds_debited', 'balance.hold.created', 'balance.hold.released', 'statement.created', 'ted.received', 'pix_refund.received', 'pix.available', 'pix.issuance_failed', 'boleto.available', 'boleto.issuance_failed', 'boleto.compensated', 'payment_link.created', 'payment_link.updated', 'refund.accepted', 'account.restored', 'customer.created', 'customer.updated', 'customer.deleted', 'withdrawal.accepted', 'charge.fully_refunded']]",
       "default": null,
       "required": true
     },
