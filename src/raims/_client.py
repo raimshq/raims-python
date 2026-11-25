@@ -366,6 +366,8 @@ class RaimsClient(_ClientBase):
         self.withdrawals = services.WithdrawalsService(self)
         self.withdrawal_destinations = services.WithdrawalDestinationsService(self)
         self.webhooks = services.WebhooksService(self)
+        self.webhook_deliveries = services.WebhookDeliveriesService(self)
+        self.webhook_events = services.WebhookEventsService(self)
         self.webhook_event_types = services.WebhookEventTypesService(self)
         self.simulations = Simulations(
             services.SimulationChargesService(self), services.SimulationRefundsService(self)
@@ -477,6 +479,8 @@ class AsyncRaimsClient(_ClientBase):
         self.withdrawals = services.AsyncWithdrawalsService(self)
         self.withdrawal_destinations = services.AsyncWithdrawalDestinationsService(self)
         self.webhooks = services.AsyncWebhooksService(self)
+        self.webhook_deliveries = services.AsyncWebhookDeliveriesService(self)
+        self.webhook_events = services.AsyncWebhookEventsService(self)
         self.webhook_event_types = services.AsyncWebhookEventTypesService(self)
         self.simulations = AsyncSimulations(
             services.AsyncSimulationChargesService(self),

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from collections.abc import Iterator, Mapping
 from decimal import Decimal, DecimalException
 from importlib.resources import files
@@ -58,8 +59,12 @@ def validate_response(
         fail()
     if "$ref" in schema:
         return validate_response(value, resolve(schema), response, depth + 1)
-    if "anyOf" in schema or "oneOf" in schema:
-        for variant in schema.get("anyOf", schema.get("oneOf", [])):
+    if "oneOf" in schema:
+        if not isinstance(value, str) or sum(re.fullmatch(branch["pattern"], value) is not None for branch in schema["oneOf"]) != 1:
+            fail()
+        return
+    if "anyOf" in schema:
+        for variant in schema["anyOf"]:
             try:
                 validate_response(value, variant, response, depth + 1)
                 return
@@ -80,6 +85,8 @@ def validate_response(
         if not isinstance(value, dict):
             fail()
         if any(key not in value for key in schema.get("required", [])):
+            fail()
+        if any(key in value and not set(required).issubset(value) for key, required in schema.get("dependentRequired", {}).items()):
             fail()
         properties = schema.get("properties", {})
         additional = schema.get("additionalProperties")
@@ -140,8 +147,11 @@ def hydrate(
     schema = schema or {}
     model_name = schema.get("$ref", "").rsplit("/", 1)[-1]
     schema = resolve(schema)
-    if "anyOf" in schema or "oneOf" in schema:
-        for variant in schema.get("anyOf", schema.get("oneOf", [])):
+    if "oneOf" in schema:
+        validate_response(value, schema, response, _depth)
+        return value
+    if "anyOf" in schema:
+        for variant in schema["anyOf"]:
             try:
                 validate_response(value, variant, response)
                 return hydrate(value, variant, response, _depth=_depth + 1)

@@ -47,3 +47,12 @@ uses ISO 8601 and is not the attempt header's Unix timestamp.
 
 Consult the [receiving guide](https://docs.raims.com/en/integracoes/webhooks/receber-eventos)
 for events and delivery conditions.
+
+## Updating webhook subscriptions
+
+Use `charge.payment_instructions_available` in place of `pix.available` and
+`boleto.available`. Use `charge.payment_instructions_failed` in place of
+`pix.issuance_failed` and `boleto.issuance_failed`. Inspect `data.payment_method`
+to distinguish Pix from boleto. The previous SDK names are deprecated and
+remain available for reading historical records. Use the current codes when
+creating or updating a subscription.
