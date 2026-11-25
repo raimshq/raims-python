@@ -209,6 +209,10 @@ class Charge(ApiResource):
     def metadata(self) -> Mapping[str, str]:
         return cast(Mapping[str, str], self._get_field('metadata'))
 
+    @property
+    def boleto_settlement(self) -> ChargeBoletoSettlement:
+        return cast(ChargeBoletoSettlement, self._get_field('boleto_settlement'))
+
 class ChargeBoletoCompensation(ApiResource):
     @property
     def charge_id(self) -> str:
@@ -238,6 +242,19 @@ class ChargeBoletoPaymentInformation(ApiResource):
     @property
     def due_date(self) -> int:
         return cast(int, self._get_field('due_date'))
+
+class ChargeBoletoSettlement(ApiResource):
+    @property
+    def observed_amount_cents(self) -> int | None:
+        return cast(int | None, self._get_field('observed_amount_cents'))
+
+    @property
+    def confirmed_total_cents(self) -> int | None:
+        return cast(int | None, self._get_field('confirmed_total_cents'))
+
+    @property
+    def overpayment_cents(self) -> int | None:
+        return cast(int | None, self._get_field('overpayment_cents'))
 
 class ChargeCreated(ApiResource):
     @property
@@ -1387,6 +1404,148 @@ class Webhook(ApiResource):
     def paused_at(self) -> int | None:
         return cast(int | None, self._get_field('paused_at'))
 
+class WebhookAdvanceAccepted(ApiResource):
+    @property
+    def delivery_id(self) -> str:
+        return cast(str, self._get_field('delivery_id'))
+
+class WebhookAttempt(ApiResource):
+    @property
+    def id(self) -> str:
+        return cast(str, self._get_field('id'))
+
+    @property
+    def delivery_id(self) -> str:
+        return cast(str, self._get_field('delivery_id'))
+
+    @property
+    def attempt_number(self) -> int:
+        return cast(int, self._get_field('attempt_number'))
+
+    @property
+    def created_at(self) -> int:
+        return cast(int, self._get_field('created_at'))
+
+    @property
+    def status_code(self) -> int | None:
+        return cast(int | None, self._get_field('status_code'))
+
+    @property
+    def duration_ms(self) -> Decimal | int:
+        return cast(Decimal | int, self._get_field('duration_ms'))
+
+    @property
+    def destination_ip(self) -> str | None:
+        return cast(str | None, self._get_field('destination_ip'))
+
+    @property
+    def error_code(self) -> str | None:
+        return cast(str | None, self._get_field('error_code'))
+
+    @property
+    def endpoint_url(self) -> str | None:
+        return cast(str | None, self._get_field('endpoint_url'))
+
+    @property
+    def request_available(self) -> bool:
+        return cast(bool, self._get_field('request_available'))
+
+    @property
+    def response_body_available(self) -> bool:
+        return cast(bool, self._get_field('response_body_available'))
+
+    @property
+    def response_body_truncated(self) -> bool:
+        return cast(bool, self._get_field('response_body_truncated'))
+
+class WebhookAttemptDetail(ApiResource):
+    @property
+    def request_body(self) -> str | None:
+        return cast(str | None, self._get_field('request_body'))
+
+    @property
+    def response_body(self) -> str | None:
+        return cast(str | None, self._get_field('response_body'))
+
+    @property
+    def id(self) -> str:
+        return cast(str, self._get_field('id'))
+
+    @property
+    def delivery_id(self) -> str:
+        return cast(str, self._get_field('delivery_id'))
+
+    @property
+    def attempt_number(self) -> int:
+        return cast(int, self._get_field('attempt_number'))
+
+    @property
+    def created_at(self) -> int:
+        return cast(int, self._get_field('created_at'))
+
+    @property
+    def status_code(self) -> int | None:
+        return cast(int | None, self._get_field('status_code'))
+
+    @property
+    def duration_ms(self) -> Decimal | int:
+        return cast(Decimal | int, self._get_field('duration_ms'))
+
+    @property
+    def destination_ip(self) -> str | None:
+        return cast(str | None, self._get_field('destination_ip'))
+
+    @property
+    def error_code(self) -> str | None:
+        return cast(str | None, self._get_field('error_code'))
+
+    @property
+    def endpoint_url(self) -> str | None:
+        return cast(str | None, self._get_field('endpoint_url'))
+
+    @property
+    def request_available(self) -> bool:
+        return cast(bool, self._get_field('request_available'))
+
+    @property
+    def response_body_available(self) -> bool:
+        return cast(bool, self._get_field('response_body_available'))
+
+    @property
+    def response_body_truncated(self) -> bool:
+        return cast(bool, self._get_field('response_body_truncated'))
+
+class WebhookAttemptListResponse(ApiResource):
+    @property
+    def list(self) -> Sequence[WebhookAttempt]:
+        return cast(Sequence[WebhookAttempt], self._get_field('list'))
+
+    @property
+    def page(self) -> WebhookDeliveryPage:
+        return cast(WebhookDeliveryPage, self._get_field('page'))
+
+class WebhookBulkResendAccepted(ApiResource):
+    @property
+    def results(self) -> Sequence[WebhookBulkResendItem]:
+        return cast(Sequence[WebhookBulkResendItem], self._get_field('results'))
+
+class WebhookBulkResendItem(ApiResource):
+    @property
+    def source_delivery_id(self) -> str:
+        return cast(str, self._get_field('source_delivery_id'))
+
+    @property
+    def delivery_id(self) -> str | None:
+        return cast(str | None, self._get_field('delivery_id'))
+
+    @property
+    def event_id(self) -> str | None:
+        return cast(str | None, self._get_field('event_id'))
+
+    @property
+    def error(self) -> Error | None:
+        return cast(Error | None, self._get_field('error'))
+
 class WebhookCreated(ApiResource):
     @property
     def id(self) -> str:
@@ -1439,6 +1598,141 @@ class WebhookCreated(ApiResource):
     @property
     def paused_at(self) -> int | None:
         return cast(int | None, self._get_field('paused_at'))
+
+class WebhookDelivery(ApiResource):
+    @property
+    def id(self) -> str:
+        return cast(str, self._get_field('id'))
+
+    @property
+    def webhook_id(self) -> str | None:
+        return cast(str | None, self._get_field('webhook_id'))
+
+    @property
+    def event_id(self) -> str:
+        return cast(str, self._get_field('event_id'))
+
+    @property
+    def event_type(self) -> str:
+        return cast(str, self._get_field('event_type'))
+
+    @property
+    def status(self) -> str:
+        return cast(str, self._get_field('status'))
+
+    @property
+    def created_at(self) -> int:
+        return cast(int, self._get_field('created_at'))
+
+    @property
+    def event_created_at(self) -> int:
+        return cast(int, self._get_field('event_created_at'))
+
+    @property
+    def deadline_at(self) -> int:
+        return cast(int, self._get_field('deadline_at'))
+
+    @property
+    def next_attempt_at(self) -> int | None:
+        return cast(int | None, self._get_field('next_attempt_at'))
+
+    @property
+    def updated_at(self) -> int:
+        return cast(int, self._get_field('updated_at'))
+
+class WebhookDeliveryListResponse(ApiResource):
+    @property
+    def list(self) -> Sequence[WebhookDelivery]:
+        return cast(Sequence[WebhookDelivery], self._get_field('list'))
+
+    @property
+    def page(self) -> WebhookDeliveryPage:
+        return cast(WebhookDeliveryPage, self._get_field('page'))
+
+class WebhookDeliveryPage(ApiResource):
+    @property
+    def page_size(self) -> int:
+        return cast(int, self._get_field('page_size'))
+
+    @property
+    def has_next(self) -> bool:
+        return cast(bool, self._get_field('has_next'))
+
+    @property
+    def has_previous(self) -> bool:
+        return cast(bool, self._get_field('has_previous'))
+
+    @property
+    def next_after(self) -> str | None:
+        return cast(str | None, self._get_field('next_after'))
+
+    @property
+    def previous_before(self) -> str | None:
+        return cast(str | None, self._get_field('previous_before'))
+
+class WebhookDeliveryResendAccepted(ApiResource):
+    @property
+    def delivery_id(self) -> str:
+        return cast(str, self._get_field('delivery_id'))
+
+    @property
+    def event_id(self) -> str:
+        return cast(str, self._get_field('event_id'))
+
+class WebhookEvent(ApiResource):
+    @property
+    def id(self) -> str:
+        return cast(str, self._get_field('id'))
+
+    @property
+    def event_type(self) -> str:
+        return cast(str, self._get_field('event_type'))
+
+    @property
+    def created_at(self) -> int:
+        return cast(int, self._get_field('created_at'))
+
+    @property
+    def resource_type(self) -> str:
+        return cast(str, self._get_field('resource_type'))
+
+    @property
+    def resource_id(self) -> str:
+        return cast(str, self._get_field('resource_id'))
+
+class WebhookEventDetail(ApiResource):
+    @property
+    def payload(self) -> str:
+        return cast(str, self._get_field('payload'))
+
+    @property
+    def id(self) -> str:
+        return cast(str, self._get_field('id'))
+
+    @property
+    def event_type(self) -> str:
+        return cast(str, self._get_field('event_type'))
+
+    @property
+    def created_at(self) -> int:
+        return cast(int, self._get_field('created_at'))
+
+    @property
+    def resource_type(self) -> str:
+        return cast(str, self._get_field('resource_type'))
+
+    @property
+    def resource_id(self) -> str:
+        return cast(str, self._get_field('resource_id'))
+
+class WebhookEventListResponse(ApiResource):
+    @property
+    def list(self) -> Sequence[WebhookEvent]:
+        return cast(Sequence[WebhookEvent], self._get_field('list'))
+
+    @property
+    def page(self) -> WebhookDeliveryPage:
+        return cast(WebhookDeliveryPage, self._get_field('page'))
 
 class WebhookEventType(ApiResource):
     @property
@@ -1788,4 +2082,4 @@ class WithdrawalSummary(ApiResource):
     def processing_amount_cents(self) -> int:
         return cast(int, self._get_field('processing_amount_cents'))
 
-PageInfo: TypeAlias = ChargeListPage | CustomerListPage | DisputeListPage | PaymentLinkListPage | RefundListPage | StatementListPage | WebhookListPage | WithdrawalDestinationListPage | WithdrawalListPage
+PageInfo: TypeAlias = ChargeListPage | CustomerListPage | DisputeListPage | PaymentLinkListPage | RefundListPage | StatementListPage | WebhookDeliveryPage | WebhookListPage | WithdrawalDestinationListPage | WithdrawalListPage

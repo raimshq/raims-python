@@ -83,7 +83,7 @@ class CreateRefundRequest(_CreateRefundRequestRequired, total=False):
 class _CreateWebhookRequestRequired(TypedDict):
     name: str
     url: str
-    events: Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed', 'charge.updated', 'charge.expired', 'withdrawal.requested', 'withdrawal.completed', 'withdrawal.failed', 'dispute.opened', 'dispute.updated', 'dispute.closed', 'dispute.funds_debited', 'balance.hold.created', 'balance.hold.released', 'statement.created', 'ted.received', 'pix_refund.received', 'pix.available', 'pix.issuance_failed', 'boleto.available', 'boleto.issuance_failed', 'boleto.compensated', 'payment_link.created', 'payment_link.updated', 'refund.accepted', 'account.restored', 'customer.created', 'customer.updated', 'customer.deleted', 'withdrawal.accepted', 'charge.fully_refunded']]
+    events: Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed', 'charge.updated', 'charge.expired', 'withdrawal.requested', 'withdrawal.completed', 'withdrawal.failed', 'dispute.opened', 'dispute.updated', 'dispute.closed', 'dispute.funds_debited', 'balance.hold.created', 'balance.hold.released', 'statement.created', 'ted.received', 'pix_refund.received', 'charge.payment_instructions_available', 'charge.payment_instructions_failed', 'boleto.compensated', 'payment_link.created', 'payment_link.updated', 'refund.accepted', 'account.restored', 'customer.created', 'customer.updated', 'customer.deleted', 'withdrawal.accepted', 'charge.fully_refunded', 'charge.partially_refunded', 'withdrawal.destination_changed', 'boleto.overpayment_received', 'refund.reconciliation_required', 'boleto.partial_settlement_detected', 'withdrawal.automatic_settings_changed']]
 
 class CreateWebhookRequest(_CreateWebhookRequestRequired, total=False):
     is_active: bool
@@ -93,6 +93,12 @@ class _CreateWithdrawalRequestRequired(TypedDict):
 
 class CreateWithdrawalRequest(_CreateWithdrawalRequestRequired, total=False):
     expected_destination_id: str | None
+
+class _DeliverWebhookEventRequestRequired(TypedDict):
+    webhook_id: str
+
+class DeliverWebhookEventRequest(_DeliverWebhookEventRequestRequired, total=False):
+    pass
 
 class _IssueSimulationPaymentRequestRequired(TypedDict):
     payment_method: int
@@ -104,6 +110,12 @@ class _RemoveCustomersRequestRequired(TypedDict):
     identifiers: Sequence[str | None]
 
 class RemoveCustomersRequest(_RemoveCustomersRequestRequired, total=False):
+    pass
+
+class _ResendWebhookDeliveriesRequestRequired(TypedDict):
+    delivery_ids: Sequence[str]
+
+class ResendWebhookDeliveriesRequest(_ResendWebhookDeliveriesRequestRequired, total=False):
     pass
 
 class _ResolveChargeScenarioRequestRequired(TypedDict):
@@ -386,6 +398,43 @@ class ListStatementsParams(TypedDict, total=False):
     created_lte: int
     sort_order: Literal['asc', 'desc']
 
+class _ResendWebhookDeliveriesParamsRequired(TypedDict):
+    delivery_ids: Sequence[str]
+
+class ResendWebhookDeliveriesParams(_ResendWebhookDeliveriesParamsRequired, total=False):
+    pass
+
+class ListWebhookDeliveriesParams(TypedDict, total=False):
+    page_size: int
+    after: str
+    before: str
+    webhook_id: str
+    event_type: str
+    event_id: str
+    status: Literal['pending', 'processing', 'delivered', 'failed', 'canceled']
+    created_gte: int
+    created_lte: int
+
+class ListWebhookDeliveryAttemptsParams(TypedDict, total=False):
+    page_size: int
+    after: str
+    before: str
+
+class _DeliverWebhookEventParamsRequired(TypedDict):
+    webhook_id: str
+
+class DeliverWebhookEventParams(_DeliverWebhookEventParamsRequired, total=False):
+    pass
+
+class ListWebhookEventsParams(TypedDict, total=False):
+    page_size: int
+    after: str
+    before: str
+    event_type: str
+    resource_id: str
+    created_gte: int
+    created_lte: int
+
 class _SetWebhookPauseParamsRequired(TypedDict):
     is_paused: bool
 
@@ -400,7 +449,7 @@ class ListWebhooksParams(TypedDict, total=False):
 class _CreateWebhookParamsRequired(TypedDict):
     name: str
     url: str
-    events: Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed', 'charge.updated', 'charge.expired', 'withdrawal.requested', 'withdrawal.completed', 'withdrawal.failed', 'dispute.opened', 'dispute.updated', 'dispute.closed', 'dispute.funds_debited', 'balance.hold.created', 'balance.hold.released', 'statement.created', 'ted.received', 'pix_refund.received', 'pix.available', 'pix.issuance_failed', 'boleto.available', 'boleto.issuance_failed', 'boleto.compensated', 'payment_link.created', 'payment_link.updated', 'refund.accepted', 'account.restored', 'customer.created', 'customer.updated', 'customer.deleted', 'withdrawal.accepted', 'charge.fully_refunded']]
+    events: Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed', 'charge.updated', 'charge.expired', 'withdrawal.requested', 'withdrawal.completed', 'withdrawal.failed', 'dispute.opened', 'dispute.updated', 'dispute.closed', 'dispute.funds_debited', 'balance.hold.created', 'balance.hold.released', 'statement.created', 'ted.received', 'pix_refund.received', 'charge.payment_instructions_available', 'charge.payment_instructions_failed', 'boleto.compensated', 'payment_link.created', 'payment_link.updated', 'refund.accepted', 'account.restored', 'customer.created', 'customer.updated', 'customer.deleted', 'withdrawal.accepted', 'charge.fully_refunded', 'charge.partially_refunded', 'withdrawal.destination_changed', 'boleto.overpayment_received', 'refund.reconciliation_required', 'boleto.partial_settlement_detected', 'withdrawal.automatic_settings_changed']]
 
 class CreateWebhookParams(_CreateWebhookParamsRequired, total=False):
     is_active: bool

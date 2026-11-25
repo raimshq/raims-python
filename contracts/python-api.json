@@ -578,9 +578,17 @@
       "kind": "attribute",
       "type_source": "services.AsyncStatementsService"
     },
+    "raims.AsyncRaimsClient.webhook_deliveries": {
+      "kind": "attribute",
+      "type_source": "services.AsyncWebhookDeliveriesService"
+    },
     "raims.AsyncRaimsClient.webhook_event_types": {
       "kind": "attribute",
       "type_source": "services.AsyncWebhookEventTypesService"
+    },
+    "raims.AsyncRaimsClient.webhook_events": {
+      "kind": "attribute",
+      "type_source": "services.AsyncWebhookEventsService"
     },
     "raims.AsyncRaimsClient.webhooks": {
       "kind": "attribute",
@@ -1392,9 +1400,17 @@
       "kind": "attribute",
       "type_source": "services.StatementsService"
     },
+    "raims.RaimsClient.webhook_deliveries": {
+      "kind": "attribute",
+      "type_source": "services.WebhookDeliveriesService"
+    },
     "raims.RaimsClient.webhook_event_types": {
       "kind": "attribute",
       "type_source": "services.WebhookEventTypesService"
+    },
+    "raims.RaimsClient.webhook_events": {
+      "kind": "attribute",
+      "type_source": "services.WebhookEventsService"
     },
     "raims.RaimsClient.webhooks": {
       "kind": "attribute",
@@ -2048,6 +2064,26 @@
       "value": "'unix_seconds'",
       "annotation": "Final"
     },
+    "raims.enum_values.ACCOUNT_RESTORED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.ACCOUNT_RESTORED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.ACCOUNT_RESTORED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.ACCOUNT_RESTORED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
     "raims.enum_values.BALANCE_FORECAST_PERIOD_LAST_15_DAYS": {
       "kind": "constant_or_alias",
       "value": "'last_15_days'",
@@ -2068,6 +2104,206 @@
       "value": "'today'",
       "annotation": "Final"
     },
+    "raims.enum_values.BALANCE_HOLD_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BALANCE_HOLD_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BALANCE_HOLD_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BALANCE_HOLD_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BALANCE_HOLD_RELEASED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BALANCE_HOLD_RELEASED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BALANCE_HOLD_RELEASED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BALANCE_HOLD_RELEASED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_AVAILABLE_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_AVAILABLE_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_AVAILABLE_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_AVAILABLE_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_AVAILABLE_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_AVAILABLE_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_COMPENSATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_COMPENSATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_COMPENSATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_COMPENSATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_COMPENSATED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_COMPENSATED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_ISSUANCE_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_ISSUANCE_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_ISSUANCE_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_ISSUANCE_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_ISSUANCE_FAILED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_ISSUANCE_FAILED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_OVERPAYMENT_RECEIVED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_OVERPAYMENT_RECEIVED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_OVERPAYMENT_RECEIVED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_OVERPAYMENT_RECEIVED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_PARTIAL_SETTLEMENT_DETECTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_PARTIAL_SETTLEMENT_DETECTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_PARTIAL_SETTLEMENT_DETECTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.BOLETO_PARTIAL_SETTLEMENT_DETECTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_CANCELED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_CANCELED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_CANCELED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_CANCELED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_CANCELED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_CANCELED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
     "raims.enum_values.CHARGE_CREATED_PAYMENT_METHOD_TYPES_ITEM_BOLETO": {
       "kind": "constant_or_alias",
       "value": "2",
@@ -2076,6 +2312,126 @@
     "raims.enum_values.CHARGE_CREATED_PAYMENT_METHOD_TYPES_ITEM_PIX": {
       "kind": "constant_or_alias",
       "value": "1",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_CREATED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_CREATED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_EXPIRED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_EXPIRED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_EXPIRED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_EXPIRED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_EXPIRED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_EXPIRED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_FAILED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_FAILED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_FULLY_REFUNDED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_FULLY_REFUNDED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_FULLY_REFUNDED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_FULLY_REFUNDED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_FULLY_REFUNDED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_FULLY_REFUNDED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
       "annotation": "Final"
     },
     "raims.enum_values.CHARGE_LIST_ITEM_PAYMENT_METHOD_TYPES_ITEM_BOLETO": {
@@ -2088,6 +2444,66 @@
       "value": "1",
       "annotation": "Final"
     },
+    "raims.enum_values.CHARGE_PAID_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAID_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAID_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAID_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAID_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAID_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PARTIALLY_REFUNDED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PARTIALLY_REFUNDED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PARTIALLY_REFUNDED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PARTIALLY_REFUNDED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PARTIALLY_REFUNDED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PARTIALLY_REFUNDED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
     "raims.enum_values.CHARGE_PAYMENT_INFORMATION_BOLETO_PAYMENT_STATUS_AWAITING_PAYMENT": {
       "kind": "constant_or_alias",
       "value": "'awaiting_payment'",
@@ -2096,6 +2512,11 @@
     "raims.enum_values.CHARGE_PAYMENT_INFORMATION_BOLETO_PAYMENT_STATUS_COMPENSATED": {
       "kind": "constant_or_alias",
       "value": "'compensated'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAYMENT_INFORMATION_BOLETO_PAYMENT_STATUS_PARTIALLY_SETTLED": {
+      "kind": "constant_or_alias",
+      "value": "'partially_settled'",
       "annotation": "Final"
     },
     "raims.enum_values.CHARGE_PAYMENT_INFORMATION_BOLETO_PAYMENT_STATUS_SETTLED": {
@@ -2141,6 +2562,66 @@
     "raims.enum_values.CHARGE_PAYMENT_INFORMATION_PIX_STATUS_PENDING": {
       "kind": "constant_or_alias",
       "value": "'pending'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAYMENT_INSTRUCTIONS_AVAILABLE_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAYMENT_INSTRUCTIONS_AVAILABLE_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAYMENT_INSTRUCTIONS_AVAILABLE_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAYMENT_INSTRUCTIONS_AVAILABLE_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAYMENT_INSTRUCTIONS_AVAILABLE_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAYMENT_INSTRUCTIONS_AVAILABLE_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAYMENT_INSTRUCTIONS_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAYMENT_INSTRUCTIONS_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAYMENT_INSTRUCTIONS_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAYMENT_INSTRUCTIONS_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAYMENT_INSTRUCTIONS_FAILED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_PAYMENT_INSTRUCTIONS_FAILED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
       "annotation": "Final"
     },
     "raims.enum_values.CHARGE_PAYMENT_METHOD_TYPES_ITEM_BOLETO": {
@@ -2246,6 +2727,36 @@
     "raims.enum_values.CHARGE_STATISTICS_PERIOD_TODAY": {
       "kind": "constant_or_alias",
       "value": "'today'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_UPDATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_UPDATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_UPDATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_UPDATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_UPDATED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CHARGE_UPDATED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
       "annotation": "Final"
     },
     "raims.enum_values.CHECKOUT_ASSET_ERROR_CODE_CHECKOUT_ASSET_INVALID_IMAGE": {
@@ -2378,6 +2889,16 @@
       "value": "'boleto.issuance_failed'",
       "annotation": "Final"
     },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_BOLETO_OVERPAYMENT_RECEIVED": {
+      "kind": "constant_or_alias",
+      "value": "'boleto.overpayment_received'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_BOLETO_PARTIAL_SETTLEMENT_DETECTED": {
+      "kind": "constant_or_alias",
+      "value": "'boleto.partial_settlement_detected'",
+      "annotation": "Final"
+    },
     "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_CHARGE_CANCELED": {
       "kind": "constant_or_alias",
       "value": "'charge.canceled'",
@@ -2406,6 +2927,21 @@
     "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_CHARGE_PAID": {
       "kind": "constant_or_alias",
       "value": "'charge.paid'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_CHARGE_PARTIALLY_REFUNDED": {
+      "kind": "constant_or_alias",
+      "value": "'charge.partially_refunded'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_CHARGE_PAYMENT_INSTRUCTIONS_AVAILABLE": {
+      "kind": "constant_or_alias",
+      "value": "'charge.payment_instructions_available'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_CHARGE_PAYMENT_INSTRUCTIONS_FAILED": {
+      "kind": "constant_or_alias",
+      "value": "'charge.payment_instructions_failed'",
       "annotation": "Final"
     },
     "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_CHARGE_UPDATED": {
@@ -2488,6 +3024,11 @@
       "value": "'refund.failed'",
       "annotation": "Final"
     },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_REFUND_RECONCILIATION_REQUIRED": {
+      "kind": "constant_or_alias",
+      "value": "'refund.reconciliation_required'",
+      "annotation": "Final"
+    },
     "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_REFUND_REQUESTED": {
       "kind": "constant_or_alias",
       "value": "'refund.requested'",
@@ -2508,9 +3049,19 @@
       "value": "'withdrawal.accepted'",
       "annotation": "Final"
     },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_WITHDRAWAL_AUTOMATIC_SETTINGS_CHANGED": {
+      "kind": "constant_or_alias",
+      "value": "'withdrawal.automatic_settings_changed'",
+      "annotation": "Final"
+    },
     "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_WITHDRAWAL_COMPLETED": {
       "kind": "constant_or_alias",
       "value": "'withdrawal.completed'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_WITHDRAWAL_DESTINATION_CHANGED": {
+      "kind": "constant_or_alias",
+      "value": "'withdrawal.destination_changed'",
       "annotation": "Final"
     },
     "raims.enum_values.CREATE_WEBHOOK_REQUEST_EVENTS_ITEM_WITHDRAWAL_FAILED": {
@@ -2533,6 +3084,66 @@
       "value": "'cpf'",
       "annotation": "Final"
     },
+    "raims.enum_values.CUSTOMER_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CUSTOMER_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CUSTOMER_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CUSTOMER_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CUSTOMER_CREATED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CUSTOMER_CREATED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CUSTOMER_DELETED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CUSTOMER_DELETED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CUSTOMER_DELETED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CUSTOMER_DELETED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CUSTOMER_DELETED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CUSTOMER_DELETED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
     "raims.enum_values.CUSTOMER_LIST_ITEM_TAX_ID_TYPE_CNPJ": {
       "kind": "constant_or_alias",
       "value": "'cnpj'",
@@ -2541,6 +3152,76 @@
     "raims.enum_values.CUSTOMER_LIST_ITEM_TAX_ID_TYPE_CPF": {
       "kind": "constant_or_alias",
       "value": "'cpf'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CUSTOMER_UPDATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CUSTOMER_UPDATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CUSTOMER_UPDATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CUSTOMER_UPDATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CUSTOMER_UPDATED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.CUSTOMER_UPDATED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.DISPUTE_CLOSED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.DISPUTE_CLOSED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.DISPUTE_CLOSED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.DISPUTE_CLOSED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.DISPUTE_FUNDS_DEBITED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.DISPUTE_FUNDS_DEBITED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.DISPUTE_FUNDS_DEBITED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.DISPUTE_FUNDS_DEBITED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
       "annotation": "Final"
     },
     "raims.enum_values.DISPUTE_INFRACTION_RESULT_AGREED": {
@@ -2608,6 +3289,26 @@
       "value": "'rejected'",
       "annotation": "Final"
     },
+    "raims.enum_values.DISPUTE_OPENED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.DISPUTE_OPENED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.DISPUTE_OPENED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.DISPUTE_OPENED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
     "raims.enum_values.DISPUTE_REFUND_RESULT_PARTIALLY_ACCEPTED": {
       "kind": "constant_or_alias",
       "value": "'partially_accepted'",
@@ -2656,6 +3357,56 @@
     "raims.enum_values.DISPUTE_STAGE_REJECTED": {
       "kind": "constant_or_alias",
       "value": "'rejected'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.DISPUTE_UPDATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.DISPUTE_UPDATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.DISPUTE_UPDATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.DISPUTE_UPDATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PAYMENT_LINK_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PAYMENT_LINK_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PAYMENT_LINK_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PAYMENT_LINK_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PAYMENT_LINK_CREATED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PAYMENT_LINK_CREATED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
       "annotation": "Final"
     },
     "raims.enum_values.PAYMENT_LINK_DETAILS_EFFECTIVE_PAYMENT_METHOD_TYPES_ITEM_BOLETO": {
@@ -2723,6 +3474,221 @@
       "value": "'PIX_CANCELLED'",
       "annotation": "Final"
     },
+    "raims.enum_values.PAYMENT_LINK_UPDATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PAYMENT_LINK_UPDATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PAYMENT_LINK_UPDATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PAYMENT_LINK_UPDATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PAYMENT_LINK_UPDATED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PAYMENT_LINK_UPDATED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PIX_AVAILABLE_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PIX_AVAILABLE_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PIX_AVAILABLE_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PIX_AVAILABLE_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PIX_AVAILABLE_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PIX_AVAILABLE_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PIX_ISSUANCE_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PIX_ISSUANCE_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PIX_ISSUANCE_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PIX_ISSUANCE_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PIX_ISSUANCE_FAILED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PIX_ISSUANCE_FAILED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PIX_REFUND_RECEIVED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PIX_REFUND_RECEIVED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PIX_REFUND_RECEIVED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.PIX_REFUND_RECEIVED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_ACCEPTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_ACCEPTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_ACCEPTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_ACCEPTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_COMPLETED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_COMPLETED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_COMPLETED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_COMPLETED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_COMPLETED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_COMPLETED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_FAILED_WEBHOOK_EVENT_DATA_FAILURE_REASON_CODE_REFUND_FAILURE_REASON_UNAVAILABLE": {
+      "kind": "constant_or_alias",
+      "value": "'REFUND_FAILURE_REASON_UNAVAILABLE'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_FAILED_WEBHOOK_EVENT_DATA_FAILURE_REASON_CODE_REFUND_NOT_SUBMITTED": {
+      "kind": "constant_or_alias",
+      "value": "'REFUND_NOT_SUBMITTED'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_FAILED_WEBHOOK_EVENT_DATA_FAILURE_REASON_CODE_REFUND_PROCESSING_FAILED": {
+      "kind": "constant_or_alias",
+      "value": "'REFUND_PROCESSING_FAILED'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_FAILED_WEBHOOK_EVENT_DATA_FAILURE_REASON_CODE_REFUND_PROCESSING_UNAVAILABLE": {
+      "kind": "constant_or_alias",
+      "value": "'REFUND_PROCESSING_UNAVAILABLE'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_FAILED_WEBHOOK_EVENT_DATA_FAILURE_REASON_CODE_REFUND_REJECTED": {
+      "kind": "constant_or_alias",
+      "value": "'REFUND_REJECTED'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_FAILED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_FAILED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
     "raims.enum_values.REFUND_FAILURE_REASON_CODE_REFUND_FAILURE_REASON_UNAVAILABLE": {
       "kind": "constant_or_alias",
       "value": "'REFUND_FAILURE_REASON_UNAVAILABLE'",
@@ -2746,6 +3712,56 @@
     "raims.enum_values.REFUND_FAILURE_REASON_CODE_REFUND_REJECTED": {
       "kind": "constant_or_alias",
       "value": "'REFUND_REJECTED'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_RECONCILIATION_REQUIRED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_RECONCILIATION_REQUIRED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_RECONCILIATION_REQUIRED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_RECONCILIATION_REQUIRED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_REQUESTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_REQUESTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_REQUESTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_REQUESTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_REQUESTED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.REFUND_REQUESTED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
       "annotation": "Final"
     },
     "raims.enum_values.REFUND_STATUS_ACCEPTED": {
@@ -2833,6 +3849,36 @@
       "value": "'failed'",
       "annotation": "Final"
     },
+    "raims.enum_values.STATEMENT_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.STATEMENT_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.STATEMENT_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.STATEMENT_CREATED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.STATEMENT_CREATED_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.STATEMENT_CREATED_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
     "raims.enum_values.STATEMENT_REFERENCE_TYPE_AJUSTE": {
       "kind": "constant_or_alias",
       "value": "4",
@@ -2913,6 +3959,26 @@
       "value": "3",
       "annotation": "Final"
     },
+    "raims.enum_values.TED_RECEIVED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.TED_RECEIVED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.TED_RECEIVED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.TED_RECEIVED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
     "raims.enum_values.UPDATE_PAYMENT_LINK_REQUEST_PAYMENT_METHOD_TYPES_ITEM_BOLETO": {
       "kind": "constant_or_alias",
       "value": "2",
@@ -2931,6 +3997,31 @@
     "raims.enum_values.WEBHOOK_CREATED_DISABLED_REASON_MANUAL": {
       "kind": "constant_or_alias",
       "value": "'manual'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_DELIVERY_STATUS_CANCELED": {
+      "kind": "constant_or_alias",
+      "value": "'canceled'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_DELIVERY_STATUS_DELIVERED": {
+      "kind": "constant_or_alias",
+      "value": "'delivered'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_DELIVERY_STATUS_FAILED": {
+      "kind": "constant_or_alias",
+      "value": "'failed'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_DELIVERY_STATUS_PENDING": {
+      "kind": "constant_or_alias",
+      "value": "'pending'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_DELIVERY_STATUS_PROCESSING": {
+      "kind": "constant_or_alias",
+      "value": "'processing'",
       "annotation": "Final"
     },
     "raims.enum_values.WEBHOOK_DISABLED_REASON_CONTINUOUS_FAILURE": {
@@ -2973,6 +4064,16 @@
       "value": "'boleto.issuance_failed'",
       "annotation": "Final"
     },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_BOLETO_OVERPAYMENT_RECEIVED": {
+      "kind": "constant_or_alias",
+      "value": "'boleto.overpayment_received'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_BOLETO_PARTIAL_SETTLEMENT_DETECTED": {
+      "kind": "constant_or_alias",
+      "value": "'boleto.partial_settlement_detected'",
+      "annotation": "Final"
+    },
     "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_CHARGE_CANCELED": {
       "kind": "constant_or_alias",
       "value": "'charge.canceled'",
@@ -3001,6 +4102,21 @@
     "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_CHARGE_PAID": {
       "kind": "constant_or_alias",
       "value": "'charge.paid'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_CHARGE_PARTIALLY_REFUNDED": {
+      "kind": "constant_or_alias",
+      "value": "'charge.partially_refunded'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_CHARGE_PAYMENT_INSTRUCTIONS_AVAILABLE": {
+      "kind": "constant_or_alias",
+      "value": "'charge.payment_instructions_available'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_CHARGE_PAYMENT_INSTRUCTIONS_FAILED": {
+      "kind": "constant_or_alias",
+      "value": "'charge.payment_instructions_failed'",
       "annotation": "Final"
     },
     "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_CHARGE_UPDATED": {
@@ -3083,6 +4199,11 @@
       "value": "'refund.failed'",
       "annotation": "Final"
     },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_REFUND_RECONCILIATION_REQUIRED": {
+      "kind": "constant_or_alias",
+      "value": "'refund.reconciliation_required'",
+      "annotation": "Final"
+    },
     "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_REFUND_REQUESTED": {
       "kind": "constant_or_alias",
       "value": "'refund.requested'",
@@ -3103,9 +4224,19 @@
       "value": "'withdrawal.accepted'",
       "annotation": "Final"
     },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_WITHDRAWAL_AUTOMATIC_SETTINGS_CHANGED": {
+      "kind": "constant_or_alias",
+      "value": "'withdrawal.automatic_settings_changed'",
+      "annotation": "Final"
+    },
     "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_WITHDRAWAL_COMPLETED": {
       "kind": "constant_or_alias",
       "value": "'withdrawal.completed'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_WITHDRAWAL_DESTINATION_CHANGED": {
+      "kind": "constant_or_alias",
+      "value": "'withdrawal.destination_changed'",
       "annotation": "Final"
     },
     "raims.enum_values.WEBHOOK_EVENT_TYPE_CODE_WITHDRAWAL_FAILED": {
@@ -3138,6 +4269,96 @@
       "value": "'unknown'",
       "annotation": "Final"
     },
+    "raims.enum_values.WEBHOOK_TEST_WEBHOOK_EVENT_ENVIRONMENT_PRODUCTION": {
+      "kind": "constant_or_alias",
+      "value": "'production'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WEBHOOK_TEST_WEBHOOK_EVENT_ENVIRONMENT_SANDBOX": {
+      "kind": "constant_or_alias",
+      "value": "'sandbox'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_ACCEPTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_ACCEPTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_ACCEPTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_ACCEPTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_AUTOMATIC_SETTINGS_CHANGED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_AUTOMATIC_SETTINGS_CHANGED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_AUTOMATIC_SETTINGS_CHANGED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_AUTOMATIC_SETTINGS_CHANGED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_COMPLETED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_COMPLETED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_COMPLETED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_COMPLETED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_DESTINATION_CHANGED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_DESTINATION_CHANGED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_DESTINATION_CHANGED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_DESTINATION_CHANGED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
+      "annotation": "Final"
+    },
     "raims.enum_values.WITHDRAWAL_DESTINATION_KEY_TYPE_CNPJ": {
       "kind": "constant_or_alias",
       "value": "'CNPJ'",
@@ -3156,6 +4377,26 @@
     "raims.enum_values.WITHDRAWAL_DESTINATION_KEY_TYPE_PHONE": {
       "kind": "constant_or_alias",
       "value": "'PHONE'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_FAILED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
       "annotation": "Final"
     },
     "raims.enum_values.WITHDRAWAL_FAILURE_REASON_CODE_ABOVE_MAXIMUM_WITHDRAWAL": {
@@ -3256,6 +4497,26 @@
     "raims.enum_values.WITHDRAWAL_PIX_DESTINATION_KEY_TYPE_PHONE": {
       "kind": "constant_or_alias",
       "value": "'PHONE'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_REQUESTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_BOLETO": {
+      "kind": "constant_or_alias",
+      "value": "'boleto'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_REQUESTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_CREDIT_CARD": {
+      "kind": "constant_or_alias",
+      "value": "'credit_card'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_REQUESTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_DEBIT": {
+      "kind": "constant_or_alias",
+      "value": "'debit'",
+      "annotation": "Final"
+    },
+    "raims.enum_values.WITHDRAWAL_REQUESTED_WEBHOOK_EVENT_DATA_PAYMENT_METHOD_PIX": {
+      "kind": "constant_or_alias",
+      "value": "'pix'",
       "annotation": "Final"
     },
     "raims.enum_values.WITHDRAWAL_STATUS_CANCELED": {
@@ -4305,6 +5566,19 @@
       "deleter": null,
       "readonly": true
     },
+    "raims.models.Charge.boleto_settlement": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "ChargeBoletoSettlement",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
     "raims.models.Charge.checkout_payment_method": {
       "kind": "property",
       "getter": {
@@ -4757,6 +6031,121 @@
       "readonly": true
     },
     "raims.models.ChargeBoletoPaymentInformation.to_dict": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "dict[str, Any]",
+      "decorators": []
+    },
+    "raims.models.ChargeBoletoSettlement": {
+      "kind": "class",
+      "bases": [
+        "raims._resource.ApiResource"
+      ],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.models.ChargeBoletoSettlement.__getitem__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "name",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        }
+      ],
+      "return": "Any",
+      "decorators": []
+    },
+    "raims.models.ChargeBoletoSettlement.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "data",
+          "kind": "positional_or_keyword",
+          "annotation": "Mapping[str, Any]",
+          "default": null
+        },
+        {
+          "name": "last_response",
+          "kind": "keyword_only",
+          "annotation": "LastResponse | None",
+          "default": "None"
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.models.ChargeBoletoSettlement.__iter__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "Iterator[str]",
+      "decorators": []
+    },
+    "raims.models.ChargeBoletoSettlement.__len__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "int",
+      "decorators": []
+    },
+    "raims.models.ChargeBoletoSettlement.confirmed_total_cents": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "int | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.ChargeBoletoSettlement.last_response": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "LastResponse | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.ChargeBoletoSettlement.observed_amount_cents": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "int | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.ChargeBoletoSettlement.overpayment_cents": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "int | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.ChargeBoletoSettlement.to_dict": {
       "kind": "method",
       "binding": "instance",
       "parameters": [],
@@ -9320,7 +10709,7 @@
     },
     "raims.models.PageInfo": {
       "kind": "constant_or_alias",
-      "value": "ChargeListPage | CustomerListPage | DisputeListPage | PaymentLinkListPage | RefundListPage | StatementListPage | WebhookListPage | WithdrawalDestinationListPage | WithdrawalListPage",
+      "value": "ChargeListPage | CustomerListPage | DisputeListPage | PaymentLinkListPage | RefundListPage | StatementListPage | WebhookDeliveryPage | WebhookListPage | WithdrawalDestinationListPage | WithdrawalListPage",
       "annotation": "TypeAlias"
     },
     "raims.models.PaymentLink": {
@@ -11991,6 +13380,904 @@
       "deleter": null,
       "readonly": true
     },
+    "raims.models.WebhookAdvanceAccepted": {
+      "kind": "class",
+      "bases": [
+        "raims._resource.ApiResource"
+      ],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.models.WebhookAdvanceAccepted.__getitem__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "name",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        }
+      ],
+      "return": "Any",
+      "decorators": []
+    },
+    "raims.models.WebhookAdvanceAccepted.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "data",
+          "kind": "positional_or_keyword",
+          "annotation": "Mapping[str, Any]",
+          "default": null
+        },
+        {
+          "name": "last_response",
+          "kind": "keyword_only",
+          "annotation": "LastResponse | None",
+          "default": "None"
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.models.WebhookAdvanceAccepted.__iter__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "Iterator[str]",
+      "decorators": []
+    },
+    "raims.models.WebhookAdvanceAccepted.__len__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "int",
+      "decorators": []
+    },
+    "raims.models.WebhookAdvanceAccepted.delivery_id": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAdvanceAccepted.last_response": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "LastResponse | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAdvanceAccepted.to_dict": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "dict[str, Any]",
+      "decorators": []
+    },
+    "raims.models.WebhookAttempt": {
+      "kind": "class",
+      "bases": [
+        "raims._resource.ApiResource"
+      ],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.models.WebhookAttempt.__getitem__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "name",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        }
+      ],
+      "return": "Any",
+      "decorators": []
+    },
+    "raims.models.WebhookAttempt.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "data",
+          "kind": "positional_or_keyword",
+          "annotation": "Mapping[str, Any]",
+          "default": null
+        },
+        {
+          "name": "last_response",
+          "kind": "keyword_only",
+          "annotation": "LastResponse | None",
+          "default": "None"
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.models.WebhookAttempt.__iter__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "Iterator[str]",
+      "decorators": []
+    },
+    "raims.models.WebhookAttempt.__len__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "int",
+      "decorators": []
+    },
+    "raims.models.WebhookAttempt.attempt_number": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "int",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttempt.created_at": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "int",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttempt.delivery_id": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttempt.destination_ip": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttempt.duration_ms": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "Decimal | int",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttempt.endpoint_url": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttempt.error_code": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttempt.id": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttempt.last_response": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "LastResponse | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttempt.request_available": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "bool",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttempt.response_body_available": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "bool",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttempt.response_body_truncated": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "bool",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttempt.status_code": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "int | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttempt.to_dict": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "dict[str, Any]",
+      "decorators": []
+    },
+    "raims.models.WebhookAttemptDetail": {
+      "kind": "class",
+      "bases": [
+        "raims._resource.ApiResource"
+      ],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.models.WebhookAttemptDetail.__getitem__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "name",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        }
+      ],
+      "return": "Any",
+      "decorators": []
+    },
+    "raims.models.WebhookAttemptDetail.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "data",
+          "kind": "positional_or_keyword",
+          "annotation": "Mapping[str, Any]",
+          "default": null
+        },
+        {
+          "name": "last_response",
+          "kind": "keyword_only",
+          "annotation": "LastResponse | None",
+          "default": "None"
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.models.WebhookAttemptDetail.__iter__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "Iterator[str]",
+      "decorators": []
+    },
+    "raims.models.WebhookAttemptDetail.__len__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "int",
+      "decorators": []
+    },
+    "raims.models.WebhookAttemptDetail.attempt_number": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "int",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptDetail.created_at": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "int",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptDetail.delivery_id": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptDetail.destination_ip": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptDetail.duration_ms": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "Decimal | int",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptDetail.endpoint_url": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptDetail.error_code": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptDetail.id": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptDetail.last_response": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "LastResponse | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptDetail.request_available": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "bool",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptDetail.request_body": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptDetail.response_body": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptDetail.response_body_available": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "bool",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptDetail.response_body_truncated": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "bool",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptDetail.status_code": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "int | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptDetail.to_dict": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "dict[str, Any]",
+      "decorators": []
+    },
+    "raims.models.WebhookAttemptListResponse": {
+      "kind": "class",
+      "bases": [
+        "raims._resource.ApiResource"
+      ],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.models.WebhookAttemptListResponse.__getitem__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "name",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        }
+      ],
+      "return": "Any",
+      "decorators": []
+    },
+    "raims.models.WebhookAttemptListResponse.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "data",
+          "kind": "positional_or_keyword",
+          "annotation": "Mapping[str, Any]",
+          "default": null
+        },
+        {
+          "name": "last_response",
+          "kind": "keyword_only",
+          "annotation": "LastResponse | None",
+          "default": "None"
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.models.WebhookAttemptListResponse.__iter__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "Iterator[str]",
+      "decorators": []
+    },
+    "raims.models.WebhookAttemptListResponse.__len__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "int",
+      "decorators": []
+    },
+    "raims.models.WebhookAttemptListResponse.last_response": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "LastResponse | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptListResponse.list": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "Sequence[WebhookAttempt]",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptListResponse.page": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "WebhookDeliveryPage",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookAttemptListResponse.to_dict": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "dict[str, Any]",
+      "decorators": []
+    },
+    "raims.models.WebhookBulkResendAccepted": {
+      "kind": "class",
+      "bases": [
+        "raims._resource.ApiResource"
+      ],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.models.WebhookBulkResendAccepted.__getitem__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "name",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        }
+      ],
+      "return": "Any",
+      "decorators": []
+    },
+    "raims.models.WebhookBulkResendAccepted.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "data",
+          "kind": "positional_or_keyword",
+          "annotation": "Mapping[str, Any]",
+          "default": null
+        },
+        {
+          "name": "last_response",
+          "kind": "keyword_only",
+          "annotation": "LastResponse | None",
+          "default": "None"
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.models.WebhookBulkResendAccepted.__iter__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "Iterator[str]",
+      "decorators": []
+    },
+    "raims.models.WebhookBulkResendAccepted.__len__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "int",
+      "decorators": []
+    },
+    "raims.models.WebhookBulkResendAccepted.last_response": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "LastResponse | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookBulkResendAccepted.results": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "Sequence[WebhookBulkResendItem]",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookBulkResendAccepted.to_dict": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "dict[str, Any]",
+      "decorators": []
+    },
+    "raims.models.WebhookBulkResendItem": {
+      "kind": "class",
+      "bases": [
+        "raims._resource.ApiResource"
+      ],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.models.WebhookBulkResendItem.__getitem__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "name",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        }
+      ],
+      "return": "Any",
+      "decorators": []
+    },
+    "raims.models.WebhookBulkResendItem.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "data",
+          "kind": "positional_or_keyword",
+          "annotation": "Mapping[str, Any]",
+          "default": null
+        },
+        {
+          "name": "last_response",
+          "kind": "keyword_only",
+          "annotation": "LastResponse | None",
+          "default": "None"
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.models.WebhookBulkResendItem.__iter__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "Iterator[str]",
+      "decorators": []
+    },
+    "raims.models.WebhookBulkResendItem.__len__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "int",
+      "decorators": []
+    },
+    "raims.models.WebhookBulkResendItem.delivery_id": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookBulkResendItem.error": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "Error | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookBulkResendItem.event_id": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookBulkResendItem.last_response": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "LastResponse | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookBulkResendItem.source_delivery_id": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookBulkResendItem.to_dict": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "dict[str, Any]",
+      "decorators": []
+    },
     "raims.models.WebhookCreated": {
       "kind": "class",
       "bases": [
@@ -12235,6 +14522,954 @@
       "setter": null,
       "deleter": null,
       "readonly": true
+    },
+    "raims.models.WebhookDelivery": {
+      "kind": "class",
+      "bases": [
+        "raims._resource.ApiResource"
+      ],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.models.WebhookDelivery.__getitem__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "name",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        }
+      ],
+      "return": "Any",
+      "decorators": []
+    },
+    "raims.models.WebhookDelivery.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "data",
+          "kind": "positional_or_keyword",
+          "annotation": "Mapping[str, Any]",
+          "default": null
+        },
+        {
+          "name": "last_response",
+          "kind": "keyword_only",
+          "annotation": "LastResponse | None",
+          "default": "None"
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.models.WebhookDelivery.__iter__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "Iterator[str]",
+      "decorators": []
+    },
+    "raims.models.WebhookDelivery.__len__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "int",
+      "decorators": []
+    },
+    "raims.models.WebhookDelivery.created_at": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "int",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDelivery.deadline_at": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "int",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDelivery.event_created_at": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "int",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDelivery.event_id": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDelivery.event_type": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDelivery.id": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDelivery.last_response": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "LastResponse | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDelivery.next_attempt_at": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "int | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDelivery.status": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDelivery.to_dict": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "dict[str, Any]",
+      "decorators": []
+    },
+    "raims.models.WebhookDelivery.updated_at": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "int",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDelivery.webhook_id": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDeliveryListResponse": {
+      "kind": "class",
+      "bases": [
+        "raims._resource.ApiResource"
+      ],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.models.WebhookDeliveryListResponse.__getitem__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "name",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        }
+      ],
+      "return": "Any",
+      "decorators": []
+    },
+    "raims.models.WebhookDeliveryListResponse.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "data",
+          "kind": "positional_or_keyword",
+          "annotation": "Mapping[str, Any]",
+          "default": null
+        },
+        {
+          "name": "last_response",
+          "kind": "keyword_only",
+          "annotation": "LastResponse | None",
+          "default": "None"
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.models.WebhookDeliveryListResponse.__iter__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "Iterator[str]",
+      "decorators": []
+    },
+    "raims.models.WebhookDeliveryListResponse.__len__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "int",
+      "decorators": []
+    },
+    "raims.models.WebhookDeliveryListResponse.last_response": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "LastResponse | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDeliveryListResponse.list": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "Sequence[WebhookDelivery]",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDeliveryListResponse.page": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "WebhookDeliveryPage",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDeliveryListResponse.to_dict": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "dict[str, Any]",
+      "decorators": []
+    },
+    "raims.models.WebhookDeliveryPage": {
+      "kind": "class",
+      "bases": [
+        "raims._resource.ApiResource"
+      ],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.models.WebhookDeliveryPage.__getitem__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "name",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        }
+      ],
+      "return": "Any",
+      "decorators": []
+    },
+    "raims.models.WebhookDeliveryPage.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "data",
+          "kind": "positional_or_keyword",
+          "annotation": "Mapping[str, Any]",
+          "default": null
+        },
+        {
+          "name": "last_response",
+          "kind": "keyword_only",
+          "annotation": "LastResponse | None",
+          "default": "None"
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.models.WebhookDeliveryPage.__iter__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "Iterator[str]",
+      "decorators": []
+    },
+    "raims.models.WebhookDeliveryPage.__len__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "int",
+      "decorators": []
+    },
+    "raims.models.WebhookDeliveryPage.has_next": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "bool",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDeliveryPage.has_previous": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "bool",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDeliveryPage.last_response": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "LastResponse | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDeliveryPage.next_after": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDeliveryPage.page_size": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "int",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDeliveryPage.previous_before": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDeliveryPage.to_dict": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "dict[str, Any]",
+      "decorators": []
+    },
+    "raims.models.WebhookDeliveryResendAccepted": {
+      "kind": "class",
+      "bases": [
+        "raims._resource.ApiResource"
+      ],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.models.WebhookDeliveryResendAccepted.__getitem__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "name",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        }
+      ],
+      "return": "Any",
+      "decorators": []
+    },
+    "raims.models.WebhookDeliveryResendAccepted.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "data",
+          "kind": "positional_or_keyword",
+          "annotation": "Mapping[str, Any]",
+          "default": null
+        },
+        {
+          "name": "last_response",
+          "kind": "keyword_only",
+          "annotation": "LastResponse | None",
+          "default": "None"
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.models.WebhookDeliveryResendAccepted.__iter__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "Iterator[str]",
+      "decorators": []
+    },
+    "raims.models.WebhookDeliveryResendAccepted.__len__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "int",
+      "decorators": []
+    },
+    "raims.models.WebhookDeliveryResendAccepted.delivery_id": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDeliveryResendAccepted.event_id": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDeliveryResendAccepted.last_response": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "LastResponse | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookDeliveryResendAccepted.to_dict": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "dict[str, Any]",
+      "decorators": []
+    },
+    "raims.models.WebhookEvent": {
+      "kind": "class",
+      "bases": [
+        "raims._resource.ApiResource"
+      ],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.models.WebhookEvent.__getitem__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "name",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        }
+      ],
+      "return": "Any",
+      "decorators": []
+    },
+    "raims.models.WebhookEvent.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "data",
+          "kind": "positional_or_keyword",
+          "annotation": "Mapping[str, Any]",
+          "default": null
+        },
+        {
+          "name": "last_response",
+          "kind": "keyword_only",
+          "annotation": "LastResponse | None",
+          "default": "None"
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.models.WebhookEvent.__iter__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "Iterator[str]",
+      "decorators": []
+    },
+    "raims.models.WebhookEvent.__len__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "int",
+      "decorators": []
+    },
+    "raims.models.WebhookEvent.created_at": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "int",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookEvent.event_type": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookEvent.id": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookEvent.last_response": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "LastResponse | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookEvent.resource_id": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookEvent.resource_type": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookEvent.to_dict": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "dict[str, Any]",
+      "decorators": []
+    },
+    "raims.models.WebhookEventDetail": {
+      "kind": "class",
+      "bases": [
+        "raims._resource.ApiResource"
+      ],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.models.WebhookEventDetail.__getitem__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "name",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        }
+      ],
+      "return": "Any",
+      "decorators": []
+    },
+    "raims.models.WebhookEventDetail.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "data",
+          "kind": "positional_or_keyword",
+          "annotation": "Mapping[str, Any]",
+          "default": null
+        },
+        {
+          "name": "last_response",
+          "kind": "keyword_only",
+          "annotation": "LastResponse | None",
+          "default": "None"
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.models.WebhookEventDetail.__iter__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "Iterator[str]",
+      "decorators": []
+    },
+    "raims.models.WebhookEventDetail.__len__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "int",
+      "decorators": []
+    },
+    "raims.models.WebhookEventDetail.created_at": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "int",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookEventDetail.event_type": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookEventDetail.id": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookEventDetail.last_response": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "LastResponse | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookEventDetail.payload": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookEventDetail.resource_id": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookEventDetail.resource_type": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "str",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookEventDetail.to_dict": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "dict[str, Any]",
+      "decorators": []
+    },
+    "raims.models.WebhookEventListResponse": {
+      "kind": "class",
+      "bases": [
+        "raims._resource.ApiResource"
+      ],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.models.WebhookEventListResponse.__getitem__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "name",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        }
+      ],
+      "return": "Any",
+      "decorators": []
+    },
+    "raims.models.WebhookEventListResponse.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "data",
+          "kind": "positional_or_keyword",
+          "annotation": "Mapping[str, Any]",
+          "default": null
+        },
+        {
+          "name": "last_response",
+          "kind": "keyword_only",
+          "annotation": "LastResponse | None",
+          "default": "None"
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.models.WebhookEventListResponse.__iter__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "Iterator[str]",
+      "decorators": []
+    },
+    "raims.models.WebhookEventListResponse.__len__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "int",
+      "decorators": []
+    },
+    "raims.models.WebhookEventListResponse.last_response": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "LastResponse | None",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookEventListResponse.list": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "Sequence[WebhookEvent]",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookEventListResponse.page": {
+      "kind": "property",
+      "getter": {
+        "kind": "method",
+        "binding": "instance",
+        "parameters": [],
+        "return": "WebhookDeliveryPage",
+        "decorators": []
+      },
+      "setter": null,
+      "deleter": null,
+      "readonly": true
+    },
+    "raims.models.WebhookEventListResponse.to_dict": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [],
+      "return": "dict[str, Any]",
+      "decorators": []
     },
     "raims.models.WebhookEventType": {
       "kind": "class",
@@ -16182,6 +19417,178 @@
       "return": "models.Statement",
       "decorators": []
     },
+    "raims.services.AsyncWebhookDeliveriesService": {
+      "kind": "class",
+      "bases": [],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.services.AsyncWebhookDeliveriesService.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "client",
+          "kind": "positional_or_keyword",
+          "annotation": "Any",
+          "default": null
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.services.AsyncWebhookDeliveriesService.advance": {
+      "kind": "async_method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "delivery_id",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "models.WebhookAdvanceAccepted",
+      "decorators": []
+    },
+    "raims.services.AsyncWebhookDeliveriesService.list": {
+      "kind": "async_method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "params",
+          "kind": "positional_or_keyword",
+          "annotation": "types.ListWebhookDeliveriesParams | None",
+          "default": "None"
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "AsyncApiList[models.WebhookDelivery]",
+      "decorators": []
+    },
+    "raims.services.AsyncWebhookDeliveriesService.list_attempts": {
+      "kind": "async_method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "delivery_id",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        },
+        {
+          "name": "params",
+          "kind": "positional_or_keyword",
+          "annotation": "types.ListWebhookDeliveryAttemptsParams | None",
+          "default": "None"
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "AsyncApiList[models.WebhookAttempt]",
+      "decorators": []
+    },
+    "raims.services.AsyncWebhookDeliveriesService.resend": {
+      "kind": "async_method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "delivery_id",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "models.WebhookDeliveryResendAccepted",
+      "decorators": []
+    },
+    "raims.services.AsyncWebhookDeliveriesService.resend_many": {
+      "kind": "async_method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "params",
+          "kind": "positional_or_keyword",
+          "annotation": "types.ResendWebhookDeliveriesParams",
+          "default": null
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "models.WebhookBulkResendAccepted",
+      "decorators": []
+    },
+    "raims.services.AsyncWebhookDeliveriesService.retrieve": {
+      "kind": "async_method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "delivery_id",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "models.WebhookDelivery",
+      "decorators": []
+    },
+    "raims.services.AsyncWebhookDeliveriesService.retrieve_attempt": {
+      "kind": "async_method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "delivery_id",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        },
+        {
+          "name": "attempt_id",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "models.WebhookAttemptDetail",
+      "decorators": []
+    },
     "raims.services.AsyncWebhookEventTypesService": {
       "kind": "class",
       "bases": [],
@@ -16214,6 +19621,92 @@
         }
       ],
       "return": "models.WebhookEventTypeListResponse",
+      "decorators": []
+    },
+    "raims.services.AsyncWebhookEventsService": {
+      "kind": "class",
+      "bases": [],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.services.AsyncWebhookEventsService.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "client",
+          "kind": "positional_or_keyword",
+          "annotation": "Any",
+          "default": null
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.services.AsyncWebhookEventsService.deliver": {
+      "kind": "async_method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "event_id",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        },
+        {
+          "name": "params",
+          "kind": "positional_or_keyword",
+          "annotation": "types.DeliverWebhookEventParams",
+          "default": null
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "models.WebhookDeliveryResendAccepted",
+      "decorators": []
+    },
+    "raims.services.AsyncWebhookEventsService.list": {
+      "kind": "async_method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "params",
+          "kind": "positional_or_keyword",
+          "annotation": "types.ListWebhookEventsParams | None",
+          "default": "None"
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "AsyncApiList[models.WebhookEvent]",
+      "decorators": []
+    },
+    "raims.services.AsyncWebhookEventsService.retrieve": {
+      "kind": "async_method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "event_id",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "models.WebhookEventDetail",
       "decorators": []
     },
     "raims.services.AsyncWebhooksService": {
@@ -17684,6 +21177,178 @@
       "return": "models.Statement",
       "decorators": []
     },
+    "raims.services.WebhookDeliveriesService": {
+      "kind": "class",
+      "bases": [],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.services.WebhookDeliveriesService.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "client",
+          "kind": "positional_or_keyword",
+          "annotation": "Any",
+          "default": null
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.services.WebhookDeliveriesService.advance": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "delivery_id",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "models.WebhookAdvanceAccepted",
+      "decorators": []
+    },
+    "raims.services.WebhookDeliveriesService.list": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "params",
+          "kind": "positional_or_keyword",
+          "annotation": "types.ListWebhookDeliveriesParams | None",
+          "default": "None"
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "ApiList[models.WebhookDelivery]",
+      "decorators": []
+    },
+    "raims.services.WebhookDeliveriesService.list_attempts": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "delivery_id",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        },
+        {
+          "name": "params",
+          "kind": "positional_or_keyword",
+          "annotation": "types.ListWebhookDeliveryAttemptsParams | None",
+          "default": "None"
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "ApiList[models.WebhookAttempt]",
+      "decorators": []
+    },
+    "raims.services.WebhookDeliveriesService.resend": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "delivery_id",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "models.WebhookDeliveryResendAccepted",
+      "decorators": []
+    },
+    "raims.services.WebhookDeliveriesService.resend_many": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "params",
+          "kind": "positional_or_keyword",
+          "annotation": "types.ResendWebhookDeliveriesParams",
+          "default": null
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "models.WebhookBulkResendAccepted",
+      "decorators": []
+    },
+    "raims.services.WebhookDeliveriesService.retrieve": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "delivery_id",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "models.WebhookDelivery",
+      "decorators": []
+    },
+    "raims.services.WebhookDeliveriesService.retrieve_attempt": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "delivery_id",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        },
+        {
+          "name": "attempt_id",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "models.WebhookAttemptDetail",
+      "decorators": []
+    },
     "raims.services.WebhookEventTypesService": {
       "kind": "class",
       "bases": [],
@@ -17716,6 +21381,92 @@
         }
       ],
       "return": "models.WebhookEventTypeListResponse",
+      "decorators": []
+    },
+    "raims.services.WebhookEventsService": {
+      "kind": "class",
+      "bases": [],
+      "keywords": {},
+      "decorators": []
+    },
+    "raims.services.WebhookEventsService.__init__": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "client",
+          "kind": "positional_or_keyword",
+          "annotation": "Any",
+          "default": null
+        }
+      ],
+      "return": "None",
+      "decorators": []
+    },
+    "raims.services.WebhookEventsService.deliver": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "event_id",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        },
+        {
+          "name": "params",
+          "kind": "positional_or_keyword",
+          "annotation": "types.DeliverWebhookEventParams",
+          "default": null
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "models.WebhookDeliveryResendAccepted",
+      "decorators": []
+    },
+    "raims.services.WebhookEventsService.list": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "params",
+          "kind": "positional_or_keyword",
+          "annotation": "types.ListWebhookEventsParams | None",
+          "default": "None"
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "ApiList[models.WebhookEvent]",
+      "decorators": []
+    },
+    "raims.services.WebhookEventsService.retrieve": {
+      "kind": "method",
+      "binding": "instance",
+      "parameters": [
+        {
+          "name": "event_id",
+          "kind": "positional_or_keyword",
+          "annotation": "str",
+          "default": null
+        },
+        {
+          "name": "options",
+          "kind": "keyword_only",
+          "annotation": "RequestOptions | None",
+          "default": "None"
+        }
+      ],
+      "return": "models.WebhookEventDetail",
       "decorators": []
     },
     "raims.services.WebhooksService": {
@@ -18844,7 +22595,7 @@
     },
     "raims.types.CreateWebhookParams.events": {
       "kind": "field",
-      "annotation": "Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed', 'charge.updated', 'charge.expired', 'withdrawal.requested', 'withdrawal.completed', 'withdrawal.failed', 'dispute.opened', 'dispute.updated', 'dispute.closed', 'dispute.funds_debited', 'balance.hold.created', 'balance.hold.released', 'statement.created', 'ted.received', 'pix_refund.received', 'pix.available', 'pix.issuance_failed', 'boleto.available', 'boleto.issuance_failed', 'boleto.compensated', 'payment_link.created', 'payment_link.updated', 'refund.accepted', 'account.restored', 'customer.created', 'customer.updated', 'customer.deleted', 'withdrawal.accepted', 'charge.fully_refunded']]",
+      "annotation": "Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed', 'charge.updated', 'charge.expired', 'withdrawal.requested', 'withdrawal.completed', 'withdrawal.failed', 'dispute.opened', 'dispute.updated', 'dispute.closed', 'dispute.funds_debited', 'balance.hold.created', 'balance.hold.released', 'statement.created', 'ted.received', 'pix_refund.received', 'charge.payment_instructions_available', 'charge.payment_instructions_failed', 'boleto.compensated', 'payment_link.created', 'payment_link.updated', 'refund.accepted', 'account.restored', 'customer.created', 'customer.updated', 'customer.deleted', 'withdrawal.accepted', 'charge.fully_refunded', 'charge.partially_refunded', 'withdrawal.destination_changed', 'boleto.overpayment_received', 'refund.reconciliation_required', 'boleto.partial_settlement_detected', 'withdrawal.automatic_settings_changed']]",
       "default": null,
       "required": true
     },
@@ -18879,7 +22630,7 @@
     },
     "raims.types.CreateWebhookRequest.events": {
       "kind": "field",
-      "annotation": "Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed', 'charge.updated', 'charge.expired', 'withdrawal.requested', 'withdrawal.completed', 'withdrawal.failed', 'dispute.opened', 'dispute.updated', 'dispute.closed', 'dispute.funds_debited', 'balance.hold.created', 'balance.hold.released', 'statement.created', 'ted.received', 'pix_refund.received', 'pix.available', 'pix.issuance_failed', 'boleto.available', 'boleto.issuance_failed', 'boleto.compensated', 'payment_link.created', 'payment_link.updated', 'refund.accepted', 'account.restored', 'customer.created', 'customer.updated', 'customer.deleted', 'withdrawal.accepted', 'charge.fully_refunded']]",
+      "annotation": "Sequence[Literal['charge.created', 'charge.paid', 'charge.canceled', 'charge.failed', 'refund.requested', 'refund.completed', 'refund.failed', 'charge.updated', 'charge.expired', 'withdrawal.requested', 'withdrawal.completed', 'withdrawal.failed', 'dispute.opened', 'dispute.updated', 'dispute.closed', 'dispute.funds_debited', 'balance.hold.created', 'balance.hold.released', 'statement.created', 'ted.received', 'pix_refund.received', 'charge.payment_instructions_available', 'charge.payment_instructions_failed', 'boleto.compensated', 'payment_link.created', 'payment_link.updated', 'refund.accepted', 'account.restored', 'customer.created', 'customer.updated', 'customer.deleted', 'withdrawal.accepted', 'charge.fully_refunded', 'charge.partially_refunded', 'withdrawal.destination_changed', 'boleto.overpayment_received', 'refund.reconciliation_required', 'boleto.partial_settlement_detected', 'withdrawal.automatic_settings_changed']]",
       "default": null,
       "required": true
     },
@@ -18961,6 +22712,40 @@
     "raims.types.DeleteCustomersBatchParams.identifiers": {
       "kind": "field",
       "annotation": "Sequence[str | None]",
+      "default": null,
+      "required": true
+    },
+    "raims.types.DeliverWebhookEventParams": {
+      "kind": "class",
+      "bases": [
+        "raims.types._DeliverWebhookEventParamsRequired"
+      ],
+      "keywords": {},
+      "decorators": [],
+      "typed_dict": {
+        "total": false
+      }
+    },
+    "raims.types.DeliverWebhookEventParams.webhook_id": {
+      "kind": "field",
+      "annotation": "str",
+      "default": null,
+      "required": true
+    },
+    "raims.types.DeliverWebhookEventRequest": {
+      "kind": "class",
+      "bases": [
+        "raims.types._DeliverWebhookEventRequestRequired"
+      ],
+      "keywords": {},
+      "decorators": [],
+      "typed_dict": {
+        "total": false
+      }
+    },
+    "raims.types.DeliverWebhookEventRequest.webhook_id": {
+      "kind": "field",
+      "annotation": "str",
       "default": null,
       "required": true
     },
@@ -19451,6 +23236,153 @@
       "default": null,
       "required": false
     },
+    "raims.types.ListWebhookDeliveriesParams": {
+      "kind": "class",
+      "bases": [
+        "typing.TypedDict"
+      ],
+      "keywords": {},
+      "decorators": [],
+      "typed_dict": {
+        "total": false
+      }
+    },
+    "raims.types.ListWebhookDeliveriesParams.after": {
+      "kind": "field",
+      "annotation": "str",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookDeliveriesParams.before": {
+      "kind": "field",
+      "annotation": "str",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookDeliveriesParams.created_gte": {
+      "kind": "field",
+      "annotation": "int",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookDeliveriesParams.created_lte": {
+      "kind": "field",
+      "annotation": "int",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookDeliveriesParams.event_id": {
+      "kind": "field",
+      "annotation": "str",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookDeliveriesParams.event_type": {
+      "kind": "field",
+      "annotation": "str",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookDeliveriesParams.page_size": {
+      "kind": "field",
+      "annotation": "int",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookDeliveriesParams.status": {
+      "kind": "field",
+      "annotation": "Literal['pending', 'processing', 'delivered', 'failed', 'canceled']",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookDeliveriesParams.webhook_id": {
+      "kind": "field",
+      "annotation": "str",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookDeliveryAttemptsParams": {
+      "kind": "class",
+      "bases": [
+        "typing.TypedDict"
+      ],
+      "keywords": {},
+      "decorators": [],
+      "typed_dict": {
+        "total": false
+      }
+    },
+    "raims.types.ListWebhookDeliveryAttemptsParams.after": {
+      "kind": "field",
+      "annotation": "str",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookDeliveryAttemptsParams.before": {
+      "kind": "field",
+      "annotation": "str",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookDeliveryAttemptsParams.page_size": {
+      "kind": "field",
+      "annotation": "int",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookEventsParams": {
+      "kind": "class",
+      "bases": [
+        "typing.TypedDict"
+      ],
+      "keywords": {},
+      "decorators": [],
+      "typed_dict": {
+        "total": false
+      }
+    },
+    "raims.types.ListWebhookEventsParams.after": {
+      "kind": "field",
+      "annotation": "str",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookEventsParams.before": {
+      "kind": "field",
+      "annotation": "str",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookEventsParams.created_gte": {
+      "kind": "field",
+      "annotation": "int",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookEventsParams.created_lte": {
+      "kind": "field",
+      "annotation": "int",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookEventsParams.event_type": {
+      "kind": "field",
+      "annotation": "str",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookEventsParams.page_size": {
+      "kind": "field",
+      "annotation": "int",
+      "default": null,
+      "required": false
+    },
+    "raims.types.ListWebhookEventsParams.resource_id": {
+      "kind": "field",
+      "annotation": "str",
+      "default": null,
+      "required": false
+    },
     "raims.types.ListWebhooksParams": {
       "kind": "class",
       "bases": [
@@ -19576,6 +23508,40 @@
     "raims.types.RemoveCustomersRequest.identifiers": {
       "kind": "field",
       "annotation": "Sequence[str | None]",
+      "default": null,
+      "required": true
+    },
+    "raims.types.ResendWebhookDeliveriesParams": {
+      "kind": "class",
+      "bases": [
+        "raims.types._ResendWebhookDeliveriesParamsRequired"
+      ],
+      "keywords": {},
+      "decorators": [],
+      "typed_dict": {
+        "total": false
+      }
+    },
+    "raims.types.ResendWebhookDeliveriesParams.delivery_ids": {
+      "kind": "field",
+      "annotation": "Sequence[str]",
+      "default": null,
+      "required": true
+    },
+    "raims.types.ResendWebhookDeliveriesRequest": {
+      "kind": "class",
+      "bases": [
+        "raims.types._ResendWebhookDeliveriesRequestRequired"
+      ],
+      "keywords": {},
+      "decorators": [],
+      "typed_dict": {
+        "total": false
+      }
+    },
+    "raims.types.ResendWebhookDeliveriesRequest.delivery_ids": {
+      "kind": "field",
+      "annotation": "Sequence[str]",
       "default": null,
       "required": true
     },

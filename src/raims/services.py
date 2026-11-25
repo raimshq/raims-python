@@ -393,6 +393,102 @@ class AsyncStatementsService:
         'Recuperar um lançamento'
         return await self._client._request('GetStatement', path_params={'id': id}, params=None, options=options)
 
+class WebhookDeliveriesService:
+    def __init__(self, client: Any) -> None:
+        self._client = client
+
+    def list(self, params: types.ListWebhookDeliveriesParams | None = None, *, options: RequestOptions | None = None) -> ApiList[models.WebhookDelivery]:
+        'Listar entregas de webhooks'
+        return self._client._request('ListWebhookDeliveries', path_params={}, params=params, options=options)
+
+    def retrieve(self, delivery_id: str, *, options: RequestOptions | None = None) -> models.WebhookDelivery:
+        'Recuperar uma entrega'
+        return self._client._request('GetWebhookDelivery', path_params={'delivery_id': delivery_id}, params=None, options=options)
+
+    def list_attempts(self, delivery_id: str, params: types.ListWebhookDeliveryAttemptsParams | None = None, *, options: RequestOptions | None = None) -> ApiList[models.WebhookAttempt]:
+        'Listar as tentativas de uma entrega'
+        return self._client._request('ListWebhookDeliveryAttempts', path_params={'delivery_id': delivery_id}, params=params, options=options)
+
+    def retrieve_attempt(self, delivery_id: str, attempt_id: str, *, options: RequestOptions | None = None) -> models.WebhookAttemptDetail:
+        'Recuperar uma tentativa'
+        return self._client._request('GetWebhookDeliveryAttempt', path_params={'delivery_id': delivery_id, 'attempt_id': attempt_id}, params=None, options=options)
+
+    def resend(self, delivery_id: str, *, options: RequestOptions | None = None) -> models.WebhookDeliveryResendAccepted:
+        'Reenviar um evento'
+        return self._client._request('ResendWebhookDelivery', path_params={'delivery_id': delivery_id}, params=None, options=options)
+
+    def resend_many(self, params: types.ResendWebhookDeliveriesParams, *, options: RequestOptions | None = None) -> models.WebhookBulkResendAccepted:
+        'Reenviar várias entregas'
+        return self._client._request('ResendWebhookDeliveries', path_params={}, params=params, options=options)
+
+    def advance(self, delivery_id: str, *, options: RequestOptions | None = None) -> models.WebhookAdvanceAccepted:
+        'Antecipar próxima tentativa'
+        return self._client._request('AdvanceWebhookDelivery', path_params={'delivery_id': delivery_id}, params=None, options=options)
+
+class AsyncWebhookDeliveriesService:
+    def __init__(self, client: Any) -> None:
+        self._client = client
+
+    async def list(self, params: types.ListWebhookDeliveriesParams | None = None, *, options: RequestOptions | None = None) -> AsyncApiList[models.WebhookDelivery]:
+        'Listar entregas de webhooks'
+        return await self._client._request('ListWebhookDeliveries', path_params={}, params=params, options=options)
+
+    async def retrieve(self, delivery_id: str, *, options: RequestOptions | None = None) -> models.WebhookDelivery:
+        'Recuperar uma entrega'
+        return await self._client._request('GetWebhookDelivery', path_params={'delivery_id': delivery_id}, params=None, options=options)
+
+    async def list_attempts(self, delivery_id: str, params: types.ListWebhookDeliveryAttemptsParams | None = None, *, options: RequestOptions | None = None) -> AsyncApiList[models.WebhookAttempt]:
+        'Listar as tentativas de uma entrega'
+        return await self._client._request('ListWebhookDeliveryAttempts', path_params={'delivery_id': delivery_id}, params=params, options=options)
+
+    async def retrieve_attempt(self, delivery_id: str, attempt_id: str, *, options: RequestOptions | None = None) -> models.WebhookAttemptDetail:
+        'Recuperar uma tentativa'
+        return await self._client._request('GetWebhookDeliveryAttempt', path_params={'delivery_id': delivery_id, 'attempt_id': attempt_id}, params=None, options=options)
+
+    async def resend(self, delivery_id: str, *, options: RequestOptions | None = None) -> models.WebhookDeliveryResendAccepted:
+        'Reenviar um evento'
+        return await self._client._request('ResendWebhookDelivery', path_params={'delivery_id': delivery_id}, params=None, options=options)
+
+    async def resend_many(self, params: types.ResendWebhookDeliveriesParams, *, options: RequestOptions | None = None) -> models.WebhookBulkResendAccepted:
+        'Reenviar várias entregas'
+        return await self._client._request('ResendWebhookDeliveries', path_params={}, params=params, options=options)
+
+    async def advance(self, delivery_id: str, *, options: RequestOptions | None = None) -> models.WebhookAdvanceAccepted:
+        'Antecipar próxima tentativa'
+        return await self._client._request('AdvanceWebhookDelivery', path_params={'delivery_id': delivery_id}, params=None, options=options)
+
+class WebhookEventsService:
+    def __init__(self, client: Any) -> None:
+        self._client = client
+
+    def list(self, params: types.ListWebhookEventsParams | None = None, *, options: RequestOptions | None = None) -> ApiList[models.WebhookEvent]:
+        'Listar eventos de webhook'
+        return self._client._request('ListWebhookEvents', path_params={}, params=params, options=options)
+
+    def retrieve(self, event_id: str, *, options: RequestOptions | None = None) -> models.WebhookEventDetail:
+        'Recuperar um evento de webhook'
+        return self._client._request('GetWebhookEvent', path_params={'event_id': event_id}, params=None, options=options)
+
+    def deliver(self, event_id: str, params: types.DeliverWebhookEventParams, *, options: RequestOptions | None = None) -> models.WebhookDeliveryResendAccepted:
+        'Enviar um evento para um webhook'
+        return self._client._request('DeliverWebhookEvent', path_params={'event_id': event_id}, params=params, options=options)
+
+class AsyncWebhookEventsService:
+    def __init__(self, client: Any) -> None:
+        self._client = client
+
+    async def list(self, params: types.ListWebhookEventsParams | None = None, *, options: RequestOptions | None = None) -> AsyncApiList[models.WebhookEvent]:
+        'Listar eventos de webhook'
+        return await self._client._request('ListWebhookEvents', path_params={}, params=params, options=options)
+
+    async def retrieve(self, event_id: str, *, options: RequestOptions | None = None) -> models.WebhookEventDetail:
+        'Recuperar um evento de webhook'
+        return await self._client._request('GetWebhookEvent', path_params={'event_id': event_id}, params=None, options=options)
+
+    async def deliver(self, event_id: str, params: types.DeliverWebhookEventParams, *, options: RequestOptions | None = None) -> models.WebhookDeliveryResendAccepted:
+        'Enviar um evento para um webhook'
+        return await self._client._request('DeliverWebhookEvent', path_params={'event_id': event_id}, params=params, options=options)
+
 class WebhookEventTypesService:
     def __init__(self, client: Any) -> None:
         self._client = client
