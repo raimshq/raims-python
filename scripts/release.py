@@ -14,6 +14,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import zipfile
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 sys.dont_write_bytecode = True
@@ -225,13 +226,14 @@ def release_files(value, files, create_missing=False):
             require(public_download(assets[name]['browser_download_url']) == raw,
                     'An existing release asset differs from the approved CI bytes.')
     missing = set(complete) - set(assets)
-    require(not missing or create_missing, 'The approved distributions are missing from the GitHub release.')
+    if not missing:
+        return
+    require(create_missing, 'The approved distributions are missing from the GitHub release.')
     for name in sorted(missing):
         upload_release_asset(value['releaseId'], name, complete[name])
-    if missing:
-        current = github('releases/' + str(value['releaseId']))
-        rows = current.get('assets', [])
-        assets = {asset['name']: asset for asset in rows}
+    current = github('releases/' + str(value['releaseId']))
+    rows = current.get('assets', [])
+    assets = {asset['name']: asset for asset in rows}
     require(len(assets) == len(rows) and set(assets) == expected,
             'The GitHub release must contain exactly wheel, sdist, and SHA256SUMS.')
     checksum_raw = public_download(assets['SHA256SUMS']['browser_download_url'])
@@ -300,6 +302,25 @@ def publisher_advisory(item):
     return {'severity': severity, 'withdrawn': bool(withdrawn), 'advisory': item}
 
 
+def publisher_package_advisories(package):
+    name, version = package
+    url = 'https://pypi.org/pypi/' + urllib.parse.quote(name, safe='') + '/' + urllib.parse.quote(version, safe='') + '/json'
+    with urllib.request.build_opener(NoRedirect).open(url, timeout=30) as response:
+        require(response.status == 200, 'Publisher dependency advisory lookup failed.')
+        raw = response.read(2 * 1024 * 1024 + 1)
+    require(len(raw) <= 2 * 1024 * 1024, 'Publisher dependency advisory response is too large.')
+    metadata = json.loads(raw)
+    require(isinstance(metadata, dict) and isinstance(metadata.get('info'), dict),
+            'Publisher dependency advisory metadata is invalid.')
+    info = metadata['info']
+    require(isinstance(info.get('name'), str) and re.sub(r'[-_.]+', '-', info['name']).lower()
+            == re.sub(r'[-_.]+', '-', name).lower() and info.get('version') == version,
+            'Publisher dependency advisory identity differs.')
+    findings = metadata.get('vulnerabilities')
+    require(isinstance(findings, list), 'Publisher dependency advisory coverage is incomplete.')
+    return name, version, [publisher_advisory(item) for item in findings]
+
+
 def audit_publisher_dependencies(pins, lock, artifact):
     report = {'status': 'incomplete', 'blockingSeverity': 'CRITICAL',
               'requirementsSha256': digest(lock.read_bytes()), 'publisher': 'twine',
@@ -309,31 +330,21 @@ def audit_publisher_dependencies(pins, lock, artifact):
     def write_report():
         (artifact / 'publisher-tool-audit.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
     try:
-        for name, version in sorted(pins.items()):
-            url = 'https://pypi.org/pypi/' + urllib.parse.quote(name, safe='') + '/' + urllib.parse.quote(version, safe='') + '/json'
-            with urllib.request.build_opener(NoRedirect).open(url, timeout=30) as response:
-                require(response.status == 200, 'Publisher dependency advisory lookup failed.')
-                raw = response.read(2 * 1024 * 1024 + 1)
-            require(len(raw) <= 2 * 1024 * 1024, 'Publisher dependency advisory response is too large.')
-            metadata = json.loads(raw)
-            require(isinstance(metadata, dict) and isinstance(metadata.get('info'), dict),
-                    'Publisher dependency advisory metadata is invalid.')
-            info = metadata['info']
-            require(isinstance(info.get('name'), str) and re.sub(r'[-_.]+', '-', info['name']).lower()
-                    == re.sub(r'[-_.]+', '-', name).lower() and info.get('version') == version,
-                    'Publisher dependency advisory identity differs.')
-            findings = metadata.get('vulnerabilities')
-            require(isinstance(findings, list), 'Publisher dependency advisory coverage is incomplete.')
-            classified = [publisher_advisory(item) for item in findings]
-            counts = dict.fromkeys(report['vulnerabilities'], 0)
-            for finding in classified:
-                if not finding['withdrawn']:
-                    counts[finding['severity']] += 1
-                    report['vulnerabilities'][finding['severity']] += 1
-            report['packages'].append({'name': name, 'version': version,
-                                       'vulnerabilities': sum(counts.values()),
-                                       'severityCounts': counts, 'findings': classified})
-            report['auditedPackages'] += 1
+        packages = sorted(pins.items())
+        workers = 4
+        with ThreadPoolExecutor(max_workers=workers, thread_name_prefix='publisher-advisory') as executor:
+            # Limit read-ahead to one batch and report results in lockfile order.
+            for offset in range(0, len(packages), workers):
+                for name, version, classified in executor.map(publisher_package_advisories, packages[offset:offset + workers]):
+                    counts = dict.fromkeys(report['vulnerabilities'], 0)
+                    for finding in classified:
+                        if not finding['withdrawn']:
+                            counts[finding['severity']] += 1
+                            report['vulnerabilities'][finding['severity']] += 1
+                    report['packages'].append({'name': name, 'version': version,
+                                               'vulnerabilities': sum(counts.values()),
+                                               'severityCounts': counts, 'findings': classified})
+                    report['auditedPackages'] += 1
     except (OSError, ValueError, RuntimeError) as error:
         report['status'] = 'error'
         report['error'] = 'Publisher dependency advisory lookup or analysis failed.'
@@ -368,7 +379,7 @@ def publisher_tools(source, artifact):
     python = venv / ('Scripts/python.exe' if os.name == 'nt' else 'bin/python')
     commands.extend([
         [str(python), '-I', '-m', 'pip', 'install', '--disable-pip-version-check', '--no-input', '--only-binary=:all:',
-         '--require-hashes', '--index-url', 'https://pypi.org/simple', '-r', str(lock)],
+         '--require-hashes', '--no-compile', '--index-url', 'https://pypi.org/simple', '-r', str(lock)],
         [str(python), '-I', '-m', 'pip', 'check'],
     ])
     for command in commands:

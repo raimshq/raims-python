@@ -15,7 +15,7 @@ concurrency:
 env:
   PYTHONDONTWRITEBYTECODE: '1'
   PYTHONOPTIMIZE: '0'
-  RAIMS_PYTHON_TOOLKIT_REF: '991ba272169f526530880b30c6751d25d8e8afcb'
+  RAIMS_PYTHON_TOOLKIT_REF: 'd1257827c06210275b9edb955fb1611fed41b4b5'
 
 jobs:
   validatePython:
@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ github.sha }}
-          fetch-depth: 0
+          fetch-depth: 1
           path: Raims-Python
           persist-credentials: false
 
@@ -146,7 +146,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ github.sha }}
-          fetch-depth: 0
+          fetch-depth: 1
           path: Raims-Python
           persist-credentials: false
 
